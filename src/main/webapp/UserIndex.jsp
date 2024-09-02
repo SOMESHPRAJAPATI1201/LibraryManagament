@@ -56,7 +56,8 @@ button a:hover {
 	%>
 	<%--alerts--%>
 	<div class="container my-1">
-		<div id="allAlerts" class="alert alert-<%=alert_type%> alert-dismissible fade show"
+		<div id="allAlerts"
+			class="alert alert-<%=alert_type%> alert-dismissible fade show"
 			role="alert">
 			<strong><c:out value="${sessionScope.alert}"></c:out></strong>
 			<button type="button" class="btn-close" data-bs-dismiss="alert"
@@ -113,76 +114,72 @@ button a:hover {
 				</div>
 				<div class="carousel-inner">
 					<div class="carousel-item active">
-						<img src="Images/library.jpg" width="100%" height="500px" alt="">
+						<img src="Images/1_cara.jpg" width="100%" height="500px" alt="">
 						<div class="container">
-							<div class="carousel-caption text-start">
-								<h1>
-									Welcome,
-									<c:out value="${sessionScope.username}">No Data</c:out>
-								</h1>
-								<p class="opacity-75">Some representative placeholder
-									content for the first slide of the carousel.</p>
-								<p>
-									<button class="btn btn-primary" data-bs-toggle="modal"
-										data-bs-target="#UserLoginModal">Visit Us</button>
-									<button class="btn btn-primary" data-bs-toggle="modal"
-										data-bs-target="#UserRegisterModal">Learn More</button>
-								</p>
+							<div class="carousel-caption carousel-caption">
+								<h1>Welcome, <c:out value="${sessionScope.username}"></c:out></h1>
+								<p>"Discover a world of knowledge and resources at your
+									fingertips. Explore our extensive collection of books, digital
+									media, and more!"</p>
+									<p>
+										<button class="btn btn-outline-danger" data-bs-toggle="modal"
+										data-bs-target="#">Visit US</button>
+										<button class="btn btn-outline-danger" data-bs-toggle="modal"
+										data-bs-target="#">Know More</button>
+									</p>
+								</div>
 							</div>
 						</div>
-					</div>
-					<div class="carousel-item active">
-						<img src="Images/library.jpg" width="100%" height="500px" alt="">
-						<div class="container">
-							<div class="carousel-caption text-start">
-								<h1>
-									Welcome,
-									<c:out value="${sessionScope.username}">No Data</c:out>
-								</h1>
-								<p class="opacity-75">Some representative placeholder
-									content for the first slide of the carousel.</p>
-								<p>
-									<button class="btn btn-primary" data-bs-toggle="modal"
-										data-bs-target="#UserLoginModal">Visit Us</button>
-									<button class="btn btn-primary" data-bs-toggle="modal"
-										data-bs-target="#UserRegisterModal">Learn More</button>
-								</p>
+						<div class="carousel-item">
+							<img src="Images/2_cara.jpg" width="100%" height="500px" alt="">
+							<div class="container">
+								<div class="carousel-caption carousel-caption">
+									<h1>Easy Book Search and Checkout.</h1>
+									<p class="opacity-75">"Find your favorite books
+										effortlessly with our advanced search feature. Enjoy a
+										streamlined checkout process and manage your loans with ease."</p>
+									<p>
+										<button class="btn btn-outline-danger" data-bs-toggle="modal"
+										data-bs-target="#">Visit US</button>
+										<button class="btn btn-outline-danger"" data-bs-toggle="modal"
+										data-bs-target="#">Know More</button>
+									</p>
+								</div>
 							</div>
 						</div>
-					</div>
-					<div class="carousel-item active">
-						<img src="Images/library.jpg" width="100%" height="500px" alt="">
-						<div class="container">
-							<div class="carousel-caption text-start">
-								<h1>
-									Welcome,
-									<c:out value="${sessionScope.username}">No Data</c:out>
-								</h1>
-								<p class="opacity-75">Some representative placeholder
-									content for the first slide of the carousel.</p>
-								<p>
-									<button class="btn btn-primary" data-bs-toggle="modal"
-										data-bs-target="#UserLoginModal">Visit Us</button>
-									<button class="btn btn-primary" data-bs-toggle="modal"
-										data-bs-target="#UserRegisterModal">Learn More</button>
-								</p>
+						<div class="carousel-item">
+							<img src="Images/3_cara.jpg" width="100%" height="500px" alt="">
+							<div class="container">
+								<div class="carousel-caption">
+									<h1>Access Digital Resources Anytime.</h1>
+									<p>"Explore our digital library, including e-books,
+										audiobooks, and online journals. Access resources from
+										anywhere, anytime."</p>
+									<p>
+										<button class="btn btn-outline-danger" data-bs-toggle="modal"
+										data-bs-target="#">Visit US</button>
+										<button class="btn btn-outline-danger" data-bs-toggle="modal"
+										data-bs-target="#">Know More</button>
+									</p>
+								</div>
 							</div>
 						</div>
+
 					</div>
-				</div>
-				<button class="carousel-control-prev" type="button"
+					<button class="carousel-control-prev" type="button"
 					data-bs-target="#myCarousel" data-bs-slide="prev">
-					<span class="carousel-control-prev-icon" aria-hidden="true"></span>
-					<span class="visually-hidden">Previous</span>
-				</button>
-				<button class="carousel-control-next" type="button"
+						<span class="carousel-control-prev-icon" aria-hidden="true"></span>
+						<span class="visually-hidden">Previous</span>
+					</button>
+					<button class="carousel-control-next" type="button"
 					data-bs-target="#myCarousel" data-bs-slide="next">
-					<span class="carousel-control-next-icon" aria-hidden="true"></span>
-					<span class="visually-hidden">Next</span>
-				</button>
+						<span class="carousel-control-next-icon" aria-hidden="true"></span>
+						<span class="visually-hidden">Next</span>
+					</button>
+				</div>
 			</div>
-		</div>
-	</div>
+		</div>	
+
 
 	<%--services--%>
 	<!---Add Book Module--->
@@ -235,8 +232,8 @@ button a:hover {
 								</select>
 							</div>
 						</div>
-						<div class="d-grid gap-2 col-6 my-4 mx-auto">
-							<button class="btn btn-primary" type="submit">Add Book</button>
+						<div class="d-grid gap-2 col-12 my-4 ">
+							<button class="btn btn-outline-success" type="submit">Add Book</button>
 						</div>
 					</form>
 				</div>
@@ -298,20 +295,24 @@ button a:hover {
 									<td><c:out value="${row.getQuantity()}"></c:out></td>
 									<td><form action="deleteBook" method="post">
 											<input type="hidden" name="itemId" value="${row.getId()}" />
-											<input class="btn btn-secondary" type="submit" value="Delete" />
+											<input class="btn btn-outline-danger" type="submit"
+												value="Delete" />
 										</form>
 									</td>
 									<td>
 										<form action="viewAdminIssuedBook" method="post">
-											<input type="hidden" id="viewAdmin" name="bookId" value="${row.getId()}" />
-											<input id="adminIssuedBookModal" class="btn btn-outline-danger"
-												type="submit" value="View" >
+											<input type="hidden" id="viewAdmin" name="bookId"
+												value="${row.getId()}" />
+											<input id="adminIssuedBookModal"
+												class="btn btn-outline-success" type="submit" value="View">
 										</form>
 									</td>
 									<td>
 										<form action="editBook" method="post">
-											<input type="hidden" id="editBooks" name="editBookId" value="${row.getId()}" />
-											<input class="btn btn-outline-danger" type="submit" value="Edit" >
+											<input type="hidden" id="editBooks" name="editBookId"
+												value="${row.getId()}" />
+											<input class="btn btn-outline-warning" type="submit"
+												value="Edit">
 										</form>
 									</td>
 								</tr>
@@ -375,7 +376,7 @@ button a:hover {
 											<input type="hidden" name="bookId" value="${row.getId()}" />
 											<input type="hidden" name="uniqueId"
 												value="${sessionScope.email}" /> <input
-												class="btn btn-secondary" type="submit" value="Issue" />
+												class="btn btn-outline-warning" type="submit" value="Issue" />
 										</form></td>
 								</tr>
 							</c:forEach>
@@ -445,11 +446,12 @@ button a:hover {
 									<td><form action="returnBook" method="post">
 											<input type="hidden" name="IssuedBookId"
 												value="${row.getIssued_book_id()}" /> <input
-												class="btn btn-secondary" type="submit" value="Return" />
+												class="btn btn-outline-danger" type="submit" value="Return" />
 										</form></td>
 										<td><form action="renewBook" method="post">
-											<input type="hidden" name="renewBookId" value="${row.getIssued_book_id()}" /> <input
-												class="btn btn-secondary" type="submit" value="Renew" />
+											<input type="hidden" name="renewBookId"
+												value="${row.getIssued_book_id()}" /> <input
+												class="btn btn-outline-success" type="submit" value="Renew" />
 										</form></td>
 								</tr>
 							</c:forEach>
@@ -471,10 +473,17 @@ button a:hover {
 				<div
 					class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
 					<div class="col p-4 d-flex flex-column position-static">
-						<strong class="d-inline-block mb-2 text-primary-emphasis">Add From More 100,000 Popular Books.</strong>
-						<h3 class="mb-0">Add Book</h3>
-						<div class="mb-1 text-body-secondary">10,000+ Books Added Untill Now</div>
-						<p class="card-text mb-auto">Click Here To Add Books.</p>
+						<strong class="d-inline-block mb-2 text-primary-emphasis"><c:out
+								value="${sessionScope.cardfirstfirstline}"></c:out></strong>
+						<h3 class="mb-0">
+							<c:out value="${sessionScope.cardfirstheading}"></c:out>
+						</h3>
+						<div class="mb-1 text-body-secondary">
+							<c:out value="${sessionScope.cardfirstthirdline}"></c:out>
+						</div>
+						<p class="card-text mb-auto">
+							<c:out value="${sessionScope.cardfirstfourthline}"></c:out>
+						</p>
 						<button class="btn btn-outline-danger" data-bs-toggle="modal"
 							data-bs-target="#<c:out value='${sessionScope.firstcardtype}'></c:out>">
 							<c:out value="${sessionScope.card1}"></c:out>
@@ -482,7 +491,7 @@ button a:hover {
 					</div>
 					<div class="col-auto d-none d-lg-block">
 						<img height="250" width="200"
-							src="Images/pexels-element5-1370295.jpg" alt="">
+							src="Images/service_1.jpg" alt="">
 					</div>
 				</div>
 			</div>
@@ -490,10 +499,17 @@ button a:hover {
 				<div
 					class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
 					<div class="col p-4 d-flex flex-column position-static">
-						<strong class="d-inline-block mb-2 text-success-emphasis">View(All Books + Issued Books), Edit Books Description, Delete Books</strong>
-						<h3 class="mb-0">View Books</h3>
-						<div class="mb-1 text-body-secondary"></div>
-						<p class="mb-auto">Click Here To View Books, View Issued Books, Edit, Delete Books.</p>
+						<strong class="d-inline-block mb-2 text-success-emphasis"><c:out
+								value="${sessionScope.cardsecondfirstline}"></c:out></strong>
+						<h3 class="mb-0">
+							<c:out value="${sessionScope.cardsecondheading}"></c:out>
+						</h3>
+						<div class="mb-1 text-body-secondary">
+							<c:out value="${sessionScope.cardsecondthirdline}"></c:out>
+						</div>
+						<p class="mb-auto">
+							<c:out value="${sessionScope.cardsecondfourthline}"></c:out>
+						</p>
 						<button class="btn btn-outline-danger" data-bs-toggle="modal"
 							type="button"
 							data-bs-target='#<c:out value="${sessionScope.viewBookType}"></c:out>'>
@@ -502,7 +518,7 @@ button a:hover {
 					</div>
 					<div class="col-auto d-none d-lg-block">
 						<img height="250" width="200"
-							src="Images/pexels-emrecan-2079451.jpg" alt="">
+							src="Images/service_2.jpg" alt="">
 					</div>
 				</div>
 			</div>
@@ -517,7 +533,7 @@ button a:hover {
 				<a href="#">Back to top</a>
 			</p>
 			<p>
-				© 2017–2024 Company, Inc. · <a href="#">Privacy</a> · <a href="#">Terms</a>
+				© 2017-2024 Company, Inc. · <a href="#">Privacy</a> · <a href="#">Terms</a>
 			</p>
 		</footer>
 	</div>

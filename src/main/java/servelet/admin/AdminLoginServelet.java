@@ -11,6 +11,7 @@ import dao.AdminDAO;
 import dto.AdminDTO;
 import services.AdminServices;
 import utills.Generics;
+import utills.PageData;
 import utills.Validations;
 
 @WebServlet("/adminLogin")
@@ -58,6 +59,16 @@ public class AdminLoginServelet extends HttpServlet {
 					session.setAttribute("userrole", "Admin");
 					session.setAttribute("card1", "Add Book");
 					session.setAttribute("card2", "View Books");
+					//card 1st
+					session.setAttribute("cardfirstfirstline", PageData.ADMIN_CARD_ONE_FIRST_LINE);
+					session.setAttribute("cardfirstheading", PageData.ADMIN_CARD_ONE_HEADING);
+					session.setAttribute("cardfirstthirdline", PageData.ADMIN_CARD_ONE_SECOND_LINE);
+					session.setAttribute("cardfirstfourthline", PageData.ADMIN_CARD_ONE_DESCRIPTION);
+					//card 2nd
+					session.setAttribute("cardsecondfirstline", PageData.ADMIN_CARD_SECOND_FIRST_LINE);
+					session.setAttribute("cardsecondheading", PageData.ADMIN_CARD_SECOND_HEADING);
+					session.setAttribute("cardsecondthirdline", PageData.ADMIN_CARD_SECOND_SECOND_LINE);
+					session.setAttribute("cardsecondfourthline", PageData.ADMIN_CARD_SECOND_DESCRIPTION);
 					RequestDispatcher rd = req.getRequestDispatcher("UserIndex.jsp");
 					rd.include(req, resp);
 				} else {

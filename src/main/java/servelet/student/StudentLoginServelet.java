@@ -11,6 +11,7 @@ import dao.StudentDAO;
 import dto.StudentDTO;
 import services.StudentServices;
 import utills.Generics;
+import utills.PageData;
 import utills.Validations;
 
 @WebServlet("/login")
@@ -60,6 +61,16 @@ public class StudentLoginServelet extends HttpServlet {
 					session.setAttribute("firstcardtype", "issuedBookModal");
 					session.setAttribute("thirdcardtype", "issuedBookModal");
 					session.setAttribute("viewBookType", "viewStudentBookModal");
+					//card 1st
+					session.setAttribute("cardfirstfirstline", PageData.STUDENT_CARD_ONE_FIRST_LINE);
+					session.setAttribute("cardfirstheading", PageData.STUDENT_CARD_ONE_HEADING);
+					session.setAttribute("cardfirstthirdline", PageData.STUDENT_CARD_ONE_SECOND_LINE);
+					session.setAttribute("cardfirstfourthline", PageData.STUDENT_CARD_ONE_DESCRIPTION);
+					//card 2nd
+					session.setAttribute("cardsecondfirstline", PageData.STUDENT_CARD_SECOND_FIRST_LINE);
+					session.setAttribute("cardsecondheading", PageData.STUDENT_CARD_SECOND_HEADING);
+					session.setAttribute("cardsecondthirdline", PageData.STUDENT_CARD_SECOND_SECOND_LINE);
+					session.setAttribute("cardsecondfourthline", PageData.STUDENT_CARD_SECOND_DESCRIPTION);
 					RequestDispatcher rd = req.getRequestDispatcher("UserIndex.jsp");
 					rd.include(req, resp);
 				} else {

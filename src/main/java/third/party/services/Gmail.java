@@ -9,7 +9,7 @@ public class Gmail {
 
 	public static boolean emailSender(String to, String userPassword) {
 		String user = "r9038064@gmail.com";
-		String password = "utbh iozi ifnt hbmx";
+		String password = "zljy xwnv ewef axsp";
 		String from = "r9038064@gmail.com";
 
 		try {

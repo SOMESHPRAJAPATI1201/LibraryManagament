@@ -1,7 +1,6 @@
 package servelet.admin;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -34,7 +33,6 @@ public class AdminRegistrationServelet extends HttpServlet {
 	@Override
 	protected void doPost(HttpServletRequest req, javax.servlet.http.HttpServletResponse resp)
 			throws ServletException, IOException {
-		PrintWriter out = resp.getWriter();
 		System.out.println("Inside Servelet Method");
 		String fname = req.getParameter("fname");
 		String lname = req.getParameter("lname");
@@ -56,21 +54,23 @@ public class AdminRegistrationServelet extends HttpServlet {
 				adminservices.registerAdmin(admindto);
 				resp.setContentType("text/html");
 				session = req.getSession();
-				session.setAttribute("username",fname+" "+lname);
-				session.setAttribute("userrole","Admin");
 				session.setAttribute("alert", admindto.getName() + " , You Details Have Been Registered Successfully.");
 				session.setAttribute("alert-type", "success");
-				RequestDispatcher rd = req.getRequestDispatcher("UserIndex.jsp");
+				RequestDispatcher rd = req.getRequestDispatcher("index.jsp");
 				rd.include(req, resp);
 			} else {
+				session = req.getSession();
 				resp.setContentType("text/html");
-				out.println("<b style='color:red'>UserAlreadyExist</b>");
+				session.setAttribute("alert-type", "warning");
+				session.setAttribute("alert", "User Already Assciated with "+email);
 				RequestDispatcher rd = req.getRequestDispatcher("index.jsp");
 				rd.include(req, resp);
 			}
 		}else {
+			session = req.getSession();
 			resp.setContentType("text/html");
-			out.println("<b style='color:red'>Invalid Credentials</b>");
+			session.setAttribute("alert", "Invalid Details");
+			session.setAttribute("alert-type", "danger");
 			RequestDispatcher rd = req.getRequestDispatcher("index.jsp");
 			rd.include(req, resp);
 		}

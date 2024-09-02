@@ -1,7 +1,6 @@
 package servelet.student;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -14,7 +13,7 @@ import services.StudentServices;
 import utills.Generics;
 import utills.Validations;
 
-@WebServlet("/registration")
+@WebServlet("/studentRegistration")
 public class StudentRegistrationServelet extends HttpServlet {
 
 	private static final long serialVersionUID = 4397829086729463298L;
@@ -34,8 +33,7 @@ public class StudentRegistrationServelet extends HttpServlet {
 	@Override
 	protected void doPost(HttpServletRequest req, javax.servlet.http.HttpServletResponse resp)
 			throws ServletException, IOException {
-		PrintWriter out = resp.getWriter();
-		System.out.println("Inside Servelet Method");
+		System.out.println("Inside Student Register Servelet Method");
 		String fname = req.getParameter("fname");
 		String lname = req.getParameter("lname");
 		String email = req.getParameter("email");
@@ -52,23 +50,23 @@ public class StudentRegistrationServelet extends HttpServlet {
 				studentservices.createUser(studentdto);
 				resp.setContentType("text/html");
 				session = req.getSession();
-				session.setAttribute("username", fname + " " + lname);
-				session.setAttribute("userrole", "Student");
 				session.setAttribute("alert", studentdto.getName() + " , You Details Have Been Registered Successfully.");
 				session.setAttribute("alert-type", "success");
-				RequestDispatcher rd = req.getRequestDispatcher("UserIndex.jsp");
+				RequestDispatcher rd = req.getRequestDispatcher("index.jsp");
 				rd.include(req, resp);
 			} else {
+				session = req.getSession();
 				resp.setContentType("text/html");
-				System.err.println("UserAlreadyExist");
-				out.println("<b style='color:red'>UserAlreadyExist</b>");
+				session.setAttribute("alert-type", "warning");
+				session.setAttribute("alert", "User Already Assciated with "+email);
 				RequestDispatcher rd = req.getRequestDispatcher("index.jsp");
 				rd.include(req, resp);
 			}
 		} else {
+			session = req.getSession();
 			resp.setContentType("text/html");
-			System.err.println("InExist");
-			out.println("<b style='color:red'>Invalid Credentials</b>");
+			session.setAttribute("alert-type", "danger");
+			session.setAttribute("alert", "Invalid Credentials.");
 			RequestDispatcher rd = req.getRequestDispatcher("index.jsp");
 			rd.include(req, resp);
 		}
