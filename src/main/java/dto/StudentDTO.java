@@ -7,8 +7,16 @@ public class StudentDTO {
 	private String email;
 	private String password;
 	private int role;
-
+	private String membership_no;
 	
+	public String getMembership_no() {
+		return membership_no;
+	}
+
+	public void setMembership_no(String membership_no) {
+		this.membership_no = membership_no;
+	}
+
 	public String getPassword() {
 		return password;
 	}

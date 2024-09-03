@@ -8,41 +8,11 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>LMS</title>
-<style>
-* {
-	font-family: Verdana, Geneva, Tahoma, sans-serif;
-	margin: 0%;
-}
-
-.card1 {
-	margin-top: 50%;
-}
-
-.card img {
-	margin-top: 3%;
-	height: auto;
-	width: 100%;
-	align-content: center;
-}
-
-button a {
-	text-decoration: none;
-	color: red;
-}
-
-button a:hover {
-	text-decoration: none;
-	color: white;
-}
-
-.nav-user-info {
-	text-align: end;
-}
-</style>
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <script type="text/javascript" src="index.js"></script>
-<script type="text/javascript" src="index2.js"></script>
+<script type="" src="index.css"></script>
+<link href="index.css" rel="stylesheet">
 <link
 	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
 	rel="stylesheet"

@@ -14,14 +14,15 @@ public class AdminServices {
 	}
 	
 	public ArrayList<AdminDTO> getAllAdminData() {
-		adminDAO.getAllAdminData().forEach(x->System.out.println(x.getEmail()+"::"+x.getName()+"::"+x.getId()+"::"+x.getAddress()+"::"+x.getLibName()+"::"+x.getRole()));
+		adminDAO.getAllAdminData().forEach(x->System.out.println(x.getEmail()+"::"+x.getName()+"::"+x.getId()+"::"+x.getAddress()+"::"+x.getLibName()+"::"+x.getRole()+"::"+x.getMembership_no()));
 		return adminDAO.getAllAdminData();
 	}
 	
 	public void registerAdmin(AdminDTO admindto) {
 		if (adminDAO.registerAdminData(admindto)==1) {
-			Gmail.emailSender(admindto.getEmail(),admindto.getPassword());
-			System.out.println("Account Created Sucessfully, And Creds Shared On "+admindto.getEmail().toLowerCase());
+			AdminDTO dto = adminDAO.getSingleAdminUser(admindto.getEmail());
+			Gmail.emailSender(dto.getEmail(),dto.getPassword(),dto.getMembership_no(),"Admin");
+			System.out.println("Account Created Sucessfully, And Creds Shared On "+dto.getEmail().toLowerCase());
 		}else {
 			System.err.println("Failed To Create Account");
 		}

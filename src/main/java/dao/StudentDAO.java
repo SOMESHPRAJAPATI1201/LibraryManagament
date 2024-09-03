@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import dto.StudentDTO;
 import utills.Generics;
+import utills.MembershipNoGenerator;
 
 public class StudentDAO {
 
@@ -30,6 +31,8 @@ public class StudentDAO {
 				studentDTO = new StudentDTO();
 				studentDTO.setEmail(rs.getString("email"));
 				studentDTO.setName(rs.getString("name"));
+				studentDTO.setId(rs.getInt("id"));
+				studentDTO.setMembership_no(rs.getString("student_member_id"));
 				list.add(studentDTO);
 			}
 		} catch (SQLException e) {
@@ -54,6 +57,7 @@ public class StudentDAO {
 				studentDTO.setEmail(rs.getString("email"));
 				studentDTO.setName(rs.getString("name"));
 				studentDTO.setRole(rs.getInt("role"));
+				studentDTO.setMembership_no(rs.getString("student_member_id"));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -76,6 +80,8 @@ public class StudentDAO {
 					studentDTO.setId(rs.getInt("id"));
 					studentDTO.setEmail(rs.getString("email"));
 					studentDTO.setName(rs.getString("name"));
+					studentDTO.setPassword(rs.getString("password"));
+					studentDTO.setMembership_no(rs.getString("student_member_id"));
 				}
 			}
 		} catch (SQLException e) {
@@ -90,11 +96,12 @@ public class StudentDAO {
 		boolean a = false;
 		try {
 			conn = utills.getConnection();
-			pstmt = conn.prepareStatement("INSERT INTO STUDENT (email, name, password, role) values (?,?,?,?);");
+			pstmt = conn.prepareStatement("INSERT INTO STUDENT (email, name, password, role, student_member_id ) values (?,?,?,?,?);");
 			pstmt.setString(1, studentDTO.getEmail());
 			pstmt.setString(2, studentDTO.getName());
 			pstmt.setString(3, studentDTO.getPassword());
 			pstmt.setInt(4, studentDTO.getRole());
+			pstmt.setString(5, MembershipNoGenerator.getMembershipNo("Student"));
 			a = pstmt.execute();
 		} catch (SQLException e) {
 			e.printStackTrace();

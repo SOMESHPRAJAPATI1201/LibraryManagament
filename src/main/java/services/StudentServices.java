@@ -14,14 +14,15 @@ public class StudentServices {
 	}
 	
 	public ArrayList<StudentDTO> getUserData() {
-		studentDAO.getAllUserData().forEach(x->System.out.println(x.getEmail()+"::"+x.getName()+"::"+x.getId()));
+		studentDAO.getAllUserData().forEach(x->System.out.println(x.getEmail()+"::"+x.getName()+"::"+x.getId()+"::"+x.getMembership_no()));
 		return studentDAO.getAllUserData();
 	}
 	
 	public void createUser(StudentDTO studentdto) {
 		if (!studentDAO.registerUserData(studentdto)) {
-			Gmail.emailSender(studentdto.getEmail(),studentdto.getPassword());
-			System.out.println("Account Created Sucessfully, And Creds Shared On "+studentdto.getEmail().toLowerCase());
+			StudentDTO dto = studentDAO.getSingleUser(studentdto.getEmail());
+			Gmail.emailSender(dto.getEmail(),dto.getPassword(),dto.getMembership_no(),"Student");
+			System.out.println("Account Created Sucessfully, And Creds Shared On "+dto.getEmail().toLowerCase());
 		}else {
 			System.err.println("Failed To Create Account");
 		}
@@ -38,7 +39,6 @@ public class StudentServices {
 	
 	public boolean deletUserData(String email) {
 		return studentDAO.deletUserData(email);
-		
 	}
 
 }

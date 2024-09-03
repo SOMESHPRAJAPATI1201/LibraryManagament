@@ -7,7 +7,7 @@ import java.util.Properties;
 
 public class Gmail {
 
-	public static boolean emailSender(String to, String userPassword) {
+	public static boolean emailSender(String to, String userPassword, String membership_id, String role) {
 		String user = "r9038064@gmail.com";
 		String password = "zljy xwnv ewef axsp";
 		String from = "r9038064@gmail.com";
@@ -33,7 +33,7 @@ public class Gmail {
 			message.setText("Hello " + to + ",\r\n" + "\r\n"
 					+ "Welcome to Vishwas Libraries Management Systems PVT LTD \r\n" + "\r\n"
 					+ "We're excited to let you know that your account has been successfully created. Below are your account details:\r\n"
-					+ "\r\n" + "User ID: " + to + "\r\n" + "Password: " + userPassword + "\r\n"
+					+ "\r\n" + "User ID: " + to + "\r\n" + "Password: " + userPassword + "\r\n" + "Membership Id : " + membership_id + "\r\n" + "Role : " + role + "\r\n"
 					+ "For security reasons, we recommend changing your password after your first login. You can do this by visiting the “Account Settings” section once you’re logged in.\r\n"
 					+ "\r\n"
 					+ "If you have any questions or need assistance, please feel free to contact our support team at [Support Email/Phone Number].\r\n"
@@ -47,9 +47,5 @@ public class Gmail {
 			e.printStackTrace();
 		}
 		return false;
-	}
-
-	public static void main(String[] args) {
-		emailSender("paridhiprj610@gmail.com", "Pari@321456");
 	}
 }

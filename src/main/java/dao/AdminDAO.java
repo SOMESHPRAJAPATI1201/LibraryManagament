@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import dto.AdminDTO;
 import utills.Generics;
+import utills.MembershipNoGenerator;
 
 public class AdminDAO {
 
@@ -35,6 +36,7 @@ public class AdminDAO {
 				adminDTO.setLibName(rs.getString("name_of_library"));
 				adminDTO.setRole(rs.getInt("role"));
 				adminDTO.setAddress(rs.getString("address"));
+				adminDTO.setMembership_no(rs.getString("admin_membr_id"));
 				list.add(adminDTO);
 			}
 		} catch (SQLException e) {
@@ -63,6 +65,7 @@ public class AdminDAO {
 					adminDTO.setLibName(rs.getString("name_of_library"));
 					adminDTO.setRole(rs.getInt("role"));
 					adminDTO.setAddress(rs.getString("address"));
+					adminDTO.setMembership_no(rs.getString("admin_membr_id"));
 				}
 			}
 		} catch (SQLException e) {
@@ -90,6 +93,7 @@ public class AdminDAO {
 					adminDTO.setLibName(rs.getString("name_of_library"));
 					adminDTO.setRole(rs.getInt("role"));
 					adminDTO.setAddress(rs.getString("address"));
+					adminDTO.setMembership_no(rs.getString("admin_membr_id"));
 				}
 			}
 		} catch (SQLException e) {
@@ -104,13 +108,14 @@ public class AdminDAO {
 		int a = 0;
 		try {
 			conn = utills.getConnection();
-			pstmt = conn.prepareStatement("INSERT INTO ADMIN (email, name, password, role, name_of_library, address) values (?,?,?,?,?,?);");
+			pstmt = conn.prepareStatement("INSERT INTO ADMIN (email, name, password, role, name_of_library, address, admin_membr_id) values (?,?,?,?,?,?,?);");
 			pstmt.setString(1, adminDTO.getEmail());
 			pstmt.setString(2, adminDTO.getName());
 			pstmt.setString(3, adminDTO.getPassword());
 			pstmt.setInt(4, adminDTO.getRole());
 			pstmt.setString(5, adminDTO.getLibName());
 			pstmt.setString(6, adminDTO.getAddress());
+			pstmt.setString(7, MembershipNoGenerator.getMembershipNo("admin"));
 			a = pstmt.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();

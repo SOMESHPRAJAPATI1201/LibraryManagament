@@ -9,8 +9,17 @@ public class AdminDTO {
 	private int role;
 	private String libName;
 	private String address;
+	private String membership_no;
 
 	
+	public String getMembership_no() {
+		return membership_no;
+	}
+
+	public void setMembership_no(String membership_no) {
+		this.membership_no = membership_no;
+	}
+
 	public String getLibName() {
 		return libName;
 	}

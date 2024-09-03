@@ -12,7 +12,6 @@ $(document).ready(
 
 document.addEventListener('DOMContentLoaded', function() {
     const delay = 4000;
-
     setTimeout(function() {
         const alertElement = document.getElementById('allAlerts');
         if (alertElement) {

@@ -1,17 +1,31 @@
 @charset "UTF-8";
 
-table {
-	font-family: arial, sans-serif;
-	border-collapse: collapse;
+* {
+	font-family: Verdana, Geneva, Tahoma, sans-serif;
+	margin: 0%;
+}
+
+.card1 {
+	margin-top: 50%;
+}
+
+.card img {
+	margin-top: 3%;
+	height: auto;
 	width: 100%;
+	align-content: center;
 }
 
-td, th {
-	border: 1px solid #dddddd;
-	text-align: left;
-	padding: 8px;
+button a {
+	text-decoration: none;
+	color: red;
 }
 
-tr:nth-child(even) {
-	background-color: #dddddd;
+button a:hover {
+	text-decoration: none;
+	color: white;
+}
+
+.nav-user-info {
+	text-align: end;
 }

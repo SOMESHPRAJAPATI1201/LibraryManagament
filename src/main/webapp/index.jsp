@@ -89,7 +89,7 @@
 					<div class="modal-body">
 						<form action="adminLogin" method="post">
 							<div class="form-floating my-2">
-								<input type="email" name="email" class="form-control"
+								<input type="text" name="email" class="form-control"
 									id="floatingEmail" placeholder="name@example.com"
 									pattern="[a-zA-Z0-9_.±]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]" required>
 								<label for="floatingInput">Email address</label>
@@ -149,7 +149,7 @@
 									pattern="[0-9a-zA-Z\s,.-]{5,100}" class="form-control"
 									id="floatingEmail"
 									placeholder="Ex : 123 Main Street Apt 4B, Springfield, IL, 62704"
-									required><label for="floatingInput">Add. Eg :
+									required><label for="floatingInput">Add. eg :
 									123 Main Apt 4B, Springfield, IL, 62704</label>
 							</div>
 							<div class="form-floating my-2">
@@ -502,10 +502,11 @@
 				</p>
 			</footer>
 		</div>
-		<script
-			src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-			integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
-			crossorigin="anonymous"></script>
+	</div>
+	<script
+		src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+		integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+		crossorigin="anonymous"></script>
 </body>
 
 </html>
