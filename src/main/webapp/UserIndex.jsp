@@ -182,6 +182,8 @@
 								<label for="quantity" class="form-label">Select Quantity</label>
 								<select id="quantity" name="quantity" class="form-select">
 									<option selected>Choose...</option>
+									<option>1</option>
+									<option>10</option>
 									<option>50</option>
 									<option>100</option>
 									<option>150</option>

@@ -53,28 +53,37 @@ public class IssueBookServelet extends HttpServlet {
 			issuebookdto.setStudent_id(studentdto.getId());
 			issuebookdto.setIssued_date(LocalDate.now());
 			issuebookdto.setReturn_date(LocalDate.now().plusDays(30));
-			if (bookdto.getQuantity()>0 && issuebookservice.getIssuedBooksData(studentdto.getId(),bookdto.getId()).size()==0) {
-				if (issuebookservice.issueBookEntry(issuebookdto, bookdto)) {
-					resp.setContentType("text/html");
-					session = req.getSession();
-					session.setAttribute("alert-type", "success");
-					session.setAttribute("alert", "Your, Book Has Been Issued Sucesfully");
-					RequestDispatcher rd = req.getRequestDispatcher("UserIndex.jsp");
-					rd.include(req, resp);
-				} else {
+			if (bookdto.getQuantity()>0) {
+				if (issuebookservice.getIssuedBooksData(studentdto.getId(),bookdto.getId()).size()==0) {
+					if (issuebookservice.issueBookEntry(issuebookdto, bookdto)) {
+						resp.setContentType("text/html");
+						session = req.getSession();
+						session.setAttribute("alert-type", "success");
+						session.setAttribute("alert", "Your, Book Has Been Issued Sucesfully");
+						RequestDispatcher rd = req.getRequestDispatcher("UserIndex.jsp");
+						rd.include(req, resp);
+					} else {
+						session = req.getSession();
+						session.setAttribute("alert-type", "danger");
+						session.setAttribute("alert", "Failed To Issue Book");
+						RequestDispatcher rd = req.getRequestDispatcher("UserIndex.jsp");
+						rd.forward(req, resp);
+					}
+				}else {
 					session = req.getSession();
 					session.setAttribute("alert-type", "danger");
-					session.setAttribute("alert", "Failed To Issue Book");
+					session.setAttribute("alert", "Book Is Already Issued To User.");
 					RequestDispatcher rd = req.getRequestDispatcher("UserIndex.jsp");
 					rd.forward(req, resp);
 				}
 			}else {
 				session = req.getSession();
 				session.setAttribute("alert-type", "danger");
-				session.setAttribute("alert", "Book Is Already Issued To User.");
+				session.setAttribute("alert", "Sorry ! But, book is out of stock for now.");
 				RequestDispatcher rd = req.getRequestDispatcher("UserIndex.jsp");
 				rd.forward(req, resp);
 			}
+			
 		} catch (ServletException | IOException e) {
 			e.printStackTrace();
 		} 
