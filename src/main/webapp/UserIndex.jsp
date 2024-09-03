@@ -251,7 +251,7 @@
 								<th scope="col">Author</th>
 								<th scope="col">Quantity</th>
 								<th scope="col">Delete Book</th>
-								<th scope="col">View Book</th>
+								<th scope="col">Issued Books</th>
 								<th scope="col">Edit Book</th>
 							</tr>
 						</thead>
@@ -276,7 +276,7 @@
 											<input type="hidden" id="viewAdmin" name="bookId"
 												value="${row.getId()}" />
 											<input id="adminIssuedBookModal"
-												class="btn btn-outline-success" type="submit" value="View">
+												class="btn btn-outline-success" type="submit" value="Recipients">
 										</form>
 									</td>
 									<td>

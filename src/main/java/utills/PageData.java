@@ -11,7 +11,7 @@ public class PageData {
 	
 	public static final String STUDENT_CARD_SECOND_FIRST_LINE = "View(All Books + Issue Books), Search Books";
 	public static final String STUDENT_CARD_SECOND_HEADING = "View Books";
-	public static final String STUDENT_CARD_SECOND_SECOND_LINE = "Click Here To View Book";
+	public static final String STUDENT_CARD_SECOND_SECOND_LINE = "100000+ Books To Explore.";
 	public static final String STUDENT_CARD_SECOND_DESCRIPTION = "Click Below To See All Books.";
 	
 	//ADMIN_CARDS

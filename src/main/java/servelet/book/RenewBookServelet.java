@@ -10,10 +10,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import dao.BookDAO;
 import dao.IssueBooksDAO;
+import dao.ReserveBooksDAO;
 import dao.StudentDAO;
 import dto.IssueBooksDTO;
 import services.BookServices;
 import services.IssueBookServices;
+import services.ReserveBookServices;
 import services.StudentServices;
 import utills.Generics;
 
@@ -25,6 +27,7 @@ public class RenewBookServelet extends HttpServlet {
 	BookServices bookservices;
 	StudentServices studentervices;
 	IssueBookServices issuebookservice;
+	ReserveBookServices reserveservices;	
 	BookDAO dao;
 	Generics utills;
 
@@ -35,6 +38,7 @@ public class RenewBookServelet extends HttpServlet {
 		dao = new BookDAO(utills);
 		bookservices = new BookServices(dao);
 		studentervices = new StudentServices(new StudentDAO(utills));
+		reserveservices = new ReserveBookServices(new ReserveBooksDAO(utills), bookservices);
 		issuebookservice = new IssueBookServices(new IssueBooksDAO(utills), bookservices);
 	}
 
@@ -43,32 +47,38 @@ public class RenewBookServelet extends HttpServlet {
 		try {
 			System.out.println("Inside Renew Book Servelet Method");
 			String renewBookId = req.getParameter("renewBookId");
-			IssueBooksDTO issuedbookdto = issuebookservice
-					.getIssuedBookDataByIssuedBookId(Integer.parseInt(renewBookId));
+			IssueBooksDTO issuedbookdto = issuebookservice.getIssuedBookDataByIssuedBookId(Integer.parseInt(renewBookId));
 			System.out.println("Issued Book Id Is : " + renewBookId);
-			if (issuedbookdto.getReturn_date().isEqual(LocalDate.now())) {
-				if (issuebookservice.renewIssuedByBookId(Integer.parseInt(renewBookId),	issuedbookdto.getReturn_date().plusDays(15), LocalDate.now())) {
-					resp.setContentType("text/html");
-					session = req.getSession();
-					session.setAttribute("alert-type", "success");
-					session.setAttribute("alert",
-							"Your, Book Has Been Renewed Successfully upto " + LocalDate.now().plusDays(15));
-					RequestDispatcher rd = req.getRequestDispatcher("UserIndex.jsp");
-					rd.include(req, resp);
+			if (reserveservices.getAdminReserveViewBooksData(Integer.valueOf(renewBookId))==null) {
+				if (issuedbookdto.getReturn_date().isEqual(LocalDate.now())) {
+					if (issuebookservice.renewIssuedByBookId(Integer.parseInt(renewBookId),	issuedbookdto.getReturn_date().plusDays(15), LocalDate.now())) {
+						resp.setContentType("text/html");
+						session = req.getSession();
+						session.setAttribute("alert-type", "success");
+						session.setAttribute("alert", "Your, Book Has Been Renewed Successfully upto " + LocalDate.now().plusDays(15));
+						RequestDispatcher rd = req.getRequestDispatcher("UserIndex.jsp");
+						rd.include(req, resp);
+					} else {
+						session = req.getSession();
+						session.setAttribute("alert-type", "danger");
+						session.setAttribute("alert", "Unable to renew book.");
+						RequestDispatcher rd = req.getRequestDispatcher("UserIndex.jsp");
+						rd.forward(req, resp);
+					}
 				} else {
 					session = req.getSession();
 					session.setAttribute("alert-type", "danger");
-					session.setAttribute("alert", "Unable to renew book.");
+					session.setAttribute("alert", "You can't renew book before " + issuedbookdto.getReturn_date());
 					RequestDispatcher rd = req.getRequestDispatcher("UserIndex.jsp");
 					rd.forward(req, resp);
 				}
-			} else {
+			}else {
 				session = req.getSession();
 				session.setAttribute("alert-type", "danger");
-				session.setAttribute("alert", "You can't renew book before " + issuedbookdto.getReturn_date());
+				session.setAttribute("alert", "You can't renew a reserved book.");
 				RequestDispatcher rd = req.getRequestDispatcher("UserIndex.jsp");
 				rd.forward(req, resp);
-			}
+			}	
 		} catch (ServletException | IOException e) {
 			e.printStackTrace();
 		}

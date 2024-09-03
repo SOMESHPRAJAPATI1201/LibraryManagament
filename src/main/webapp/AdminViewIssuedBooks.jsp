@@ -9,22 +9,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>LMS</title>
 <style>
-* {
-	font-family: Verdana, Geneva, Tahoma, sans-serif;
-	margin: 0%;
-}
-
-.card1 {
-	margin-top: 50%;
-}
-
-.card img {
-	margin-top: 3%;
-	height: auto;
-	width: 100%;
-	align-content: center;
-}
-
 button a {
 	text-decoration: none;
 	color: red;
@@ -33,14 +17,6 @@ button a {
 button a:hover {
 	text-decoration: none;
 	color: white;
-}
-
-.nav-user-info {
-	text-align: end;
-}
-
-#fetch {
-	
 }
 </style>
 <script
