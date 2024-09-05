@@ -65,14 +65,13 @@ button a:hover {
 	</div>
 
 	<%--nav bar--%>
-	<div class="container">
+	<div class="container-sm">
 		<div class="row">
 			<div class="col-md-6 ">
 				<ul class="nav nav-underline ">
 					<li class="nav-item"><a class="nav-link active"
 						aria-current="page" href="#">Home</a></li>
-					<li class="nav-item"><a class="nav-link" href="#">About Us</a>
-					</li>
+					<li class="nav-item"><a class="nav-link" href="#">About Us</a></li>
 					<li class="nav-item"><a class="nav-link" href="#">Contact
 							Us</a></li>
 				</ul>
@@ -97,59 +96,51 @@ button a:hover {
 		</div>
 	</div>
 	<!---Add Book Module--->
-	<div class="container my-3">
-		<div class="modal-dialog">
-			<div class="modal-content">
-				<div class="modal-header">
-					<h1 class="modal-title fs-5" id="addBookModal">Edit Book</h1>
-				</div>
-				<div class="modal-body">
-					<form action="editBookData" method="post">
-						<input type="hidden" value="${sessionScope.bookId}" name="bookID">
-						<div class="mb-3">
-							<label for="exampleInputEmail1" class="form-label">Book
-								Name</label> <input type="text" class="form-control" id="book"
-								name="bookname" aria-describedby="bookinfo"
-								value="${sessionScope.bookName}">
-							<div id="emailHelp" class="form-text">Enter the book name.</div>
-						</div>
-						<div class="mb-3">
-							<label for="AuthorName" class="form-label">Author Name</label> <input
-								type="text" name="author" class="form-control" id="author"
-								value="${sessionScope.bookAuthor}">
-							<div id="authorhelp" class="form-text">Enter author name.</div>
+	<div class="container">
+		<h1 class="modal-title fs-5">Add Book</h1>
+		<form action="addBook" method="post">
+			<div class="mb-3 ">
+				<label for="exampleInputEmail1" class="form-label">Book Name</label>
+				<input type="text" class="form-control" id="book" name="bookname"
+					aria-describedby="bookinfo">
+				<div id="emailHelp" class="form-text">Enter the book you want
+					to add.</div>
+			</div>
+			<div class="mb-3">
+				<label for="AuthorName" class="form-label">Author Name</label> <input
+					type="text" name="author" class="form-control" id="author">
+				<div id="authorhelp" class="form-text">Enter author name.</div>
 
-						</div>
-						<div class="row">
-							<div class="mb-3 col-md-5">
-								<label for="quantity" class="form-label">Author Name</label> <input
-									type="text" name="quantity" class="form-control" id="quantity"
-									value="${sessionScope.bookQuantity}">
-								<div id="authorhelp" class="form-text">Enter Quantity.</div>
-							</div>
-							<div class="col-md-5">
-								<label for="edition" class="form-label">Select Edition</label> <select
-									id="edition" name="edition" class="form-select">
-									<option selected><b>${sessionScope.bookEdition}</b></option>
-									<option>First</option>
-									<option>Second</option>
-									<option>Third</option>
-									<option>Fourth</option>
-									<option>Fifth</option>
-								</select>
-							</div>
-						</div>
-						<div class="d-grid gap-2 col-6 my-4 mx-auto">
-							<button class="btn btn-primary" type="submit">Edit Book</button>
-						</div>
-					</form>
+			</div>
+			<div class="row">
+				<div class="mb-3 col-md-6">
+					<label for="AuthorName" class="form-label">Quantity</label> <input
+						type="text" name="quantity" class="form-control" id="quantity">
+					<div id="authorhelp" class="form-text">Enter Quantity.</div>
 				</div>
-				<div class="modal-footer my-5">
-					<a class="btn btn-secondary" href="viewBooks">Go Back</a>
+				<div class="col-md-6">
+					<label for="edition" class="form-label">Select Edition</label> <select
+						id="edition" name="edition" class="form-select">
+						<option selected>Choose...</option>
+						<option>First</option>
+						<option>Second</option>
+						<option>Third</option>
+						<option>Fourth</option>
+						<option>Fifth</option>
+					</select>
 				</div>
 			</div>
+			<div class="d-grid gap-2 col-12 my-4 ">
+				<button class="btn btn-outline-success" type="submit">Add
+					Book</button>
+			</div>
+		</form>
+		<div class="modal-footer">
+			<a type="button" class="btn btn-outline-info" href="UserIndex.jsp">Go
+				Back</a>
 		</div>
 	</div>
+
 	<%--footer--%>
 	<div class="container ">
 		<footer class="my-6">

@@ -35,7 +35,7 @@ public class BookServices {
 	}
 	
 	public boolean editBook(BookDTO bookdto) {
-		if (checkBookAvailaiblity(bookdto.getName(), bookdto.getEdition(), bookdto.getAuthor()).size() == 0) {
+		if (checkBookAvailaiblity(bookdto.getName(), bookdto.getEdition(), bookdto.getAuthor(), bookdto.getQuantity()).size() == 0) {
 			if (bookDAO.EditBook(bookdto) >= 1) {
 				System.out.println("Book Edited Succesfully");
 				return true;
@@ -66,6 +66,10 @@ public class BookServices {
 
 	public List<BookDTO> checkBookAvailaiblity(String name, String edition, String author) {
 		return bookDAO.checkBookAvailiblity(name, edition, author);
+	}
+	
+	public List<BookDTO> checkBookAvailaiblity(String name, String edition, String author,int Quantity) {
+		return bookDAO.checkBookAvailiblity(name, edition, author, Quantity);
 	}
 
 	public boolean deletBook(int id) {

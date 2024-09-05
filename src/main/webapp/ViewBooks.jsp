@@ -96,49 +96,77 @@ button a:hover {
 			</div>
 		</div>
 	</div>
-
+	<div class="container">
+		<h1 class="modal-title fs-5">View Books</h1>
+	</div>
 	<div class="container">
 		<div class="row">
-			<div class="input-group flex-nowrap my-4">
+			<div class="input-group flex-nowrap">
 				<span class="input-group-text">@</span> <input type="text"
 					id="myInput" class="form-control"
 					placeholder="Author Name, Book Name" aria-label="Username"
 					aria-describedby="addon-wrapping">
 			</div>
-			<div class="d-grid gap-2 d-md-block my-2"></div>
+			<div class="d-grid gap-2 d-md-block my-2">
+				<button type="button" class="btn btn-outline-info"
+					onclick="window.location.href='viewBooks';" id="liveToastBtn">Fetch
+					Books</button>
+			</div>
 			<br>
 		</div>
 		<table class="table">
 			<thead>
 				<tr>
 					<th scope="col">#</th>
-					<th scope="col">Student Name</th>
 					<th scope="col">Book Name</th>
-					<th scope="col">Author</th>
 					<th scope="col">Edition</th>
-					<th scope="col">Issue Date</th>
-					<th scope="col">Return Date</th>
+					<th scope="col">Author</th>
+					<th scope="col">Quantity</th>
+					<th scope="col">Delete Book</th>
+					<th scope="col">Issued Books</th>
+					<th scope="col">Edit Book</th>
 				</tr>
 			</thead>
 			<tbody id="myTable">
-				<c:set value="${sessionScope.issuedAdminVIewBookslist}"
-					var="issuedBooklist"></c:set>
-				<c:forEach items="${issuedBooklist}" var="row">
+				<c:set value="${sessionScope.bookslist}" var="list"></c:set>
+				<c:set value="${sessionScope.email1}" var="emailid1"></c:set>
+				<c:forEach items="${list}" var="row">
 					<tr>
 						<th scope="row">#</th>
-						<td><c:out value="${row.getStudentname()}"></c:out></td>
-						<td><c:out value="${row.getBookname()}"></c:out></td>
-						<td><c:out value="${row.getAuthor()}"></c:out></td>
+						<td><c:out value="${row.getName()}"></c:out></td>
 						<td><c:out value="${row.getEdition()}"></c:out></td>
-						<td><c:out value="${row.getIssued_date()}"></c:out></td>
-						<td><c:out value="${row.getReturn_date()}"></c:out></td>
+						<td><c:out value="${row.getAuthor()}"></c:out></td>
+						<td><c:out value="${row.getQuantity()}"></c:out></td>
+						<td><form action="deleteBook" method="post">
+								<input type="hidden" name="itemId" value="${row.getId()}" /> <input
+									class="btn btn-outline-danger" type="submit" value="Delete" />
+							</form></td>
+						<td>
+							<form action="viewAdminIssuedBook" method="post">
+								<input type="hidden" id="viewAdmin" name="bookId"
+									value="${row.getId()}" /> <input id="adminIssuedBookModal"
+									class="btn btn-outline-success" type="submit"
+									value="Recipients">
+							</form>
+						</td>
+						<td>
+							<form action="editBook" method="post">
+								<input type="hidden" id="editBooks" name="editBookId"
+									value="${row.getId()}" /> <input
+									class="btn btn-outline-warning" type="submit" value="Edit">
+							</form>
+						</td>
 					</tr>
 				</c:forEach>
 			</tbody>
 		</table>
-		<a href="viewBooks" class="btn btn-outline-info" role="button">Go Back</a>
-
+		<div class="modal-footer">
+			<a type="submit" class="btn btn-outline-info"
+				href="UserIndex.jsp">Home</a>
+		</div>
 	</div>
+
+
 	<%--scripts--%>
 	<script
 		src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"

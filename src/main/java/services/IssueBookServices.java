@@ -20,6 +20,11 @@ public class IssueBookServices {
 		return issuebookDAO.getIssuedBooksData(id);
 	}
 	
+//	public static void main(String[] args) {
+//		IssueBooksDAO service = new IssueBooksDAO(new Generics());
+//		service.getAllEntries().stream().filter(x->x.getBook_id()==84).forEach(x->System.out.println(x.getBookname()));
+//	}
+	
 	public ArrayList<IssueBooksDTO> getIssuedBooksData(int stdId, int bookID) {
 		return issuebookDAO.getSingleIssueBooksData(stdId, bookID);
 	}

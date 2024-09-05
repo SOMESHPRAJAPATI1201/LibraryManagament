@@ -12,7 +12,7 @@ import utills.MembershipNoGenerator;
 public class AdminDAO {
 
 	private PreparedStatement pstmt = null;
-	private ResultSet rs = null;
+	private ResultSet resultSet = null;
 	private Generics utills;
 	private Connection conn = null;
 
@@ -26,23 +26,23 @@ public class AdminDAO {
 			AdminDTO adminDTO = null;
 			conn = utills.getConnection();
 			pstmt = conn.prepareStatement("SELECT * FROM ADMIN;");
-			rs = pstmt.executeQuery();
-			while (rs.next()) {
+			resultSet = pstmt.executeQuery();
+			while (resultSet.next()) {
 				adminDTO = new AdminDTO();
-				adminDTO.setEmail(rs.getString("email"));
-				adminDTO.setName(rs.getString("name"));
-				adminDTO.setId(rs.getInt("id"));
-				adminDTO.setPassword(rs.getString("password"));
-				adminDTO.setLibName(rs.getString("name_of_library"));
-				adminDTO.setRole(rs.getInt("role"));
-				adminDTO.setAddress(rs.getString("address"));
-				adminDTO.setMembership_no(rs.getString("admin_membr_id"));
+				adminDTO.setEmail(resultSet.getString("email"));
+				adminDTO.setName(resultSet.getString("name"));
+				adminDTO.setId(resultSet.getInt("id"));
+				adminDTO.setPassword(resultSet.getString("password"));
+				adminDTO.setLibName(resultSet.getString("name_of_library"));
+				adminDTO.setRole(resultSet.getInt("role"));
+				adminDTO.setAddress(resultSet.getString("address"));
+				adminDTO.setMembership_no(resultSet.getString("admin_membr_id"));
 				list.add(adminDTO);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
-			utills.closeConnection(conn, pstmt, rs);
+			utills.closeConnection(conn, pstmt, resultSet);
 		}
 		return list;
 	}
@@ -54,24 +54,24 @@ public class AdminDAO {
 			pstmt = conn.prepareStatement("SELECT * FROM ADMIN WHERE EMAIL = ? && PASSWORD = ?;");
 			pstmt.setString(1, email);
 			pstmt.setString(2, password);
-			rs = pstmt.executeQuery();
-			if (rs!=null) {
-				while (rs.next()) {
+			resultSet = pstmt.executeQuery();
+			if (resultSet!=null) {
+				while (resultSet.next()) {
 					adminDTO = new AdminDTO();
-					adminDTO.setEmail(rs.getString("email"));
-					adminDTO.setName(rs.getString("name"));
-					adminDTO.setId(rs.getInt("id"));
-					adminDTO.setPassword(rs.getString("password"));
-					adminDTO.setLibName(rs.getString("name_of_library"));
-					adminDTO.setRole(rs.getInt("role"));
-					adminDTO.setAddress(rs.getString("address"));
-					adminDTO.setMembership_no(rs.getString("admin_membr_id"));
+					adminDTO.setEmail(resultSet.getString("email"));
+					adminDTO.setName(resultSet.getString("name"));
+					adminDTO.setId(resultSet.getInt("id"));
+					adminDTO.setPassword(resultSet.getString("password"));
+					adminDTO.setLibName(resultSet.getString("name_of_library"));
+					adminDTO.setRole(resultSet.getInt("role"));
+					adminDTO.setAddress(resultSet.getString("address"));
+					adminDTO.setMembership_no(resultSet.getString("admin_membr_id"));
 				}
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
-			utills.closeConnection(conn, pstmt, rs);
+			utills.closeConnection(conn, pstmt, resultSet);
 		}
 		return adminDTO;
 	}
@@ -82,24 +82,24 @@ public class AdminDAO {
 			conn = utills.getConnection();
 			pstmt = conn.prepareStatement("SELECT * FROM ADMIN WHERE EMAIL = ?;");
 			pstmt.setString(1, email);
-			rs = pstmt.executeQuery();
-			if (rs!=null) {
-				while (rs.next()) {
+			resultSet = pstmt.executeQuery();
+			if (resultSet!=null) {
+				while (resultSet.next()) {
 					adminDTO = new AdminDTO();
-					adminDTO.setEmail(rs.getString("email"));
-					adminDTO.setName(rs.getString("name"));
-					adminDTO.setId(rs.getInt("id"));
-					adminDTO.setPassword(rs.getString("password"));
-					adminDTO.setLibName(rs.getString("name_of_library"));
-					adminDTO.setRole(rs.getInt("role"));
-					adminDTO.setAddress(rs.getString("address"));
-					adminDTO.setMembership_no(rs.getString("admin_membr_id"));
+					adminDTO.setEmail(resultSet.getString("email"));
+					adminDTO.setName(resultSet.getString("name"));
+					adminDTO.setId(resultSet.getInt("id"));
+					adminDTO.setPassword(resultSet.getString("password"));
+					adminDTO.setLibName(resultSet.getString("name_of_library"));
+					adminDTO.setRole(resultSet.getInt("role"));
+					adminDTO.setAddress(resultSet.getString("address"));
+					adminDTO.setMembership_no(resultSet.getString("admin_membr_id"));
 				}
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
-			utills.closeConnection(conn, pstmt, rs);
+			utills.closeConnection(conn, pstmt, resultSet);
 		}
 		return adminDTO;
 	}

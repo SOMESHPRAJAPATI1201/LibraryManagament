@@ -58,9 +58,8 @@ public class StudentLoginServelet extends HttpServlet {
 					session.setAttribute("userrole", "Student");
 					session.setAttribute("card1", "Issued Books");
 					session.setAttribute("card2", "View Books");
-					session.setAttribute("firstcardtype", "issuedBookModal");
-					session.setAttribute("thirdcardtype", "issuedBookModal");
-					session.setAttribute("viewBookType", "viewStudentBookModal");
+					session.setAttribute("firstcardtype", "issuedBooks");
+					session.setAttribute("viewBookType", "viewBooksStudent");
 					//card 1st
 					session.setAttribute("cardfirstfirstline", PageData.STUDENT_CARD_ONE_FIRST_LINE);
 					session.setAttribute("cardfirstheading", PageData.STUDENT_CARD_ONE_HEADING);
@@ -71,7 +70,7 @@ public class StudentLoginServelet extends HttpServlet {
 					session.setAttribute("cardsecondheading", PageData.STUDENT_CARD_SECOND_HEADING);
 					session.setAttribute("cardsecondthirdline", PageData.STUDENT_CARD_SECOND_SECOND_LINE);
 					session.setAttribute("cardsecondfourthline", PageData.STUDENT_CARD_SECOND_DESCRIPTION);
-					RequestDispatcher rd = req.getRequestDispatcher("UserIndex.jsp");
+					RequestDispatcher rd = req.getRequestDispatcher("UserIndexStudent.jsp");
 					rd.include(req, resp);
 				} else {
 					System.out.println("Invalid");

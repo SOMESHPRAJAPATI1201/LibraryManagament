@@ -26,12 +26,13 @@ public class IssueBooksDAO {
 		ArrayList<IssueBooksDTO> list = new ArrayList<>();
 		try {
 			conn = utills.getConnection();
-			pstmt = conn.prepareStatement("select books_data.id, books.name, books.author, books.edition, books_data.issued_date, books_data.return_date from books_data inner join student on student.id = books_data.student_id inner join books on books.id = books_data.book_id where student.id = ?;");
+			pstmt = conn.prepareStatement("select books_data.id, books.id as book_id,  books.name, books.author, books.edition, books_data.issued_date, books_data.return_date from books_data inner join student on student.id = books_data.student_id inner join books on books.id = books_data.book_id where student.id = ?;");
 			pstmt.setInt(1, studentId);
 			rs = pstmt.executeQuery();
 			while (rs.next()) {
 				issuebookdto = new IssueBooksDTO();
 				issuebookdto.setIssued_book_id(rs.getInt("id"));
+				issuebookdto.setBook_id(rs.getInt("book_id"));
 				issuebookdto.setBookname(rs.getString("name"));
 				issuebookdto.setAuthor(rs.getString("author"));
 				issuebookdto.setEdition(rs.getString("edition"));
@@ -56,6 +57,31 @@ public class IssueBooksDAO {
 			rs = pstmt.executeQuery();
 			while (rs.next()) {
 				issuebookdto = new IssueBooksDTO();
+				issuebookdto.setStudentname(rs.getString("student_name"));
+				issuebookdto.setBookname(rs.getString("book_name"));
+				issuebookdto.setAuthor(rs.getString("author"));
+				issuebookdto.setEdition(rs.getString("edition"));
+				issuebookdto.setIssued_date(rs.getDate("issued_date").toLocalDate());
+				issuebookdto.setReturn_date(rs.getDate("return_date").toLocalDate());
+				list.add(issuebookdto);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			utills.closeConnection(conn, pstmt, rs);
+		}
+		return list;
+	}
+	
+	public ArrayList<IssueBooksDTO> getAllEntries() {
+		ArrayList<IssueBooksDTO> list = new ArrayList<>();
+		try {
+			conn = utills.getConnection();
+			pstmt = conn.prepareStatement("select books.id as book_id, student.name as student_name, books.name as book_name, books.author, books.edition, books_data.issued_date, books_data.return_date from student inner join books_data on books_data.student_id = student.id inner join books on books.id = books_data.book_id;");
+			rs = pstmt.executeQuery();
+			while (rs.next()) {
+				issuebookdto = new IssueBooksDTO();
+				issuebookdto.setBook_id(rs.getInt("book_id"));
 				issuebookdto.setStudentname(rs.getString("student_name"));
 				issuebookdto.setBookname(rs.getString("book_name"));
 				issuebookdto.setAuthor(rs.getString("author"));

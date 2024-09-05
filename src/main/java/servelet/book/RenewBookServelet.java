@@ -47,36 +47,39 @@ public class RenewBookServelet extends HttpServlet {
 		try {
 			System.out.println("Inside Renew Book Servelet Method");
 			String renewBookId = req.getParameter("renewBookId");
+			String bookID = req.getParameter("BookId");
+			String uniqueID = req.getParameter("unique_id");
 			IssueBooksDTO issuedbookdto = issuebookservice.getIssuedBookDataByIssuedBookId(Integer.parseInt(renewBookId));
 			System.out.println("Issued Book Id Is : " + renewBookId);
-			if (reserveservices.getAdminReserveViewBooksData(Integer.valueOf(renewBookId))==null) {
+			System.out.println("Book Id Is : " + bookID);
+			if (reserveservices.getAdminReserveViewBooksData(Integer.valueOf(bookID)).size()==0) {
 				if (issuedbookdto.getReturn_date().isEqual(LocalDate.now())) {
 					if (issuebookservice.renewIssuedByBookId(Integer.parseInt(renewBookId),	issuedbookdto.getReturn_date().plusDays(15), LocalDate.now())) {
 						resp.setContentType("text/html");
 						session = req.getSession();
 						session.setAttribute("alert-type", "success");
 						session.setAttribute("alert", "Your, Book Has Been Renewed Successfully upto " + LocalDate.now().plusDays(15));
-						RequestDispatcher rd = req.getRequestDispatcher("UserIndex.jsp");
+						RequestDispatcher rd = req.getRequestDispatcher("IssuedBooksStudent.jsp");
 						rd.include(req, resp);
 					} else {
 						session = req.getSession();
 						session.setAttribute("alert-type", "danger");
 						session.setAttribute("alert", "Unable to renew book.");
-						RequestDispatcher rd = req.getRequestDispatcher("UserIndex.jsp");
+						RequestDispatcher rd = req.getRequestDispatcher("IssuedBooksStudent.jsp");
 						rd.forward(req, resp);
 					}
 				} else {
 					session = req.getSession();
 					session.setAttribute("alert-type", "danger");
 					session.setAttribute("alert", "You can't renew book before " + issuedbookdto.getReturn_date());
-					RequestDispatcher rd = req.getRequestDispatcher("UserIndex.jsp");
+					RequestDispatcher rd = req.getRequestDispatcher("IssuedBooksStudent.jsp");
 					rd.forward(req, resp);
 				}
 			}else {
 				session = req.getSession();
 				session.setAttribute("alert-type", "danger");
 				session.setAttribute("alert", "You can't renew a reserved book.");
-				RequestDispatcher rd = req.getRequestDispatcher("UserIndex.jsp");
+				RequestDispatcher rd = req.getRequestDispatcher("IssuedBooksStudent.jsp");
 				rd.forward(req, resp);
 			}	
 		} catch (ServletException | IOException e) {

@@ -65,19 +65,19 @@ public class IssueBookServelet extends HttpServlet {
 							session = req.getSession();
 							session.setAttribute("alert-type", "success");
 							session.setAttribute("alert", "Your, Book Has Been Issued Sucesfully");
-							RequestDispatcher rd = req.getRequestDispatcher("UserIndex.jsp");
+							RequestDispatcher rd = req.getRequestDispatcher("viewBooksStudent");
 							rd.include(req, resp);
 						} else {
 							resp.setContentType("text/html");
 							session = req.getSession();
 							session.setAttribute("alert-type", "danger");
 							session.setAttribute("alert", "Failed To Issue Book");
-							RequestDispatcher rd = req.getRequestDispatcher("UserIndex.jsp");
+							RequestDispatcher rd = req.getRequestDispatcher("ViewBooksStudent.jsp");
 							rd.include(req, resp);
 						}
 					}else {
 						if (reservebookservice.getReserveBooksData(studentdto.getId(), bookdto.getId()).size()==0) {
-							if (reservebookservice.getAdminReserveViewBooksData(bookdto.getId())==null) {
+							if (reservebookservice.getAdminReserveViewBooksData(bookdto.getId()).size()==0) {
 								session = req.getSession();
 								resp.setContentType("text/html");
 								LocalDate date = issuebookservice.getAdminIssuedViewBooksData(bookdto.getId()).get(0).getReturn_date();
@@ -91,20 +91,20 @@ public class IssueBookServelet extends HttpServlet {
 								reservebookservice.ReserveBookEntry(reservedto, bookdto);
 								session.setAttribute("alert-type", "danger");
 								session.setAttribute("alert", "Sorry, But Book Is Out Of Stock.But Will Be Assigned To You From "+date.plusDays(1)+" To "+date.plusDays(15));
-								RequestDispatcher rd = req.getRequestDispatcher("UserIndex.jsp");
+								RequestDispatcher rd = req.getRequestDispatcher("ViewBooksStudent.jsp");
 								rd.include(req, resp);
 							}else {
 								session = req.getSession();
 								session.setAttribute("alert-type", "danger");
 								session.setAttribute("alert", "Book Is Already Reserved.");
-								RequestDispatcher rd = req.getRequestDispatcher("UserIndex.jsp");
+								RequestDispatcher rd = req.getRequestDispatcher("ViewBooksStudent.jsp");
 								rd.include(req, resp);
 							}
 						} else {
 							session = req.getSession();
 							session.setAttribute("alert-type", "danger");
 							session.setAttribute("alert", "Book Is Already Reserved For You.");
-							RequestDispatcher rd = req.getRequestDispatcher("UserIndex.jsp");
+							RequestDispatcher rd = req.getRequestDispatcher("ViewBooksStudent.jsp");
 							rd.include(req, resp);
 						}	
 					}
@@ -112,7 +112,7 @@ public class IssueBookServelet extends HttpServlet {
 					session = req.getSession();
 					session.setAttribute("alert-type", "danger");
 					session.setAttribute("alert", "Book Is Already Issued To User.");
-					RequestDispatcher rd = req.getRequestDispatcher("UserIndex.jsp");
+					RequestDispatcher rd = req.getRequestDispatcher("ViewBooksStudent.jsp");
 					rd.include(req, resp);
 				}			
 		} catch (ServletException | IOException e) {

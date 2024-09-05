@@ -151,7 +151,7 @@
 				</button>
 			</div>
 		</div>
-	</div>	
+	</div>
 
 	<!---services cards--->
 	<div class="container my-4">
@@ -171,11 +171,10 @@
 						<p class="card-text mb-auto">
 							<c:out value="${sessionScope.cardfirstfourthline}"></c:out>
 						</p>
-						<form action="<c:out value='${sessionScope.firstcardtype}'></c:out>">
+						<form action="issuedBooks" method="post">
 							<input hidden="hidden" name="unique_Id"
-								value="<c:out value="${sessionScope.unique_Id}"></c:out>">
-							<button class="btn btn-outline-danger" type="submit"
-								style="width: -webkit-fill-available;">
+								value="<c:out value='${sessionScope.unique_id}'></c:out>" />
+							<button class="btn btn-outline-danger" type="submit" style="width:-webkit-fill-available;">
 								<c:out value="${sessionScope.card1}"></c:out>
 							</button>
 						</form>
@@ -185,8 +184,7 @@
 					</div>
 				</div>
 			</div>
-			
-			
+
 			<div class="col-md-6">
 				<div
 					class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
@@ -202,12 +200,10 @@
 						<p class="mb-auto">
 							<c:out value="${sessionScope.cardsecondfourthline}"></c:out>
 						</p>
-						<form action="viewBooks">
-							<button class="btn btn-outline-danger" type="submit"
-								style="width: -webkit-fill-available;">
-								<c:out value="${sessionScope.card2}"></c:out>
-							</button>
-						</form>
+						<a class="btn btn-outline-danger" type="button"
+							href="<c:out value='${sessionScope.viewBookType}'></c:out>">
+							<c:out value="${sessionScope.card2}"></c:out>
+						</a>
 					</div>
 					<div class="col-auto d-none d-lg-block">
 						<img height="250" width="200" src="Images/service_2.jpg" alt="">

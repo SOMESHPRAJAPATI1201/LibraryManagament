@@ -45,7 +45,7 @@ public class DeleteBookServelet extends HttpServlet {
 				session = req.getSession();
 				session.setAttribute("alert-type", "warning");
 				session.setAttribute("alert", "Failed To Delete Book");
-				RequestDispatcher rd = req.getRequestDispatcher("UserIndex.jsp");
+				RequestDispatcher rd = req.getRequestDispatcher("ViewBooks.jsp");
 				rd.include(req, resp);
 			}	
 	}

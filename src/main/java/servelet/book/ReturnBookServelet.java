@@ -1,6 +1,8 @@
 package servelet.book;
 
 import java.io.IOException;
+import java.io.PrintWriter;
+
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -42,22 +44,25 @@ public class ReturnBookServelet extends HttpServlet {
 	protected void doPost(HttpServletRequest req, javax.servlet.http.HttpServletResponse resp) throws ServletException {
 		try {
 			System.out.println("Inside Return Book Servelet Method");
-			String issuedBookId = req.getParameter("IssuedBookId");
+			String issuedBookId = req.getParameter("BookId");
+			String uniqueID = req .getParameter("unique_id");
 			IssueBooksDTO issuedbookdto =  issuebookservice.getIssuedBookDataByIssuedBookId(Integer.parseInt(issuedBookId));
 			BookDTO bookdto = bookservices.getBook(issuedbookdto.getBook_id());
 			System.out.println("Issued Book Id Is : "+ issuedBookId);
+			PrintWriter out = resp.getWriter();
 			if (issuebookservice.returnIssuedBookEntry(Integer.parseInt(issuedBookId),bookdto)) {
 					resp.setContentType("text/html");
 					session = req.getSession();
 					session.setAttribute("alert-type", "success");
 					session.setAttribute("alert", "Your, Book Has Been Returned Sucesfully");
-					RequestDispatcher rd = req.getRequestDispatcher("UserIndex.jsp");
+					out.println("Your, Book Has Been Returned Sucesfully");
+					RequestDispatcher rd = req.getRequestDispatcher("issuedBooks?unique_id="+uniqueID);
 					rd.include(req, resp);
 			}else {
 				session = req.getSession();
 				session.setAttribute("alert-type", "danger");
-				session.setAttribute("alert", "Something went wrong.");
-				RequestDispatcher rd = req.getRequestDispatcher("UserIndex.jsp");
+				session.setAttribute("alert", "Failed To Return Book.");
+				RequestDispatcher rd = req.getRequestDispatcher("IssuedBooksStudent.jsp");
 				rd.forward(req, resp);
 			}
 		} catch (ServletException | IOException e) {

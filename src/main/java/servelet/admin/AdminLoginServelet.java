@@ -53,8 +53,7 @@ public class AdminLoginServelet extends HttpServlet {
 					System.out.println(dto.getEmail());
 					session.setAttribute("alert", dto.getName() + " , You have logged in successfully.");
 					session.setAttribute("username", dto.getName());
-					session.setAttribute("firstcardtype", "addBookModal");
-					session.setAttribute("viewBookType", "viewAdminBookModal");
+					session.setAttribute("firstcardtype", "Addbook.jsp");
 					session.setAttribute("alert-type", "success");
 					session.setAttribute("userrole", "Admin");
 					session.setAttribute("card1", "Add Book");

@@ -36,14 +36,14 @@ public class ViewBookServelet extends HttpServlet {
 			throws ServletException {
 		System.out.println("Inside View Book Servelet Method");
 		try {
-			if (bookservices.fetchAllBooks().size()>0) {
+			if (bookservices.fetchAllBooks().size() > 0) {
 				ArrayList<BookDTO> list = bookservices.fetchAllBooks();
 				session = req.getSession();
 				resp.setContentType("text/html");
 				session.setAttribute("bookslist", list);
 				session.setAttribute("alert-type", "success");
 				session.setAttribute("alert", "Books Fetched Succesfully");
-				RequestDispatcher rd = req.getRequestDispatcher("UserIndex.jsp");
+				RequestDispatcher rd = req.getRequestDispatcher("ViewBooks.jsp");
 				rd.include(req, resp);
 			} else {
 				session = req.getSession();
@@ -56,7 +56,9 @@ public class ViewBookServelet extends HttpServlet {
 				RequestDispatcher rd = req.getRequestDispatcher("UserIndex.jsp");
 				rd.include(req, resp);
 			}
-		} catch (ServletException | IOException e) {
+		} catch (ServletException |
+
+				IOException e) {
 			e.printStackTrace();
 		}
 

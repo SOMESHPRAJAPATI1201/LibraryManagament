@@ -50,7 +50,7 @@ public class AddBookServelet extends HttpServlet {
 					session = req.getSession();
 					session.setAttribute("alert-type", "success");
 					session.setAttribute("alert", "Your, Book Has Been Added Sucesfully");
-					RequestDispatcher rd = req.getRequestDispatcher("viewBooks");
+					RequestDispatcher rd = req.getRequestDispatcher("UserIndex.jsp");
 					rd.include(req, resp);
 				} else {
 					session = req.getSession();

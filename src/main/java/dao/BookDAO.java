@@ -66,6 +66,33 @@ public class BookDAO {
 		}
 		return bookdto;
 	}
+	
+	public List<BookDTO> checkBookAvailiblity(String name, String edition, String author, int quantity) {
+		List<BookDTO> list = new ArrayList<>();
+		try {
+			conn = utills.getConnection();
+			pstmt = conn.prepareStatement("SELECT * FROM BOOKS WHERE NAME = ? AND EDITION = ? AND AUTHOR = ? AND QUANTITY = ? ;");
+			pstmt.setString(1, name);
+			pstmt.setString(2, edition);
+			pstmt.setString(3, author);
+			pstmt.setInt(4, quantity);
+			rs = pstmt.executeQuery();
+			while (rs.next()) {
+				bookdto = new BookDTO();
+				bookdto.setId(rs.getInt("id"));
+				bookdto.setName(rs.getString("name"));
+				bookdto.setAuthor(rs.getString("author"));
+				bookdto.setQuantity(rs.getInt("quantity"));
+				bookdto.setEdition(rs.getString("edition"));
+				list.add(bookdto);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			utills.closeConnection(conn, pstmt, rs);
+		}
+		return list;
+	}
 
 	public List<BookDTO> checkBookAvailiblity(String name, String edition, String author) {
 		List<BookDTO> list = new ArrayList<>();

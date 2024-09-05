@@ -108,6 +108,12 @@
 							</div>
 							<button class="btn btn-primary w-100 py-2" type="submit">Sign
 								in</button>
+							<div class="my-4">
+								<div class="alert alert-info" role="alert"
+									style="font-size: 13px">Warning : Password must contain
+									at least one capital letter and special character with
+									length of 8-16.</div>
+							</div>
 							<p class="mt-5 mb-3 text-body-secondary">© 2017–2024</p>
 						</form>
 					</div>
@@ -136,51 +142,47 @@
 								<input type="text" name="fname" class="form-control"
 									id="floatingEmail" pattern="[A-Za-z]{1,32}"
 									placeholder="Somesh" required> <label
-									for="floatingInput">First Name eg : Somesh</label>
+									for="floatingInput">First Name</label>
 							</div>
 							<div class="form-floating my-2">
 								<input type="text" name="lname" pattern="[A-Za-z]{1,32}"
 									class="form-control" id="floatingEmail" placeholder="Prajapati"
-									required> <label for="floatingInput">Last Name
-									eg : Prajapati</label>
+									required> <label for="floatingInput">Last Name</label>
 							</div>
 							<div class="form-floating my-2">
 								<input type="text" name="address"
 									pattern="[0-9a-zA-Z\s,.-]{5,100}" class="form-control"
 									id="floatingEmail"
 									placeholder="Ex : 123 Main Street Apt 4B, Springfield, IL, 62704"
-									required><label for="floatingInput">Add. eg :
-									123 Main Apt 4B, Springfield, IL, 62704</label>
+									required><label for="floatingInput">Address</label>
 							</div>
 							<div class="form-floating my-2">
 								<input type="email" name="email"
 									pattern="[a-zA-Z0-9_.±]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]"
 									class="form-control" id="floatingEmail"
 									placeholder="name@example.com" required> <label
-									for="floatingInput">Email address eg : name@example.com</label>
+									for="floatingInput">Email address</label>
 							</div>
 							<div class="form-floating my-2">
 								<input type="password" name="password"
 									pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,16}"
 									class="form-control" id="floatingPassword"
 									placeholder="Password" required> <label
-									for="floatingPassword">Password eg : Password@1234</label>
+									for="floatingPassword">Password</label>
 							</div>
 							<div class="form-floating my-2">
-								<select id="inputState" name="libname" class="form-select"
-									style="padding: 10px;" required>
-									<option selected>Select Library Name</option>
-									<option value="SVCE, INDORE">Swami Vivekanand College
-										Of Engineering, Indore</option>
-									<option value="SAGE UNIVERSITY, INDORE">Sage
-										University, Indore</option>
-									<option value="SAGAR UNIVERSITY, BHOPAL">Sagar
-										University, Bhopal</option>
-									<option value="LNCT GROUP, INDORE">LNCT Group, Indore</option>
-									<option value="LNCT GROUP, BHOPAL">LNCT Group, Bhopal</option>
-								</select>
+								<input type="text" name="libname" pattern="[a-zA-Z][//s]{10,50}"
+									class="form-control" id="floatingEmail"
+									placeholder="Enter Library Name" required> <label
+									for="floatingInput">Enter Library Name</label>
 							</div>
 							<button class="btn btn-primary w-100 py-2" type="submit">Register</button>
+							<div class="my-4">
+								<div class="alert alert-info" role="alert"
+									style="font-size: 13px">Warning : Password must contain
+									at least one capital letter and special character with
+									length of 8-16.</div>
+							</div>
 							<p class="mt-5 mb-3 text-body-secondary">© 2017-2024</p>
 						</form>
 					</div>
@@ -309,6 +311,12 @@
 							</div>
 							<button class="btn btn-primary w-100 py-2" type="submit">Sign
 								in</button>
+							<div class="my-4">
+								<div class="alert alert-info" role="alert"
+									style="font-size: 13px">Warning : Password must contain
+									at least one capital letter and special character with
+									length of 8-16.</div>
+							</div>
 							<p class="mt-5 mb-3 text-body-secondary">© 2017–2024</p>
 						</form>
 					</div>
@@ -320,7 +328,7 @@
 			</div>
 		</div>
 
-		<!--User Register trigger Demo modal -->
+		<!--User Register trigger modal -->
 		<div class="modal fade" id="UserRegisterModal" tabindex="-1"
 			aria-labelledby="UserRegisterModal" aria-hidden="true">
 			<div class="modal-dialog">
@@ -337,29 +345,34 @@
 								<input type="text" name="fname" class="form-control"
 									id="floatingEmail" pattern="[A-Za-z]{1,32}"
 									placeholder="Somesh" required> <label
-									for="floatingInput">First Name eg : Somesh</label>
+									for="floatingInput">First Name</label>
 							</div>
 							<div class="form-floating my-2">
 								<input type="text" name="lname" pattern="[A-Za-z]{1,32}"
 									class="form-control" id="floatingEmail" placeholder="Prajapati"
-									required> <label for="floatingInput">Last Name
-									eg : Prajapati</label>
+									required> <label for="floatingInput">Last Name</label>
 							</div>
 							<div class="form-floating my-2">
 								<input type="email" name="email"
 									pattern="[a-zA-Z0-9_.±]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]"
 									class="form-control" id="floatingEmail"
 									placeholder="name@example.com" required> <label
-									for="floatingInput">Email address eg : name@example.com</label>
+									for="floatingInput">Email address</label>
 							</div>
 							<div class="form-floating my-2">
 								<input type="password" name="password"
 									pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,16}"
 									class="form-control" id="floatingPassword"
 									placeholder="Password" required> <label
-									for="floatingPassword">Password eg : Password@1234</label>
+									for="floatingPassword">Password</label>
 							</div>
-							<button class="btn btn-primary w-100 py-2" type="submit">Register</button>
+							<button class="btn btn-primary w-100 py-2 my-3" type="submit">Register</button>
+							<div class="my-4">
+								<div class="alert alert-info" role="alert"
+									style="font-size: 13px">Warning : Password must contain
+									at least one capital letter and special character with
+									length of 8-16.</div>
+							</div>
 							<p class="mt-5 mb-3 text-body-secondary">© 2017-2024</p>
 						</form>
 					</div>

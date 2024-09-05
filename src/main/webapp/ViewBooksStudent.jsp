@@ -98,47 +98,57 @@ button a:hover {
 	</div>
 
 	<div class="container">
-		<div class="row">
-			<div class="input-group flex-nowrap my-4">
+		<h1 class="modal-title fs-5">View Books</h1>
+		<div class="row my-2">
+			<div class="input-group flex-nowrap">
 				<span class="input-group-text">@</span> <input type="text"
 					id="myInput" class="form-control"
 					placeholder="Author Name, Book Name" aria-label="Username"
 					aria-describedby="addon-wrapping">
 			</div>
-			<div class="d-grid gap-2 d-md-block my-2"></div>
+			<div class="d-grid gap-2 d-md-block my-2">
+				<button type="button" class="btn btn-outline-info"
+					onclick="window.location.href='viewBooksStudent';">Fetch Books</button>
+			</div>
 			<br>
 		</div>
 		<table class="table">
 			<thead>
 				<tr>
 					<th scope="col">#</th>
-					<th scope="col">Student Name</th>
 					<th scope="col">Book Name</th>
-					<th scope="col">Author</th>
 					<th scope="col">Edition</th>
-					<th scope="col">Issue Date</th>
-					<th scope="col">Return Date</th>
+					<th scope="col">Author</th>
+					<th scope="col">Quantity</th>
+					<th scope="col">Issue Book</th>
 				</tr>
 			</thead>
 			<tbody id="myTable">
-				<c:set value="${sessionScope.issuedAdminVIewBookslist}"
-					var="issuedBooklist"></c:set>
-				<c:forEach items="${issuedBooklist}" var="row">
+				<c:set value="${sessionScope.bookslist}" var="list"></c:set>
+				<c:forEach items="${list}" var="row">
 					<tr>
 						<th scope="row">#</th>
-						<td><c:out value="${row.getStudentname()}"></c:out></td>
-						<td><c:out value="${row.getBookname()}"></c:out></td>
-						<td><c:out value="${row.getAuthor()}"></c:out></td>
+						<td><c:out value="${row.getName()}"></c:out></td>
 						<td><c:out value="${row.getEdition()}"></c:out></td>
-						<td><c:out value="${row.getIssued_date()}"></c:out></td>
-						<td><c:out value="${row.getReturn_date()}"></c:out></td>
+						<td><c:out value="${row.getAuthor()}"></c:out></td>
+						<td><c:out value="${row.getQuantity()}"></c:out></td>
+						<td><form action="issueBook" method="post">
+								<input type="hidden" name="bookId" value="${row.getId()}" /> <input
+									type="hidden" name="uniqueId" value="${sessionScope.email}" />
+								<input class="btn btn-outline-warning" type="submit"
+									value="Issue" />
+							</form></td>
 					</tr>
 				</c:forEach>
 			</tbody>
 		</table>
-		<a href="viewBooks" class="btn btn-outline-info" role="button">Go Back</a>
-
+		<div class="modal-footer">
+			<a type="button" href="UserIndexStudent.jsp" class="btn btn-outline-info">Go
+				Back</a>
+		</div>
 	</div>
+
+
 	<%--scripts--%>
 	<script
 		src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"

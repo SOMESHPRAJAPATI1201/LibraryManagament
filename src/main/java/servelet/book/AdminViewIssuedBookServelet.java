@@ -61,7 +61,7 @@ public class AdminViewIssuedBookServelet extends HttpServlet {
 				session.setAttribute("issuedAdminViewBookslist", list);
 				session.setAttribute("alert-type", "warning");
 				session.setAttribute("alert", "No Records Found");
-				RequestDispatcher rd = req.getRequestDispatcher("UserIndex.jsp");
+				RequestDispatcher rd = req.getRequestDispatcher("AdminViewIssuedBooks.jsp");
 				rd.include(req, resp);
 			}
 		} catch (Exception e) {
