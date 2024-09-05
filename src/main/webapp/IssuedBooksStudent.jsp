@@ -138,7 +138,7 @@ button a:hover {
 						<td><c:out value="${row.getIssued_date()}"></c:out></td>
 						<td><c:out value="${row.getReturn_date()}"></c:out></td>
 						<td><form action="returnBook" method="post">
-								<input type="hidden" name="unique_Id" value="${sessionScope.unique_id}"/> 
+								<input type="hidden" name="uniqueId" value="${sessionScope.unique_id}"/> 
 								<input type="hidden" name="BookId" value="${row.getIssued_book_id()}"/> 
 								<input class="btn btn-outline-danger" type="submit" value="Return"/>
 							</form></td>

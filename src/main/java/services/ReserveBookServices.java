@@ -8,24 +8,24 @@ import dto.ReserveBooksDTO;
 
 public class ReserveBookServices {
 
-	private ReserveBooksDAO reservebookDAO;
-	private BookServices bookservice;
+	private ReserveBooksDAO reserveBookDAO;
+	private BookServices bookService;
 
-	public ReserveBookServices(ReserveBooksDAO reservebookDAO,BookServices bookservice) {
-		this.reservebookDAO = reservebookDAO;
-		this.bookservice = bookservice;
+	public ReserveBookServices(ReserveBooksDAO reserveBookDAO,BookServices bookService) {
+		this.reserveBookDAO = reserveBookDAO;
+		this.bookService = bookService;
 	}
 
-	public ArrayList<ReserveBooksDTO> getReserveBooksData(int id) {
-		return reservebookDAO.getReserveBooksData(id);
+	public ArrayList<ReserveBooksDTO> getReserveBooksData(int reserveBookId) {
+		return reserveBookDAO.getReserveBooksData(reserveBookId);
 	}
 	
-	public ArrayList<ReserveBooksDTO> getReserveBooksData(int stdId, int bookID) {
-		return reservebookDAO.getSingleReserveBooksData(stdId, bookID);
+	public ArrayList<ReserveBooksDTO> getReserveBooksData(int studentId, int bookID) {
+		return reserveBookDAO.getSingleReserveBooksData(studentId, bookID);
 	}
 
 	public boolean ReserveBookEntry(ReserveBooksDTO issuebook, BookDTO bookdto) {
-			if (reservebookDAO.reserveBookEntry(issuebook)) {
+			if (reserveBookDAO.reserveBookEntry(issuebook)) {
 				return true;
 			}else {
 				System.out.println("Failed to reserve book.");
@@ -34,8 +34,8 @@ public class ReserveBookServices {
 	}
 
 	public boolean returnReserveBookEntry(int id, BookDTO bookdto) {
-		if(reservebookDAO.deleteReserveBookEntry(id)>0) {
-			bookservice.editBookQuantity(bookdto.getId(), bookdto.getQuantity()+1);
+		if(reserveBookDAO.deleteReserveBookEntry(id)>0) {
+			bookService.editBookQuantity(bookdto.getId(), bookdto.getQuantity()+1);
 			return true;
 		}else {
 			return false;
@@ -43,15 +43,15 @@ public class ReserveBookServices {
 	}
 	
 	public ReserveBooksDTO getReserveBookDataByIssuedBookId(int issuedBookId) {
-		return reservebookDAO.getReserveBookDataByIssuedBookId(issuedBookId);
+		return reserveBookDAO.getReserveBookDataByIssuedBookId(issuedBookId);
 	}
 	
 	public ArrayList<ReserveBooksDTO> getAdminReserveViewBooksData(int BookId) {
-		return reservebookDAO.getAdminReservedViewBooksData(BookId);
+		return reserveBookDAO.getReservedViewBooksDataByBookID(BookId);
 	}
 	
 	public boolean renewReserveByBookId(int issuedBookId, LocalDate returnDate, LocalDate issueDate ) {
-		int a = reservebookDAO.renewReserveByBookId(issuedBookId, returnDate, issueDate);
+		int a = reserveBookDAO.renewReserveByBookId(issuedBookId, returnDate, issueDate);
 		System.out.println(a);
 		if (a>0) {
 			return true;

@@ -12,183 +12,177 @@ import utills.Generics;
 
 public class BookDAO {
 
-	private PreparedStatement pstmt = null;
-	private ResultSet rs = null;
+	private PreparedStatement preparedStatement = null;
+	private ResultSet resultSet = null;
+	private Connection connection = null;
+	private BookDTO bookDto;
 	private Generics utills;
-	private Connection conn = null;
-	private BookDTO bookdto;
 
 	public BookDAO(Generics utills) {
 		this.utills = utills;
 	}
 
 	public ArrayList<BookDTO> getAllBooks() {
-		ArrayList<BookDTO> list = new ArrayList<>();
+		ArrayList<BookDTO> list = null;
+		connection = null;
+		preparedStatement = null;
+		resultSet = null;
 		try {
-			conn = utills.getConnection();
-			pstmt = conn.prepareStatement("SELECT * FROM BOOKS;");
-			rs = pstmt.executeQuery();
-			while (rs.next()) {
-				bookdto = new BookDTO();
-				bookdto.setId(rs.getInt("id"));
-				bookdto.setName(rs.getString("name"));
-				bookdto.setAuthor(rs.getString("author"));
-				bookdto.setQuantity(rs.getInt("quantity"));
-				bookdto.setEdition(rs.getString("edition"));
-				list.add(bookdto);
+			connection = utills.getConnection();
+			preparedStatement = connection.prepareStatement("SELECT * FROM BOOKS;");
+			resultSet = preparedStatement.executeQuery();
+			list = new ArrayList<>();
+			while (resultSet.next()) {
+				bookDto = new BookDTO();
+				bookDto.setId(resultSet.getInt("id"));
+				bookDto.setName(resultSet.getString("name"));
+				bookDto.setAuthor(resultSet.getString("author"));
+				bookDto.setQuantity(resultSet.getInt("quantity"));
+				bookDto.setEdition(resultSet.getString("edition"));
+				list.add(bookDto);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
-			utills.closeConnection(conn, pstmt, rs);
+			utills.closeConnection(connection, preparedStatement, resultSet);
 		}
 		return list;
 	}
 
 	public BookDTO getBook(int id) {
+		bookDto = null;
+		connection = null;
+		preparedStatement = null;
+		resultSet = null;
 		try {
-			conn = utills.getConnection();
-			pstmt = conn.prepareStatement("SELECT * FROM BOOKS WHERE ID = ?;");
-			pstmt.setInt(1, id);
-			rs = pstmt.executeQuery();
-			while (rs.next()) {
-				bookdto = new BookDTO();
-				bookdto.setId(rs.getInt("id"));
-				bookdto.setName(rs.getString("name"));
-				bookdto.setAuthor(rs.getString("author"));
-				bookdto.setQuantity(rs.getInt("quantity"));
-				bookdto.setEdition(rs.getString("edition"));
+			connection = utills.getConnection();
+			preparedStatement = connection.prepareStatement("SELECT * FROM BOOKS WHERE ID = ?;");
+			preparedStatement.setInt(1, id);
+			resultSet = preparedStatement.executeQuery();
+			while (resultSet.next()) {
+				bookDto = new BookDTO();
+				bookDto.setId(resultSet.getInt("id"));
+				bookDto.setName(resultSet.getString("name"));
+				bookDto.setAuthor(resultSet.getString("author"));
+				bookDto.setQuantity(resultSet.getInt("quantity"));
+				bookDto.setEdition(resultSet.getString("edition"));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
-			utills.closeConnection(conn, pstmt, rs);
+			utills.closeConnection(connection, preparedStatement, resultSet);
 		}
-		return bookdto;
-	}
-	
-	public List<BookDTO> checkBookAvailiblity(String name, String edition, String author, int quantity) {
-		List<BookDTO> list = new ArrayList<>();
-		try {
-			conn = utills.getConnection();
-			pstmt = conn.prepareStatement("SELECT * FROM BOOKS WHERE NAME = ? AND EDITION = ? AND AUTHOR = ? AND QUANTITY = ? ;");
-			pstmt.setString(1, name);
-			pstmt.setString(2, edition);
-			pstmt.setString(3, author);
-			pstmt.setInt(4, quantity);
-			rs = pstmt.executeQuery();
-			while (rs.next()) {
-				bookdto = new BookDTO();
-				bookdto.setId(rs.getInt("id"));
-				bookdto.setName(rs.getString("name"));
-				bookdto.setAuthor(rs.getString("author"));
-				bookdto.setQuantity(rs.getInt("quantity"));
-				bookdto.setEdition(rs.getString("edition"));
-				list.add(bookdto);
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} finally {
-			utills.closeConnection(conn, pstmt, rs);
-		}
-		return list;
+		return bookDto;
 	}
 
-	public List<BookDTO> checkBookAvailiblity(String name, String edition, String author) {
-		List<BookDTO> list = new ArrayList<>();
+	public List<BookDTO> checkBookAvailiblity(String name, String edition, String author, int quantity) {
+		List<BookDTO> list = null;
+		connection = null;
+		preparedStatement = null;
+		resultSet = null;
 		try {
-			conn = utills.getConnection();
-			pstmt = conn.prepareStatement("SELECT * FROM BOOKS WHERE NAME = ? AND EDITION = ? AND AUTHOR = ?;");
-			pstmt.setString(1, name);
-			pstmt.setString(2, edition);
-			pstmt.setString(3, author);
-			rs = pstmt.executeQuery();
-			while (rs.next()) {
-				bookdto = new BookDTO();
-				bookdto.setId(rs.getInt("id"));
-				bookdto.setName(rs.getString("name"));
-				bookdto.setAuthor(rs.getString("author"));
-				bookdto.setQuantity(rs.getInt("quantity"));
-				bookdto.setEdition(rs.getString("edition"));
-				list.add(bookdto);
+			connection = utills.getConnection();
+			preparedStatement = connection.prepareStatement(
+					"SELECT * FROM BOOKS WHERE NAME = ? AND EDITION = ? AND AUTHOR = ? AND QUANTITY = ? ;");
+			preparedStatement.setString(1, name);
+			preparedStatement.setString(2, edition);
+			preparedStatement.setString(3, author);
+			preparedStatement.setInt(4, quantity);
+			resultSet = preparedStatement.executeQuery();
+			list = new ArrayList<>();
+			while (resultSet.next()) {
+				bookDto = new BookDTO();
+				bookDto.setId(resultSet.getInt("id"));
+				bookDto.setName(resultSet.getString("name"));
+				bookDto.setAuthor(resultSet.getString("author"));
+				bookDto.setQuantity(resultSet.getInt("quantity"));
+				bookDto.setEdition(resultSet.getString("edition"));
+				list.add(bookDto);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
-			utills.closeConnection(conn, pstmt, rs);
+			utills.closeConnection(connection, preparedStatement, resultSet);
 		}
 		return list;
 	}
 
 	public int AddBook(BookDTO bookdto) {
 		int a = 0;
+		connection = null;
+		preparedStatement = null;
 		try {
-			conn = utills.getConnection();
-			pstmt = conn.prepareStatement("INSERT INTO BOOKS (name, author, edition, quantity) values (?,?,?,?);");
-			pstmt.setString(1, bookdto.getName());
-			pstmt.setString(2, bookdto.getAuthor());
-			pstmt.setString(3, bookdto.getEdition());
-			pstmt.setInt(4, bookdto.getQuantity());
-			a = pstmt.executeUpdate();
+			connection = utills.getConnection();
+			preparedStatement = connection
+					.prepareStatement("INSERT INTO BOOKS (name, author, edition, quantity) values (?,?,?,?);");
+			preparedStatement.setString(1, bookdto.getName());
+			preparedStatement.setString(2, bookdto.getAuthor());
+			preparedStatement.setString(3, bookdto.getEdition());
+			preparedStatement.setInt(4, bookdto.getQuantity());
+			a = preparedStatement.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
-			utills.closeConnection(conn, pstmt, rs);
+			utills.closeConnection(connection, preparedStatement);
 		}
 		return a;
 	}
-	
+
 	public int EditBook(BookDTO bookdto) {
 		int a = 0;
+		connection = null;
+		preparedStatement = null;
 		try {
-			conn = utills.getConnection();
-			pstmt = conn.prepareStatement("UPDATE BOOKS SET name = ?, author= ?, edition = ?, quantity = ? where id = ?;");
-			pstmt.setString(1, bookdto.getName());
-			pstmt.setString(2, bookdto.getAuthor());
-			pstmt.setString(3, bookdto.getEdition());
-			pstmt.setInt(4, bookdto.getQuantity());
-			pstmt.setInt(5, bookdto.getId());
-			a = pstmt.executeUpdate();
+			connection = utills.getConnection();
+			preparedStatement = connection
+					.prepareStatement("UPDATE BOOKS SET name = ?, author= ?, edition = ?, quantity = ? where id = ?;");
+			preparedStatement.setString(1, bookdto.getName());
+			preparedStatement.setString(2, bookdto.getAuthor());
+			preparedStatement.setString(3, bookdto.getEdition());
+			preparedStatement.setInt(4, bookdto.getQuantity());
+			preparedStatement.setInt(5, bookdto.getId());
+			a = preparedStatement.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
-			utills.closeConnection(conn, pstmt, rs);
+			utills.closeConnection(connection, preparedStatement);
 		}
 		return a;
 	}
 
 	public int editBookQuantity(int id, int quantity) {
-	    int rowsAffected = 0;
-	    Connection conn = null;
-	    PreparedStatement pstmt = null;
-
-	    try {
-	        conn = utills.getConnection();
-	        String sql = "UPDATE books SET quantity = ? WHERE id = ?";
-	        pstmt = conn.prepareStatement(sql);
-	        pstmt.setInt(1, quantity);
-	        pstmt.setInt(2, id);
-	        rowsAffected = pstmt.executeUpdate();
-	    } catch (SQLException e) {
-	        System.err.println("SQL error: " + e.getMessage());
-	        e.printStackTrace();
-	    } finally {
-	        utills.closeConnection(conn, pstmt);
-	    }
-	    return rowsAffected;
+		int rowsAffected = 0;
+		connection = null;
+		preparedStatement = null;
+		try {
+			connection = utills.getConnection();
+			String sql = "UPDATE books SET quantity = ? WHERE id = ?";
+			preparedStatement = connection.prepareStatement(sql);
+			preparedStatement.setInt(1, quantity);
+			preparedStatement.setInt(2, id);
+			rowsAffected = preparedStatement.executeUpdate();
+		} catch (SQLException e) {
+			System.err.println("SQL error: " + e.getMessage());
+			e.printStackTrace();
+		} finally {
+			utills.closeConnection(connection, preparedStatement);
+		}
+		return rowsAffected;
 	}
 
 	public int deletBook(int id) {
 		int a = 0;
+		connection = null;
+		preparedStatement = null;
 		try {
-			conn = utills.getConnection();
-			pstmt = conn.prepareStatement("DELETE FROM BOOKS WHERE ID = ?;");
-			pstmt.setInt(1, id);
-			a = pstmt.executeUpdate();
+			connection = utills.getConnection();
+			preparedStatement = connection.prepareStatement("DELETE FROM BOOKS WHERE ID = ?;");
+			preparedStatement.setInt(1, id);
+			a = preparedStatement.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
-			utills.closeConnection(conn, pstmt);
+			utills.closeConnection(connection, preparedStatement);
 		}
 		return a;
 	}

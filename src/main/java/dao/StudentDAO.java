@@ -11,117 +11,132 @@ import utills.MembershipNoGenerator;
 
 public class StudentDAO {
 
-	private PreparedStatement pstmt = null;
-	private ResultSet rs = null;
+	private PreparedStatement preparedstatement = null;
+	private ResultSet resultSet = null;
 	private Generics utills;
-	private Connection conn = null;
+	private Connection connection = null;
+	private StudentDTO studentDTO;
 	
 	public StudentDAO(Generics utills) {
 		this.utills = utills;
 	}
 
 	public ArrayList<StudentDTO> getAllUserData() {
-		ArrayList<StudentDTO> list = new ArrayList<>();
+		ArrayList<StudentDTO> list = null;
+		studentDTO = null;
+		connection = null;
+		preparedstatement = null;
+		resultSet = null;
 		try {
-			StudentDTO studentDTO = null;
-			conn = utills.getConnection();
-			pstmt = conn.prepareStatement("SELECT * FROM STUDENT;");
-			rs = pstmt.executeQuery();
-			while (rs.next()) {
+			connection = utills.getConnection();
+			preparedstatement = connection.prepareStatement("SELECT * FROM STUDENT;");
+			resultSet = preparedstatement.executeQuery();
+			list = new ArrayList<>();
+			while (resultSet.next()) {
 				studentDTO = new StudentDTO();
-				studentDTO.setEmail(rs.getString("email"));
-				studentDTO.setName(rs.getString("name"));
-				studentDTO.setId(rs.getInt("id"));
-				studentDTO.setMembership_no(rs.getString("student_member_id"));
+				studentDTO.setEmail(resultSet.getString("email"));
+				studentDTO.setName(resultSet.getString("name"));
+				studentDTO.setId(resultSet.getInt("id"));
+				studentDTO.setMembership_no(resultSet.getString("student_member_id"));
 				list.add(studentDTO);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
-			utills.closeConnection(conn, pstmt, rs);
+			utills.closeConnection(connection, preparedstatement, resultSet);
 		}
 		return list;
 	}
 
 	public StudentDTO getLogin(String email, String password) {
-		StudentDTO studentDTO = null;
+		studentDTO = null;
+		connection = null;
+		preparedstatement = null;
+		resultSet = null;
 		try {
-			conn = utills.getConnection();
-			pstmt = conn.prepareStatement("SELECT * FROM STUDENT WHERE EMAIL = ? && PASSWORD = ? ;");
-			pstmt.setString(1, email);
-			pstmt.setString(2, password);
-			rs = pstmt.executeQuery();
-			while (rs.next()) {
+			connection = utills.getConnection();
+			preparedstatement = connection.prepareStatement("SELECT * FROM STUDENT WHERE EMAIL = ? && PASSWORD = ? ;");
+			preparedstatement.setString(1, email);
+			preparedstatement.setString(2, password);
+			resultSet = preparedstatement.executeQuery();
+			while (resultSet.next()) {
 				studentDTO = new StudentDTO();
-				studentDTO.setId(rs.getInt("id"));
-				studentDTO.setEmail(rs.getString("email"));
-				studentDTO.setName(rs.getString("name"));
-				studentDTO.setRole(rs.getInt("role"));
-				studentDTO.setMembership_no(rs.getString("student_member_id"));
+				studentDTO.setId(resultSet.getInt("id"));
+				studentDTO.setEmail(resultSet.getString("email"));
+				studentDTO.setName(resultSet.getString("name"));
+				studentDTO.setRole(resultSet.getInt("role"));
+				studentDTO.setMembership_no(resultSet.getString("student_member_id"));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
-			utills.closeConnection(conn, pstmt, rs);
+			utills.closeConnection(connection, preparedstatement, resultSet);
 		}
 		return studentDTO;
 	}
 
 	public StudentDTO getSingleUser(String email) {
-		StudentDTO studentDTO = null;
+		studentDTO = null;
+		connection = null;
+		preparedstatement = null;
+		resultSet = null;
 		try {
-			conn = utills.getConnection();
-			pstmt = conn.prepareStatement("SELECT * FROM STUDENT WHERE EMAIL = ?;");
-			pstmt.setString(1, email);
-			rs = pstmt.executeQuery();
-			if (rs!=null) {
-				while (rs.next()) {
+			connection = utills.getConnection();
+			preparedstatement = connection.prepareStatement("SELECT * FROM STUDENT WHERE EMAIL = ?;");
+			preparedstatement.setString(1, email);
+			resultSet = preparedstatement.executeQuery();
+			if (resultSet!=null) {
+				while (resultSet.next()) {
 					studentDTO = new StudentDTO();
-					studentDTO.setId(rs.getInt("id"));
-					studentDTO.setEmail(rs.getString("email"));
-					studentDTO.setName(rs.getString("name"));
-					studentDTO.setPassword(rs.getString("password"));
-					studentDTO.setMembership_no(rs.getString("student_member_id"));
+					studentDTO.setId(resultSet.getInt("id"));
+					studentDTO.setEmail(resultSet.getString("email"));
+					studentDTO.setName(resultSet.getString("name"));
+					studentDTO.setPassword(resultSet.getString("password"));
+					studentDTO.setMembership_no(resultSet.getString("student_member_id"));
 				}
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
-			utills.closeConnection(conn, pstmt, rs);
+			utills.closeConnection(connection, preparedstatement, resultSet);
 		}
 		return studentDTO;
 	}
 
 	public boolean registerUserData(StudentDTO studentDTO) {
 		boolean a = false;
+		connection = null;
+		preparedstatement = null;
 		try {
-			conn = utills.getConnection();
-			pstmt = conn.prepareStatement("INSERT INTO STUDENT (email, name, password, role, student_member_id ) values (?,?,?,?,?);");
-			pstmt.setString(1, studentDTO.getEmail());
-			pstmt.setString(2, studentDTO.getName());
-			pstmt.setString(3, studentDTO.getPassword());
-			pstmt.setInt(4, studentDTO.getRole());
-			pstmt.setString(5, MembershipNoGenerator.getMembershipNo("Student"));
-			a = pstmt.execute();
+			connection = utills.getConnection();
+			preparedstatement = connection.prepareStatement("INSERT INTO STUDENT (email, name, password, role, student_member_id ) values (?,?,?,?,?);");
+			preparedstatement.setString(1, studentDTO.getEmail());
+			preparedstatement.setString(2, studentDTO.getName());
+			preparedstatement.setString(3, studentDTO.getPassword());
+			preparedstatement.setInt(4, studentDTO.getRole());
+			preparedstatement.setString(5, MembershipNoGenerator.getMembershipNo("Student"));
+			a = preparedstatement.execute();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
-			utills.closeConnection(conn, pstmt, rs);
+			utills.closeConnection(connection, preparedstatement, resultSet);
 		}
 		return a;
 	}
 
 	public boolean deletUserData(String email) {
+		connection = null;
+		preparedstatement = null;
 		boolean a = false;
 		try {
-			conn = utills.getConnection();
-			pstmt = conn.prepareStatement("DELETE FROM STUDENT WHERE EMAIL = ?;");
-			pstmt.setString(1, email);
-			a = pstmt.execute();
+			connection = utills.getConnection();
+			preparedstatement = connection.prepareStatement("DELETE FROM STUDENT WHERE EMAIL = ?;");
+			preparedstatement.setString(1, email);
+			a = preparedstatement.execute();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
-			utills.closeConnection(conn, pstmt);
+			utills.closeConnection(connection, preparedstatement);
 		}
 		return a;
 	}

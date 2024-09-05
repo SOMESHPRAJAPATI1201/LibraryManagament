@@ -38,6 +38,11 @@ public class StudentRegistrationServelet extends HttpServlet {
 		String lname = req.getParameter("lname");
 		String email = req.getParameter("email");
 		String password = req.getParameter("password");
+		session = req.getSession();
+		if (session != null) {
+			session.invalidate();
+			System.out.println("Session Invalidated");
+		}
 		System.out.println(email + "::" + fname + " " + lname + "::" + password);
 		if (Validations.checkRegistrationCredentials(email, password, fname + " " + lname)) {
 			StudentDTO studentdto = new StudentDTO();

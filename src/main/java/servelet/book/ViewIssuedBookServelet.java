@@ -43,7 +43,6 @@ public class ViewIssuedBookServelet extends HttpServlet {
 		System.out.println("Inside View Issued Book Servelet Method");
 		try {
 			String id = req.getParameter("unique_Id");
-			System.out.println(id);
 			if (issuebookservice.getIssuedBooksData(Integer.valueOf(id)).size()>0) {
 				ArrayList<IssueBooksDTO> list = issuebookservice.getIssuedBooksData(Integer.valueOf(id));
 				session = req.getSession();

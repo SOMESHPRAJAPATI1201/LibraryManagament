@@ -38,35 +38,33 @@ public class AddBookServelet extends HttpServlet {
 			String author = req.getParameter("author");
 			String edition = req.getParameter("edition");
 			String quantity = req.getParameter("quantity");
-			System.out.println(name + "::" + author + "::" + edition + "::" + quantity);
 			if (Validations.checkBooksDetails(name, author)) {
 				BookDTO dto = new BookDTO();
 				dto.setName(name);
 				dto.setAuthor(author);
 				dto.setEdition(edition);
 				dto.setQuantity(Integer.parseInt(quantity));
-				if (bookservices.addBook(dto)) {
-					resp.setContentType("text/html");
-					session = req.getSession();
-					session.setAttribute("alert-type", "success");
-					session.setAttribute("alert", "Your, Book Has Been Added Sucesfully");
-					RequestDispatcher rd = req.getRequestDispatcher("UserIndex.jsp");
-					rd.include(req, resp);
+					if (bookservices.addBook(dto)) {
+						resp.setContentType("text/html");
+						session = req.getSession();
+						session.setAttribute("alert-type", "success");
+						session.setAttribute("alert", "Your, Book Has Been Added Sucesfully");
+						RequestDispatcher rd = req.getRequestDispatcher("UserIndex.jsp");
+						rd.include(req, resp);
+					} else {
+						session = req.getSession();
+						session.setAttribute("alert-type", "danger");
+						session.setAttribute("alert", "Book Already Exists");
+						RequestDispatcher rd = req.getRequestDispatcher("UserIndex.jsp");
+						rd.forward(req, resp);
+					}
 				} else {
 					session = req.getSession();
 					session.setAttribute("alert-type", "danger");
-					session.setAttribute("alert", "Book Already Exists");
+					session.setAttribute("alert", "Invalid Book Details");
 					RequestDispatcher rd = req.getRequestDispatcher("UserIndex.jsp");
 					rd.forward(req, resp);
 				}
-			} else {
-				session = req.getSession();
-				session.setAttribute("alert-type", "danger");
-				session.setAttribute("alert", "Invalid Book Details");
-				RequestDispatcher rd = req.getRequestDispatcher("UserIndex.jsp");
-				rd.forward(req, resp);
-			}
-
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

@@ -80,7 +80,7 @@ public class IssueBookServelet extends HttpServlet {
 							if (reservebookservice.getAdminReserveViewBooksData(bookdto.getId()).size()==0) {
 								session = req.getSession();
 								resp.setContentType("text/html");
-								LocalDate date = issuebookservice.getAdminIssuedViewBooksData(bookdto.getId()).get(0).getReturn_date();
+								LocalDate date = issuebookservice.getIssuedViewBooksDataByBookID(bookdto.getId()).get(0).getReturn_date();
 								issuebookdto.setIssued_date(date.plusDays(1));
 								issuebookdto.setReturn_date(date.plusDays(15));
 								ReserveBooksDTO reservedto  = new ReserveBooksDTO();

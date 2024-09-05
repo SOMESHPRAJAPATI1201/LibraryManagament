@@ -40,6 +40,11 @@ public class AdminRegistrationServelet extends HttpServlet {
 		String password = req.getParameter("password");
 		String address = req.getParameter("address");
 		String libName = req.getParameter("libname");
+		session = req.getSession();
+		if (session != null) {
+			session.invalidate();
+			System.out.println("Session Invalidated");
+		}
 		System.out.println(email + "::" + fname+" "+lname + "::" + password+ "::" + libName+ "::" + address);
 		System.out.println(adminservices.getSingleAdminData(email)==null);
 		if (Validations.checkRegistrationCredentials(email, password, fname+" "+lname , address)) {

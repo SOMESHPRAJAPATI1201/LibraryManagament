@@ -48,9 +48,10 @@ public class RenewBookServelet extends HttpServlet {
 			System.out.println("Inside Renew Book Servelet Method");
 			String renewBookId = req.getParameter("renewBookId");
 			String bookID = req.getParameter("BookId");
-			String uniqueID = req.getParameter("unique_id");
+			String uniqueID = req.getParameter("unique_Id");
 			IssueBooksDTO issuedbookdto = issuebookservice.getIssuedBookDataByIssuedBookId(Integer.parseInt(renewBookId));
 			System.out.println("Issued Book Id Is : " + renewBookId);
+			System.out.println("Unique Id Is : " + uniqueID);
 			System.out.println("Book Id Is : " + bookID);
 			if (reserveservices.getAdminReserveViewBooksData(Integer.valueOf(bookID)).size()==0) {
 				if (issuedbookdto.getReturn_date().isEqual(LocalDate.now())) {
@@ -59,7 +60,7 @@ public class RenewBookServelet extends HttpServlet {
 						session = req.getSession();
 						session.setAttribute("alert-type", "success");
 						session.setAttribute("alert", "Your, Book Has Been Renewed Successfully upto " + LocalDate.now().plusDays(15));
-						RequestDispatcher rd = req.getRequestDispatcher("IssuedBooksStudent.jsp");
+						RequestDispatcher rd = req.getRequestDispatcher("issuedBooks?unique_id="+uniqueID);
 						rd.include(req, resp);
 					} else {
 						session = req.getSession();

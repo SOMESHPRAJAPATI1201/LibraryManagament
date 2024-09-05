@@ -14,14 +14,12 @@ public class BookServices {
 	}
 
 	public ArrayList<BookDTO> fetchAllBooks() {
-		bookDAO.getAllBooks().forEach(x -> System.out.println(x.getName() + "::" + x.getAuthor() + "::" + x.getId()
-				+ "::" + x.getQuantity() + "::" + x.getEdition()));
 		return bookDAO.getAllBooks();
 	}
 
-	public boolean addBook(BookDTO bookdto) {
-		if (checkBookAvailaiblity(bookdto.getName(), bookdto.getEdition(), bookdto.getAuthor()).size() == 0) {
-			if (bookDAO.AddBook(bookdto) >= 1) {
+	public boolean addBook(BookDTO bookDTO) {
+		if (checkBookAvailaiblity(bookDTO.getName(), bookDTO.getEdition(), bookDTO.getAuthor(),bookDTO.getQuantity()).size() == 0) {
+			if (bookDAO.AddBook(bookDTO) >= 1) {
 				System.out.println("Book Added Succesfully");
 				return true;
 			} else {
@@ -34,9 +32,9 @@ public class BookServices {
 		}
 	}
 	
-	public boolean editBook(BookDTO bookdto) {
-		if (checkBookAvailaiblity(bookdto.getName(), bookdto.getEdition(), bookdto.getAuthor(), bookdto.getQuantity()).size() == 0) {
-			if (bookDAO.EditBook(bookdto) >= 1) {
+	public boolean editBook(BookDTO bookDTO) {
+		if (checkBookAvailaiblity(bookDTO.getName(), bookDTO.getEdition(), bookDTO.getAuthor(), bookDTO.getQuantity()).size() == 0) {
+			if (bookDAO.EditBook(bookDTO) >= 1) {
 				System.out.println("Book Edited Succesfully");
 				return true;
 			} else {
@@ -49,12 +47,12 @@ public class BookServices {
 		}
 	}
 
-	public BookDTO getBook(int id) {
-		return bookDAO.getBook(id);
+	public BookDTO getBook(int bookId) {
+		return bookDAO.getBook(bookId);
 	}
 	
-	public boolean editBookQuantity(int id, int quantity) {
-		if (bookDAO.editBookQuantity(id, quantity) > 0) {
+	public boolean editBookQuantity(int bookId, int quantity) {
+		if (bookDAO.editBookQuantity(bookId, quantity) > 0) {
 			System.out.println("Quantity Edited");
 			return true;
 		}else {
@@ -62,18 +60,13 @@ public class BookServices {
 			return false;
 		}
 	}
-
-
-	public List<BookDTO> checkBookAvailaiblity(String name, String edition, String author) {
-		return bookDAO.checkBookAvailiblity(name, edition, author);
-	}
 	
-	public List<BookDTO> checkBookAvailaiblity(String name, String edition, String author,int Quantity) {
-		return bookDAO.checkBookAvailiblity(name, edition, author, Quantity);
+	public List<BookDTO> checkBookAvailaiblity(String bookName, String bookEdition, String bookAuthor,int bookQuantity) {
+		return bookDAO.checkBookAvailiblity(bookName, bookEdition, bookAuthor, bookQuantity);
 	}
 
-	public boolean deletBook(int id) {
-		if (bookDAO.deletBook(id) >= 1) {
+	public boolean deletBook(int bookId) {
+		if (bookDAO.deletBook(bookId) >= 1) {
 			System.out.println("Book Removed Sucessfully");
 			return true;
 		} else {

@@ -2,6 +2,8 @@ package services;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.List;
+
 import dao.IssueBooksDAO;
 import dto.BookDTO;
 import dto.IssueBooksDTO;
@@ -19,11 +21,6 @@ public class IssueBookServices {
 	public ArrayList<IssueBooksDTO> getIssuedBooksData(int id) {
 		return issuebookDAO.getIssuedBooksData(id);
 	}
-	
-//	public static void main(String[] args) {
-//		IssueBooksDAO service = new IssueBooksDAO(new Generics());
-//		service.getAllEntries().stream().filter(x->x.getBook_id()==84).forEach(x->System.out.println(x.getBookname()));
-//	}
 	
 	public ArrayList<IssueBooksDTO> getIssuedBooksData(int stdId, int bookID) {
 		return issuebookDAO.getSingleIssueBooksData(stdId, bookID);
@@ -57,8 +54,8 @@ public class IssueBookServices {
 		return issuebookDAO.getIssuedBookDataByIssuedBookId(issuedBookId);
 	}
 	
-	public ArrayList<IssueBooksDTO> getAdminIssuedViewBooksData(int BookId) {
-		return issuebookDAO.getAdminIssuedViewBooksData(BookId);
+	public List<IssueBooksDTO> getIssuedViewBooksDataByBookID(int BookId) {
+		return issuebookDAO.getIssuedViewBooksDataByBookID(BookId);
 	}
 	
 	public boolean renewIssuedByBookId(int issuedBookId, LocalDate returnDate, LocalDate issueDate ) {

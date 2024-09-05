@@ -1,8 +1,6 @@
 package servelet.book;
 
 import java.io.IOException;
-import java.io.PrintWriter;
-
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -45,18 +43,17 @@ public class ReturnBookServelet extends HttpServlet {
 		try {
 			System.out.println("Inside Return Book Servelet Method");
 			String issuedBookId = req.getParameter("BookId");
-			String uniqueID = req .getParameter("unique_id");
+			String uniqueID = req.getParameter("uniqueId");
 			IssueBooksDTO issuedbookdto =  issuebookservice.getIssuedBookDataByIssuedBookId(Integer.parseInt(issuedBookId));
 			BookDTO bookdto = bookservices.getBook(issuedbookdto.getBook_id());
-			System.out.println("Issued Book Id Is : "+ issuedBookId);
-			PrintWriter out = resp.getWriter();
+			System.out.println("Issued Book Id And Unique Id Is : "+ issuedBookId +"::"+uniqueID);
 			if (issuebookservice.returnIssuedBookEntry(Integer.parseInt(issuedBookId),bookdto)) {
 					resp.setContentType("text/html");
 					session = req.getSession();
 					session.setAttribute("alert-type", "success");
 					session.setAttribute("alert", "Your, Book Has Been Returned Sucesfully");
-					out.println("Your, Book Has Been Returned Sucesfully");
-					RequestDispatcher rd = req.getRequestDispatcher("issuedBooks?unique_id="+uniqueID);
+					System.out.println("Unique Id Is : "+uniqueID);
+					RequestDispatcher rd = req.getRequestDispatcher("issuedBooks?unique_Id="+uniqueID);
 					rd.include(req, resp);
 			}else {
 				session = req.getSession();
