@@ -1,7 +1,6 @@
 package servelet.admin;
 
 import java.io.IOException;
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -10,17 +9,20 @@ import javax.servlet.http.HttpSession;
 import dao.AdminDAO;
 import dto.AdminDTO;
 import services.AdminServices;
+import third.party.services.Validate_Email;
 import utills.Generics;
+import static utills.SessionHelper.*;
 import utills.Validations;
+import static utills.WebpageHelper.*;
 
 @WebServlet("/adminRegistration")
 public class AdminRegistrationServelet extends HttpServlet {
 
 	private static final long serialVersionUID = 4397829086729463298L;
-	HttpSession session;
-	AdminServices adminservices;
-	AdminDAO dao;
-	Generics utills;
+	private HttpSession session;
+	private AdminServices adminservices;
+	private AdminDAO dao;
+	private Generics utills;
 
 	@Override
 	public void init() throws ServletException {
@@ -52,33 +54,30 @@ public class AdminRegistrationServelet extends HttpServlet {
 			admindto.setEmail(email);
 			admindto.setName(fname+" "+lname);
 			admindto.setPassword(password);
-			admindto.setRole(1);
+			admindto.setRole("admin");
 			admindto.setAddress(address);
 			admindto.setLibName(libName);
-			if(adminservices.getSingleAdminData(email)==null) {
-				adminservices.registerAdmin(admindto);
-				resp.setContentType("text/html");
+			
+			if (Validate_Email.isAddressValid(admindto.getEmail())) { //Email_Existence_Validation
+				if(adminservices.getSingleAdminData(email)==null) {
+					adminservices.registerAdmin(admindto);
+					resp.setContentType("text/html");
+					session = req.getSession();
+					SessionHandler(session, req, resp, admindto.getName() + " , You Details Have Been Registered Successfully.", ALERT_SUCCESS, INDEXPAGE );
+				} else {
+					session = req.getSession();
+					resp.setContentType("text/html");
+					SessionHandler(session, req, resp, "User Already Assciated with "+email, ALERT_WARNING, INDEXPAGE);
+				}
+			}else {
 				session = req.getSession();
-				session.setAttribute("alert", admindto.getName() + " , You Details Have Been Registered Successfully.");
-				session.setAttribute("alert-type", "success");
-				RequestDispatcher rd = req.getRequestDispatcher("index.jsp");
-				rd.include(req, resp);
-			} else {
-				session = req.getSession();
 				resp.setContentType("text/html");
-				session.setAttribute("alert-type", "warning");
-				session.setAttribute("alert", "User Already Assciated with "+email);
-				RequestDispatcher rd = req.getRequestDispatcher("index.jsp");
-				rd.include(req, resp);
+				SessionHandler(session, req, resp, "Email : "+ email +" Doesn't Exists.", ALERT_WARNING, INDEXPAGE);
 			}
 		}else {
 			session = req.getSession();
 			resp.setContentType("text/html");
-			session.setAttribute("alert", "Invalid Details");
-			session.setAttribute("alert-type", "danger");
-			RequestDispatcher rd = req.getRequestDispatcher("index.jsp");
-			rd.include(req, resp);
+			SessionHandler(session, req, resp, "Invalid Details", ALERT_DANGER, INDEXPAGE);
 		}
-		
 	}
 }

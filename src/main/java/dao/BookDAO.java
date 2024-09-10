@@ -6,7 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-
+import dao.helper.BookHelper;
 import dto.BookDTO;
 import utills.Generics;
 
@@ -31,16 +31,7 @@ public class BookDAO {
 			connection = utills.getConnection();
 			preparedStatement = connection.prepareStatement("SELECT * FROM BOOKS;");
 			resultSet = preparedStatement.executeQuery();
-			list = new ArrayList<>();
-			while (resultSet.next()) {
-				bookDto = new BookDTO();
-				bookDto.setId(resultSet.getInt("id"));
-				bookDto.setName(resultSet.getString("name"));
-				bookDto.setAuthor(resultSet.getString("author"));
-				bookDto.setQuantity(resultSet.getInt("quantity"));
-				bookDto.setEdition(resultSet.getString("edition"));
-				list.add(bookDto);
-			}
+			list = BookHelper.getAllBooksDTO(list,resultSet, bookDto);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
@@ -48,6 +39,9 @@ public class BookDAO {
 		}
 		return list;
 	}
+	
+
+	
 
 	public BookDTO getBook(int id) {
 		bookDto = null;
@@ -59,14 +53,7 @@ public class BookDAO {
 			preparedStatement = connection.prepareStatement("SELECT * FROM BOOKS WHERE ID = ?;");
 			preparedStatement.setInt(1, id);
 			resultSet = preparedStatement.executeQuery();
-			while (resultSet.next()) {
-				bookDto = new BookDTO();
-				bookDto.setId(resultSet.getInt("id"));
-				bookDto.setName(resultSet.getString("name"));
-				bookDto.setAuthor(resultSet.getString("author"));
-				bookDto.setQuantity(resultSet.getInt("quantity"));
-				bookDto.setEdition(resultSet.getString("edition"));
-			}
+			bookDto = BookHelper.getBookDTO(resultSet, bookDto);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
@@ -74,6 +61,9 @@ public class BookDAO {
 		}
 		return bookDto;
 	}
+	
+	
+	
 
 	public List<BookDTO> checkBookAvailiblity(String name, String edition, String author, int quantity) {
 		List<BookDTO> list = null;
@@ -89,16 +79,7 @@ public class BookDAO {
 			preparedStatement.setString(3, author);
 			preparedStatement.setInt(4, quantity);
 			resultSet = preparedStatement.executeQuery();
-			list = new ArrayList<>();
-			while (resultSet.next()) {
-				bookDto = new BookDTO();
-				bookDto.setId(resultSet.getInt("id"));
-				bookDto.setName(resultSet.getString("name"));
-				bookDto.setAuthor(resultSet.getString("author"));
-				bookDto.setQuantity(resultSet.getInt("quantity"));
-				bookDto.setEdition(resultSet.getString("edition"));
-				list.add(bookDto);
-			}
+			list = BookHelper.checkBookAvailaiblityDTO(list , resultSet);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
@@ -106,6 +87,8 @@ public class BookDAO {
 		}
 		return list;
 	}
+	
+
 
 	public int AddBook(BookDTO bookdto) {
 		int a = 0;
@@ -113,13 +96,8 @@ public class BookDAO {
 		preparedStatement = null;
 		try {
 			connection = utills.getConnection();
-			preparedStatement = connection
-					.prepareStatement("INSERT INTO BOOKS (name, author, edition, quantity) values (?,?,?,?);");
-			preparedStatement.setString(1, bookdto.getName());
-			preparedStatement.setString(2, bookdto.getAuthor());
-			preparedStatement.setString(3, bookdto.getEdition());
-			preparedStatement.setInt(4, bookdto.getQuantity());
-			a = preparedStatement.executeUpdate();
+			preparedStatement = connection.prepareStatement("INSERT INTO BOOKS (name, author, edition, quantity) values (?,?,?,?);");
+			a = BookHelper.AddBookDTO(preparedStatement, bookdto, a);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
@@ -127,6 +105,8 @@ public class BookDAO {
 		}
 		return a;
 	}
+	
+
 
 	public int EditBook(BookDTO bookdto) {
 		int a = 0;
@@ -136,12 +116,7 @@ public class BookDAO {
 			connection = utills.getConnection();
 			preparedStatement = connection
 					.prepareStatement("UPDATE BOOKS SET name = ?, author= ?, edition = ?, quantity = ? where id = ?;");
-			preparedStatement.setString(1, bookdto.getName());
-			preparedStatement.setString(2, bookdto.getAuthor());
-			preparedStatement.setString(3, bookdto.getEdition());
-			preparedStatement.setInt(4, bookdto.getQuantity());
-			preparedStatement.setInt(5, bookdto.getId());
-			a = preparedStatement.executeUpdate();
+			a = BookHelper.EditBookDTO(preparedStatement, a, bookdto);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
@@ -149,6 +124,8 @@ public class BookDAO {
 		}
 		return a;
 	}
+	
+	
 
 	public int editBookQuantity(int id, int quantity) {
 		int rowsAffected = 0;

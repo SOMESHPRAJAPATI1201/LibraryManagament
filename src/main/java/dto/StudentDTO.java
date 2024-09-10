@@ -6,7 +6,7 @@ public class StudentDTO {
 	private int id;
 	private String email;
 	private String password;
-	private int role;
+	private String role;
 	private String membership_no;
 	
 	public String getMembership_no() {
@@ -37,11 +37,11 @@ public class StudentDTO {
 		return id;
 	}
 
-	public int getRole() {
+	public String getRole() {
 		return role;
 	}
 
-	public void setRole(int role) {
+	public void setRole(String role) {
 		this.role = role;
 	}
 

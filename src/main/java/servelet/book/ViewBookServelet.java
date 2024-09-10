@@ -1,9 +1,6 @@
 package servelet.book;
 
-import java.io.IOException;
 import java.util.ArrayList;
-
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -13,15 +10,17 @@ import dao.BookDAO;
 import dto.BookDTO;
 import services.BookServices;
 import utills.Generics;
+import static utills.SessionHelper.*;
+import static utills.WebpageHelper.*;
 
 @WebServlet("/viewBooks")
 public class ViewBookServelet extends HttpServlet {
 
 	private static final long serialVersionUID = 4397829086729463298L;
-	HttpSession session;
-	BookServices bookservices;
-	BookDAO dao;
-	Generics utills;
+	private HttpSession session;
+	private BookServices bookservices;
+	private BookDAO dao;
+	private Generics utills;
 
 	@Override
 	public void init() throws ServletException {
@@ -35,30 +34,20 @@ public class ViewBookServelet extends HttpServlet {
 	protected void service(HttpServletRequest req, javax.servlet.http.HttpServletResponse resp)
 			throws ServletException {
 		System.out.println("Inside View Book Servelet Method");
+		ArrayList<BookDTO> list = null;
 		try {
 			if (bookservices.fetchAllBooks().size() > 0) {
-				ArrayList<BookDTO> list = bookservices.fetchAllBooks();
+				list = bookservices.fetchAllBooks();
 				session = req.getSession();
 				resp.setContentType("text/html");
 				session.setAttribute("bookslist", list);
-				session.setAttribute("alert-type", "success");
-				session.setAttribute("alert", "Books Fetched Succesfully");
-				RequestDispatcher rd = req.getRequestDispatcher("ViewBooks.jsp");
-				rd.include(req, resp);
+				SessionHandler(session, req, resp, "Books Fetched Succesfully", ALERT_SUCCESS, VIEWBOOKSPAGE);
 			} else {
 				session = req.getSession();
-				ArrayList<BookDTO> list = bookservices.fetchAllBooks();
 				resp.setContentType("text/html");
-				session.setAttribute("bookslist", list);
-				resp.setContentType("text/html");
-				session.setAttribute("alert-type", "warning");
-				session.setAttribute("alert", "No Records Found");
-				RequestDispatcher rd = req.getRequestDispatcher("UserIndex.jsp");
-				rd.include(req, resp);
+				SessionHandler(session, req, resp, "No Records Found", ALERT_WARNING, USERINDEXPAGE);
 			}
-		} catch (ServletException |
-
-				IOException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 

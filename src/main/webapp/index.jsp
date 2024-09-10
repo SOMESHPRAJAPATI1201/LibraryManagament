@@ -89,10 +89,10 @@
 					<div class="modal-body">
 						<form action="adminLogin" method="post">
 							<div class="form-floating my-2">
-								<input type="text" name="email" class="form-control"
-									id="floatingEmail" placeholder="name@example.com"
-									pattern="[a-zA-Z0-9_.±]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]" required>
-								<label for="floatingInput">Email address</label>
+								<input type="text" name="memberid" class="form-control"
+									id="floatingEmail" placeholder="VLMS2024ADMIN______"
+									pattern="VLMS2024ADMIN[0-9]{7,}" required>
+								<label for="floatingInput">Membership ID</label>
 							</div>
 							<div class="form-floating my-2">
 								<input type="password" name="password" class="form-control"
@@ -292,10 +292,10 @@
 						<form action="login" method="post">
 
 							<div class="form-floating my-2">
-								<input type="email" name="email" class="form-control"
-									id="floatingEmail" placeholder="name@example.com"
-									pattern="[a-zA-Z0-9_.±]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]" required>
-								<label for="floatingInput">Email address</label>
+								<input type="text" name="memberid" class="form-control"
+									id="floatingEmail" placeholder="VLMS2024STUDENT____"
+									pattern="VLMS2024STUDENT[0-9]{7,15}" required>
+								<label for="floatingInput">Membership ID</label>
 							</div>
 							<div class="form-floating my-2">
 								<input type="password" name="password" class="form-control"

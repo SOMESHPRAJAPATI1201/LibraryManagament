@@ -3,10 +3,10 @@ package services;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-
 import dao.IssueBooksDAO;
 import dto.BookDTO;
 import dto.IssueBooksDTO;
+import static utills.ServicesHelper.*;
 
 public class IssueBookServices {
 
@@ -27,7 +27,7 @@ public class IssueBookServices {
 	}
 
 	public boolean issueBookEntry(IssueBooksDTO issuebook, BookDTO bookdto) {
-		if (bookdto.getQuantity()>0) {
+		if (bookdto.getQuantity()>QUANTITY_VALIDATION) {
 			if (issuebookDAO.issueBookEntry(issuebook)) {
 				bookservice.editBookQuantity(issuebook.getBook_id(), bookdto.getQuantity()-1);
 				return true;
@@ -42,7 +42,7 @@ public class IssueBookServices {
 	}
 
 	public boolean returnIssuedBookEntry(int id, BookDTO bookdto) {
-		if(issuebookDAO.deleteIssuedBookEntry(id)>0) {
+		if(issuebookDAO.deleteIssuedBookEntry(id)>=ROWS_AFFECTED) {
 			bookservice.editBookQuantity(bookdto.getId(), bookdto.getQuantity()+1);
 			return true;
 		}else {
@@ -61,7 +61,7 @@ public class IssueBookServices {
 	public boolean renewIssuedByBookId(int issuedBookId, LocalDate returnDate, LocalDate issueDate ) {
 		int a = issuebookDAO.renewIssuedByBookId(issuedBookId, returnDate, issueDate);
 		System.out.println(a);
-		if (a>0) {
+		if (a>BOOLEAN_VALIDATION_FALSE) {
 			return true;
 		}else {
 			return false;

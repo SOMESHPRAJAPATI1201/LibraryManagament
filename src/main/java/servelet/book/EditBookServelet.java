@@ -11,15 +11,17 @@ import dao.BookDAO;
 import dto.BookDTO;
 import services.BookServices;
 import utills.Generics;
+import static utills.SessionHelper.*;
+import static utills.WebpageHelper.*;
 
 @WebServlet("/editBook")
 public class EditBookServelet extends HttpServlet {
 
 	private static final long serialVersionUID = 4397829086729463298L;
-	HttpSession session;
-	BookServices bookservices;
-	BookDAO dao;
-	Generics utills;
+	private HttpSession session;
+	private BookServices bookservices;
+	private BookDAO dao;
+	private Generics utills;
 
 	@Override
 	public void init() throws ServletException {
@@ -36,6 +38,7 @@ public class EditBookServelet extends HttpServlet {
 			System.out.println("Edit Book Servelet Method");
 			String issuedBookId = req.getParameter("editBookId");
 			System.out.println("Book Id Is : "+ issuedBookId);
+			session = req.getSession();
 			if (bookservices.getBook((Integer.parseInt(issuedBookId)))!=null) {
 				 dto = bookservices.getBook((Integer.parseInt(issuedBookId)));
 				 System.out.println(dto.getName());
@@ -43,22 +46,17 @@ public class EditBookServelet extends HttpServlet {
 				 System.out.println(dto.getEdition());
 				 System.out.println(dto.getQuantity());
 					resp.setContentType("text/html");
-					session = req.getSession();
-					session.setAttribute("alert-type", "success");
+					session.setAttribute("alert-type", ALERT_SUCCESS);
 					session.setAttribute("bookName", dto.getName());
 					session.setAttribute("bookAuthor", dto.getAuthor());
 					session.setAttribute("bookEdition", dto.getEdition());
 					session.setAttribute("bookQuantity", dto.getQuantity());
 					session.setAttribute("bookId", dto.getId());
 					session.setAttribute("alert", "Your, Book Data Has Been Fetched Sucesfully");
-					RequestDispatcher rd = req.getRequestDispatcher("Editbook.jsp");
+					RequestDispatcher rd = req.getRequestDispatcher(EDITBOOKPAGE);
 					rd.include(req, resp);
 			}else {
-				session = req.getSession();
-				session.setAttribute("alert-type", "danger");
-				session.setAttribute("alert", "Something went wrong.");
-				RequestDispatcher rd = req.getRequestDispatcher("UserIndex.jsp");
-				rd.forward(req, resp);
+				SessionHandler(session, req, resp, "Something went wrong.", ALERT_DANGER, USERINDEXPAGE);
 			}
 		} catch (ServletException | IOException e) {
 			e.printStackTrace();

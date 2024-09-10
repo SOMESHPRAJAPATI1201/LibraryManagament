@@ -5,9 +5,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import dao.helper.StudentHelper;
 import dto.StudentDTO;
 import utills.Generics;
-import utills.MembershipNoGenerator;
 
 public class StudentDAO {
 
@@ -29,17 +29,9 @@ public class StudentDAO {
 		resultSet = null;
 		try {
 			connection = utills.getConnection();
-			preparedstatement = connection.prepareStatement("SELECT * FROM STUDENT;");
+			preparedstatement = connection.prepareStatement("SELECT * FROM USERS_TABLE WHERE ROLE = 'STUDENT';");
 			resultSet = preparedstatement.executeQuery();
-			list = new ArrayList<>();
-			while (resultSet.next()) {
-				studentDTO = new StudentDTO();
-				studentDTO.setEmail(resultSet.getString("email"));
-				studentDTO.setName(resultSet.getString("name"));
-				studentDTO.setId(resultSet.getInt("id"));
-				studentDTO.setMembership_no(resultSet.getString("student_member_id"));
-				list.add(studentDTO);
-			}
+			list = StudentHelper.getAllUsersDataDTO(list, resultSet);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
@@ -47,6 +39,8 @@ public class StudentDAO {
 		}
 		return list;
 	}
+	
+	
 
 	public StudentDTO getLogin(String email, String password) {
 		studentDTO = null;
@@ -55,18 +49,11 @@ public class StudentDAO {
 		resultSet = null;
 		try {
 			connection = utills.getConnection();
-			preparedstatement = connection.prepareStatement("SELECT * FROM STUDENT WHERE EMAIL = ? && PASSWORD = ? ;");
+			preparedstatement = connection.prepareStatement("SELECT * FROM USERS_TABLE WHERE MEMBER_ID = ? && PASSWORD = ? ;");
 			preparedstatement.setString(1, email);
 			preparedstatement.setString(2, password);
 			resultSet = preparedstatement.executeQuery();
-			while (resultSet.next()) {
-				studentDTO = new StudentDTO();
-				studentDTO.setId(resultSet.getInt("id"));
-				studentDTO.setEmail(resultSet.getString("email"));
-				studentDTO.setName(resultSet.getString("name"));
-				studentDTO.setRole(resultSet.getInt("role"));
-				studentDTO.setMembership_no(resultSet.getString("student_member_id"));
-			}
+			studentDTO = StudentHelper.getLoginDTO(resultSet);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
@@ -74,6 +61,8 @@ public class StudentDAO {
 		}
 		return studentDTO;
 	}
+	
+	
 
 	public StudentDTO getSingleUser(String email) {
 		studentDTO = null;
@@ -82,19 +71,10 @@ public class StudentDAO {
 		resultSet = null;
 		try {
 			connection = utills.getConnection();
-			preparedstatement = connection.prepareStatement("SELECT * FROM STUDENT WHERE EMAIL = ?;");
+			preparedstatement = connection.prepareStatement("SELECT * FROM USERS_TABLE WHERE ROLE = 'STUDENT' && EMAIL = ?;");
 			preparedstatement.setString(1, email);
 			resultSet = preparedstatement.executeQuery();
-			if (resultSet!=null) {
-				while (resultSet.next()) {
-					studentDTO = new StudentDTO();
-					studentDTO.setId(resultSet.getInt("id"));
-					studentDTO.setEmail(resultSet.getString("email"));
-					studentDTO.setName(resultSet.getString("name"));
-					studentDTO.setPassword(resultSet.getString("password"));
-					studentDTO.setMembership_no(resultSet.getString("student_member_id"));
-				}
-			}
+			studentDTO = StudentHelper.getSingleUserDTO(resultSet, studentDTO);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
@@ -102,6 +82,8 @@ public class StudentDAO {
 		}
 		return studentDTO;
 	}
+	
+	
 
 	public boolean registerUserData(StudentDTO studentDTO) {
 		boolean a = false;
@@ -109,13 +91,8 @@ public class StudentDAO {
 		preparedstatement = null;
 		try {
 			connection = utills.getConnection();
-			preparedstatement = connection.prepareStatement("INSERT INTO STUDENT (email, name, password, role, student_member_id ) values (?,?,?,?,?);");
-			preparedstatement.setString(1, studentDTO.getEmail());
-			preparedstatement.setString(2, studentDTO.getName());
-			preparedstatement.setString(3, studentDTO.getPassword());
-			preparedstatement.setInt(4, studentDTO.getRole());
-			preparedstatement.setString(5, MembershipNoGenerator.getMembershipNo("Student"));
-			a = preparedstatement.execute();
+			preparedstatement = connection.prepareStatement("INSERT INTO USERS_TABLE (email, name, password, role, member_id ) values (?,?,?,?,?);");
+			a = StudentHelper.registerUserDataDTO(preparedstatement, studentDTO, a);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
@@ -123,6 +100,8 @@ public class StudentDAO {
 		}
 		return a;
 	}
+	
+	
 
 	public boolean deletUserData(String email) {
 		connection = null;
@@ -130,7 +109,7 @@ public class StudentDAO {
 		boolean a = false;
 		try {
 			connection = utills.getConnection();
-			preparedstatement = connection.prepareStatement("DELETE FROM STUDENT WHERE EMAIL = ?;");
+			preparedstatement = connection.prepareStatement("DELETE FROM USERS_TABLE WHERE ROLE = 'STUDENT' && EMAIL = ?;");
 			preparedstatement.setString(1, email);
 			a = preparedstatement.execute();
 		} catch (SQLException e) {

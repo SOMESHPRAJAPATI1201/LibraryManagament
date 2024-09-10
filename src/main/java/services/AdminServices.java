@@ -3,6 +3,7 @@ package services;
 import dao.AdminDAO;
 import dto.AdminDTO;
 import third.party.services.Gmail;
+import static utills.ServicesHelper.*;
 
 public class AdminServices {
 	
@@ -13,9 +14,9 @@ public class AdminServices {
 	}
 	
 	public void registerAdmin(AdminDTO admindto) {
-		if (adminDAO.registerAdminData(admindto)==1) {
+		if (adminDAO.registerAdminData(admindto)==ROWS_AFFECTED) {
 			AdminDTO dto = adminDAO.getSingleAdminUser(admindto.getEmail());
-			Gmail.emailSender(dto.getEmail(),dto.getPassword(),dto.getMembership_no(),"Admin");
+			Gmail.emailSender(dto.getEmail(),dto.getPassword(),dto.getMembership_no(),ROLE_ADMIN);
 			System.out.println("Account Created Sucessfully, And Creds Shared On "+dto.getEmail().toLowerCase());
 		}else {
 			System.err.println("Failed To Create Account");

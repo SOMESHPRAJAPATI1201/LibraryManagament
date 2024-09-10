@@ -12,16 +12,17 @@ import dto.StudentDTO;
 import services.StudentServices;
 import utills.Generics;
 import utills.PageData;
-import utills.Validations;
+import static utills.SessionHelper.*;
+import static utills.WebpageHelper.*;
 
 @WebServlet("/login")
 public class StudentLoginServelet extends HttpServlet {
 
 	private static final long serialVersionUID = 4397829086729463298L;
-	HttpSession session;
-	StudentServices studentservices;
-	StudentDAO dao;
-	Generics utills;
+	private HttpSession session;
+	private StudentServices studentservices;
+	private StudentDAO dao;
+	private Generics utills;
 
 	@Override
 	public void init() throws ServletException {
@@ -36,7 +37,7 @@ public class StudentLoginServelet extends HttpServlet {
 		try {
 
 			System.out.println("Inside Servelet Method");
-			String email = req.getParameter("email");
+			String memberid = req.getParameter("memberid");
 			String passowrd = req.getParameter("password");
 
 			session = req.getSession();
@@ -46,20 +47,19 @@ public class StudentLoginServelet extends HttpServlet {
 			}
 
 			session = req.getSession();
-
-			if (Validations.checkLoginCredentials(email, passowrd)) {
-				if (studentservices.loginUser(email, passowrd) != null) {
-					StudentDTO dto = studentservices.loginUser(email, passowrd);
+			System.out.println(memberid+"::"+passowrd);
+				if (studentservices.loginUser(memberid, passowrd) != null) {
+					StudentDTO dto = studentservices.loginUser(memberid, passowrd);
 					session.setAttribute("email", dto.getEmail());
 					session.setAttribute("unique_id", dto.getId());
 					session.setAttribute("alert", dto.getName() + " , You have logged in succesfully.");
 					session.setAttribute("username", dto.getName());
-					session.setAttribute("alert-type", "success");
+					session.setAttribute("alert-type", ALERT_SUCCESS);
 					session.setAttribute("userrole", "Student");
 					session.setAttribute("card1", "Issued Books");
 					session.setAttribute("card2", "View Books");
-					session.setAttribute("firstcardtype", "issuedBooks");
-					session.setAttribute("viewBookType", "viewBooksStudent");
+					session.setAttribute("firstcardtype", ISSUEDBOOKSERVLET);
+					session.setAttribute("viewBookType", VIEWBOOKSTUDENTSERVLET);
 					//card 1st
 					session.setAttribute("cardfirstfirstline", PageData.STUDENT_CARD_ONE_FIRST_LINE);
 					session.setAttribute("cardfirstheading", PageData.STUDENT_CARD_ONE_HEADING);
@@ -70,24 +70,13 @@ public class StudentLoginServelet extends HttpServlet {
 					session.setAttribute("cardsecondheading", PageData.STUDENT_CARD_SECOND_HEADING);
 					session.setAttribute("cardsecondthirdline", PageData.STUDENT_CARD_SECOND_SECOND_LINE);
 					session.setAttribute("cardsecondfourthline", PageData.STUDENT_CARD_SECOND_DESCRIPTION);
-					RequestDispatcher rd = req.getRequestDispatcher("UserIndexStudent.jsp");
+					RequestDispatcher rd = req.getRequestDispatcher(USERINDEXSTUDENTPAGE);
 					rd.include(req, resp);
 				} else {
 					System.out.println("Invalid");
 					resp.setContentType("text/html");
-					session.setAttribute("alert", "User Not Found");
-					session.setAttribute("alert-type", "warning");
-					RequestDispatcher rd = req.getRequestDispatcher("index.jsp");
-					rd.include(req, resp);
+					SessionHandler(session, req, resp, "User Not Found", ALERT_WARNING, INDEXPAGE);
 				}
-			} else {
-				System.out.println("Invalid Credentials");
-				resp.setContentType("text/html");
-				session.setAttribute("alert", "Invalid Credentials");
-				session.setAttribute("alert-type", "warning");
-				RequestDispatcher rd = req.getRequestDispatcher("index.jsp");
-				rd.forward(req, resp);
-			}
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

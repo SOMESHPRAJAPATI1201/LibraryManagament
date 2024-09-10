@@ -12,16 +12,18 @@ import dto.AdminDTO;
 import services.AdminServices;
 import utills.Generics;
 import utills.PageData;
-import utills.Validations;
+import static utills.WebpageHelper.*;
+
+import static utills.SessionHelper.*;
 
 @WebServlet("/adminLogin")
 public class AdminLoginServelet extends HttpServlet {
 
 	private static final long serialVersionUID = 4397829086729463298L;
-	HttpSession session;
-	AdminServices adminservices;
-	AdminDAO dao;
-	Generics utills;
+	private HttpSession session;
+	private AdminServices adminservices;
+	private AdminDAO dao;
+	private Generics utills;
 
 	@Override
 	public void init() throws ServletException {
@@ -35,9 +37,9 @@ public class AdminLoginServelet extends HttpServlet {
 	protected void doPost(HttpServletRequest req, javax.servlet.http.HttpServletResponse resp) throws ServletException {
 		try {
 			System.out.println("Inside Admin Login Servlet Method");
-			String email = req.getParameter("email");
+			String memberid = req.getParameter("memberid");
 			String password = req.getParameter("password");
-			System.out.println(email + "::" + password);
+			System.out.println(memberid + "::" + password);
 
 			session = req.getSession();
 			if (session != null) {
@@ -46,15 +48,14 @@ public class AdminLoginServelet extends HttpServlet {
 			}
 			session = req.getSession();
 			AdminDTO dto = null;
-			if (Validations.checkLoginCredentials(email.trim(), password.trim())) {
-				System.out.println("Creds Checked : "+ email +"::"+ password);
-				dto = adminservices.loginAdmin(email.trim(), password.trim());
+				System.out.println("Creds Checked : "+ memberid +"::"+ password);
+				dto = adminservices.loginAdmin(memberid.trim(), password.trim());
 				if (dto != null) {
 					System.out.println(dto.getEmail());
 					session.setAttribute("alert", dto.getName() + " , You have logged in successfully.");
 					session.setAttribute("username", dto.getName());
-					session.setAttribute("firstcardtype", "Addbook.jsp");
-					session.setAttribute("alert-type", "success");
+					session.setAttribute("firstcardtype", ADDBOOKPAGE);
+					session.setAttribute("alert-type", ALERT_SUCCESS);
 					session.setAttribute("userrole", "Admin");
 					session.setAttribute("card1", "Add Book");
 					session.setAttribute("card2", "View Books");
@@ -68,22 +69,12 @@ public class AdminLoginServelet extends HttpServlet {
 					session.setAttribute("cardsecondheading", PageData.ADMIN_CARD_SECOND_HEADING);
 					session.setAttribute("cardsecondthirdline", PageData.ADMIN_CARD_SECOND_SECOND_LINE);
 					session.setAttribute("cardsecondfourthline", PageData.ADMIN_CARD_SECOND_DESCRIPTION);
-					RequestDispatcher rd = req.getRequestDispatcher("UserIndex.jsp");
+					RequestDispatcher rd = req.getRequestDispatcher(USERINDEXPAGE);
 					rd.include(req, resp);
 				} else {
 					System.out.println("User Not Found");
-					session.setAttribute("alert", "User Not Found");
-					session.setAttribute("alert-type", "warning");
-					RequestDispatcher rd = req.getRequestDispatcher("index.jsp");
-					rd.include(req, resp);
+					SessionHandler(session, req, resp, "User Not Found", ALERT_WARNING, INDEXPAGE);
 				}
-			} else {
-				System.out.println("Invalid Creds Found");
-				session.setAttribute("alert", "Invalid Credentials");
-				session.setAttribute("alert-type", "warning");
-				RequestDispatcher rd = req.getRequestDispatcher("index.jsp");
-				rd.forward(req, resp);
-			}
 		} catch (IOException | ServletException e) {
 			e.printStackTrace();
 		}

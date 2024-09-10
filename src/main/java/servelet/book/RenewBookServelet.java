@@ -1,8 +1,6 @@
 package servelet.book;
 
-import java.io.IOException;
 import java.time.LocalDate;
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -11,25 +9,24 @@ import javax.servlet.http.HttpSession;
 import dao.BookDAO;
 import dao.IssueBooksDAO;
 import dao.ReserveBooksDAO;
-import dao.StudentDAO;
 import dto.IssueBooksDTO;
 import services.BookServices;
 import services.IssueBookServices;
 import services.ReserveBookServices;
-import services.StudentServices;
 import utills.Generics;
+import static utills.SessionHelper.*;
+import static utills.WebpageHelper.*;
 
 @WebServlet("/renewBook")
 public class RenewBookServelet extends HttpServlet {
 
 	private static final long serialVersionUID = 4397829086729463298L;
-	HttpSession session;
-	BookServices bookservices;
-	StudentServices studentervices;
-	IssueBookServices issuebookservice;
-	ReserveBookServices reserveservices;	
-	BookDAO dao;
-	Generics utills;
+	private HttpSession session;
+	private BookServices bookservices;
+	private IssueBookServices issuebookservice;
+	private ReserveBookServices reserveservices;	
+	private BookDAO dao;
+	private Generics utills;
 
 	@Override
 	public void init() throws ServletException {
@@ -37,7 +34,6 @@ public class RenewBookServelet extends HttpServlet {
 		utills = new Generics();
 		dao = new BookDAO(utills);
 		bookservices = new BookServices(dao);
-		studentervices = new StudentServices(new StudentDAO(utills));
 		reserveservices = new ReserveBookServices(new ReserveBooksDAO(utills), bookservices);
 		issuebookservice = new IssueBookServices(new IssueBooksDAO(utills), bookservices);
 	}
@@ -53,37 +49,22 @@ public class RenewBookServelet extends HttpServlet {
 			System.out.println("Issued Book Id Is : " + renewBookId);
 			System.out.println("Unique Id Is : " + uniqueID);
 			System.out.println("Book Id Is : " + bookID);
+			session = req.getSession();
 			if (reserveservices.getAdminReserveViewBooksData(Integer.valueOf(bookID)).size()==0) {
 				if (issuedbookdto.getReturn_date().isEqual(LocalDate.now())) {
 					if (issuebookservice.renewIssuedByBookId(Integer.parseInt(renewBookId),	issuedbookdto.getReturn_date().plusDays(15), LocalDate.now())) {
 						resp.setContentType("text/html");
-						session = req.getSession();
-						session.setAttribute("alert-type", "success");
-						session.setAttribute("alert", "Your, Book Has Been Renewed Successfully upto " + LocalDate.now().plusDays(15));
-						RequestDispatcher rd = req.getRequestDispatcher("issuedBooks?unique_id="+uniqueID);
-						rd.include(req, resp);
+						SessionHandler(session, req, resp, "Your, Book Has Been Renewed Successfully upto " + LocalDate.now().plusDays(15), ALERT_SUCCESS, ISSUEDBOOKSERVLET+"?unique_id="+uniqueID);
 					} else {
-						session = req.getSession();
-						session.setAttribute("alert-type", "danger");
-						session.setAttribute("alert", "Unable to renew book.");
-						RequestDispatcher rd = req.getRequestDispatcher("IssuedBooksStudent.jsp");
-						rd.forward(req, resp);
+						SessionHandler(session, req, resp, "Unable to renew book.", ALERT_DANGER, ISSUEDBOOKSTUDENTVIEWPAGE);
 					}
 				} else {
-					session = req.getSession();
-					session.setAttribute("alert-type", "danger");
-					session.setAttribute("alert", "You can't renew book before " + issuedbookdto.getReturn_date());
-					RequestDispatcher rd = req.getRequestDispatcher("IssuedBooksStudent.jsp");
-					rd.forward(req, resp);
+					SessionHandler(session, req, resp, "You can't renew book before " + issuedbookdto.getReturn_date(), ALERT_DANGER, ISSUEDBOOKSTUDENTVIEWPAGE);
 				}
 			}else {
-				session = req.getSession();
-				session.setAttribute("alert-type", "danger");
-				session.setAttribute("alert", "You can't renew a reserved book.");
-				RequestDispatcher rd = req.getRequestDispatcher("IssuedBooksStudent.jsp");
-				rd.forward(req, resp);
+				SessionHandler(session, req, resp, "You can't renew a reserved book.", ALERT_DANGER, ISSUEDBOOKSTUDENTVIEWPAGE);
 			}	
-		} catch (ServletException | IOException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}

@@ -9,23 +9,22 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import dao.BookDAO;
 import dao.IssueBooksDAO;
-import dao.StudentDAO;
 import dto.IssueBooksDTO;
 import services.BookServices;
 import services.IssueBookServices;
-import services.StudentServices;
 import utills.Generics;
+import static utills.SessionHelper.*;
+import static utills.WebpageHelper.*;
 
 @WebServlet("/viewAdminIssuedBook")
 public class AdminViewIssuedBookServelet extends HttpServlet {
 
 	private static final long serialVersionUID = 4397829086729463298L;
-	HttpSession session;
-	BookServices bookservices;
-	StudentServices studentervices;
-	IssueBookServices issuebookservice;
-	BookDAO dao;
-	Generics utills;
+	private HttpSession session;
+	private BookServices bookservices;
+	private IssueBookServices issuebookservice;
+	private BookDAO dao;
+	private Generics utills;
 
 	@Override
 	public void init() throws ServletException {
@@ -33,7 +32,6 @@ public class AdminViewIssuedBookServelet extends HttpServlet {
 		utills = new Generics();
 		dao = new BookDAO(utills);
 		bookservices = new BookServices(dao);
-		studentervices = new StudentServices(new StudentDAO(utills));
 		issuebookservice = new IssueBookServices(new IssueBooksDAO(utills), bookservices);
 	}
 
@@ -58,11 +56,7 @@ public class AdminViewIssuedBookServelet extends HttpServlet {
 			else {
 				session = req.getSession();
 				resp.setContentType("text/html");
-				session.setAttribute("issuedAdminVIewBookslist", list);
-				session.setAttribute("alert-type", "warning");
-				session.setAttribute("alert", "No Records Found");
-				RequestDispatcher rd = req.getRequestDispatcher("AdminViewIssuedBooks.jsp");
-				rd.include(req, resp);
+				SessionHandler(session, req, resp, "No Records Found", ALERT_WARNING, ADVIEWVIEWISSUEDBOOKPAGE, "issuedAdminVIewBookslist",list);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

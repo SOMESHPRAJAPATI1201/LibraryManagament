@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import dao.BookDAO;
 import dto.BookDTO;
+import static utills.ServicesHelper.*;
 
 public class BookServices {
 
@@ -18,14 +19,14 @@ public class BookServices {
 	}
 
 	public boolean addBook(BookDTO bookDTO) {
-		if (checkBookAvailaiblity(bookDTO.getName(), bookDTO.getEdition(), bookDTO.getAuthor(),bookDTO.getQuantity()).size() == 0) {
-			if (bookDAO.AddBook(bookDTO) >= 1) {
-				System.out.println("Book Added Succesfully");
-				return true;
-			} else {
-				System.err.println("Failed To Add Book");
-				return false;
-			}
+		if (checkBookAvailaiblity(bookDTO.getName(), bookDTO.getEdition(), bookDTO.getAuthor(),bookDTO.getQuantity()).size() == ARRAYLIST_SIZE_VALIDATION) {
+				if (bookDAO.AddBook(bookDTO) >= ROWS_AFFECTED) {
+					System.out.println("Book Added Succesfully");
+					return true;
+				} else {
+					System.err.println("Failed To Add Book");
+					return false;
+				}
 		} else {
 			System.err.println("Book Already Exists");
 			return false;
@@ -33,8 +34,8 @@ public class BookServices {
 	}
 	
 	public boolean editBook(BookDTO bookDTO) {
-		if (checkBookAvailaiblity(bookDTO.getName(), bookDTO.getEdition(), bookDTO.getAuthor(), bookDTO.getQuantity()).size() == 0) {
-			if (bookDAO.EditBook(bookDTO) >= 1) {
+		if (checkBookAvailaiblity(bookDTO.getName(), bookDTO.getEdition(), bookDTO.getAuthor(), bookDTO.getQuantity()).size() == ARRAYLIST_SIZE_VALIDATION) {
+			if (bookDAO.EditBook(bookDTO) >= ROWS_AFFECTED) {
 				System.out.println("Book Edited Succesfully");
 				return true;
 			} else {
@@ -52,7 +53,7 @@ public class BookServices {
 	}
 	
 	public boolean editBookQuantity(int bookId, int quantity) {
-		if (bookDAO.editBookQuantity(bookId, quantity) > 0) {
+		if (bookDAO.editBookQuantity(bookId, quantity) > QUANTITY_VALIDATION) {
 			System.out.println("Quantity Edited");
 			return true;
 		}else {
@@ -66,7 +67,7 @@ public class BookServices {
 	}
 
 	public boolean deletBook(int bookId) {
-		if (bookDAO.deletBook(bookId) >= 1) {
+		if (bookDAO.deletBook(bookId) >= ROWS_AFFECTED) {
 			System.out.println("Book Removed Sucessfully");
 			return true;
 		} else {

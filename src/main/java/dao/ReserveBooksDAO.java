@@ -7,6 +7,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
+
+import dao.helper.ReserveBookHelper;
 import dto.ReserveBooksDTO;
 import utills.Generics;
 
@@ -29,20 +31,10 @@ public class ReserveBooksDAO {
 		resultSet = null;
 		try {
 			connection = utills.getConnection();
-			preparedStatement = connection.prepareStatement("select books_data.id, books.name, books.author, books.edition, reserve_books_data.issued_date, reserve_books_data.return_date from reserve_books_data inner join student on student.id = reserve_books_data.student_id inner join books on books.id = reserve_books_data.book_id where student.id = ?;");
+			preparedStatement = connection.prepareStatement("select books_data.id, books.name, books.author, books.edition, reserve_books_data.issued_date, reserve_books_data.return_date from reserve_books_data inner join users_table on users_table.id = reserve_books_data.student_id inner join books on books.id = reserve_books_data.book_id where users_table.id = ?;");
 			preparedStatement.setInt(1, studentId);
 			resultSet = preparedStatement.executeQuery();
-			list = new ArrayList<>();
-			while (resultSet.next()) {
-				reserveBookDto = new ReserveBooksDTO();
-				reserveBookDto.setIssued_book_id(resultSet.getInt("id"));
-				reserveBookDto.setBookname(resultSet.getString("name"));
-				reserveBookDto.setAuthor(resultSet.getString("author"));
-				reserveBookDto.setEdition(resultSet.getString("edition"));
-				reserveBookDto.setIssued_date(resultSet.getDate("issued_date").toLocalDate());
-				reserveBookDto.setReturn_date(resultSet.getDate("return_date").toLocalDate());
-				list.add(reserveBookDto);
-			}
+			list = ReserveBookHelper.getReservedBooksDataDTO(list, resultSet);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
@@ -58,20 +50,10 @@ public class ReserveBooksDAO {
 		resultSet = null;
 		try {
 			connection = utills.getConnection();
-			preparedStatement = connection.prepareStatement("select student.name as student_name, books.name as book_name, books.author, books.edition, issued_date, return_date from student inner join reserve_books_data on reserve_books_data.student_id = student.id inner join books on books.id = reserve_books_data.book_id where books.id = ?;");
+			preparedStatement = connection.prepareStatement("select users_table.name as student_name, books.name as book_name, books.author, books.edition, issued_date, return_date from users_table inner join reserve_books_data on reserve_books_data.student_id = users_table.id inner join books on books.id = reserve_books_data.book_id where books.id = ?;");
 			preparedStatement.setInt(1, bookId);
 			resultSet = preparedStatement.executeQuery();
-			list = new ArrayList<>();
-			while (resultSet.next()) {
-				reserveBookDto = new ReserveBooksDTO();
-				reserveBookDto.setStudentname(resultSet.getString("student_name"));
-				reserveBookDto.setBookname(resultSet.getString("book_name"));
-				reserveBookDto.setAuthor(resultSet.getString("author"));
-				reserveBookDto.setEdition(resultSet.getString("edition"));
-				reserveBookDto.setIssued_date(resultSet.getDate("issued_date").toLocalDate());
-				reserveBookDto.setReturn_date(resultSet.getDate("return_date").toLocalDate());
-				list.add(reserveBookDto);
-			}
+			list = ReserveBookHelper.getReservedViewBooksDataByBookIdDTO(list, resultSet);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
@@ -91,15 +73,7 @@ public class ReserveBooksDAO {
 			preparedStatement.setInt(1, studentId);
 			preparedStatement.setInt(2, bookId);
 			resultSet = preparedStatement.executeQuery();
-			list = new ArrayList<>();
-			if (resultSet!=null) {
-				while (resultSet.next()) {
-					reserveBookDto = new ReserveBooksDTO();
-					reserveBookDto.setBook_id(resultSet.getInt("book_id"));
-					reserveBookDto.setStudent_id(resultSet.getInt("student_id"));
-					list.add(reserveBookDto);
-				}
-			}
+			list = ReserveBookHelper.getSingleReservedBooksDataDTO(list, resultSet);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
@@ -116,14 +90,7 @@ public class ReserveBooksDAO {
 			connection = utills.getConnection();
 			String sql = "INSERT INTO reserve_books_data (book_id, student_id, issued_date, return_date) VALUES (?, ?, ?, ?)";
 			preparedStatement = connection.prepareStatement(sql);
-			java.sql.Date issuedDate = java.sql.Date.valueOf(issuebook.getIssued_date());
-			java.sql.Date returnDate = java.sql.Date.valueOf(issuebook.getReturn_date());
-			preparedStatement.setInt(1, issuebook.getBook_id());
-			preparedStatement.setInt(2, issuebook.getStudent_id());
-			preparedStatement.setDate(3, issuedDate);
-			preparedStatement.setDate(4, returnDate);
-			int rowsAffected = preparedStatement.executeUpdate();
-			isSuccess = rowsAffected > 0;
+			isSuccess = ReserveBookHelper.reservedBookEntryDTO(issuebook, preparedStatement, isSuccess);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
@@ -159,15 +126,7 @@ public class ReserveBooksDAO {
 			preparedStatement = connection.prepareStatement("SELECT * FROM reserve_books_data WHERE ID = ?;");
 			preparedStatement.setInt(1, issuedBookId);
 			resultSet = preparedStatement.executeQuery();
-			if (resultSet!=null) {
-				while (resultSet.next()) {
-					reserveBookDto = new ReserveBooksDTO();
-					reserveBookDto.setBook_id(resultSet.getInt("book_id"));
-					reserveBookDto.setStudent_id(resultSet.getInt("student_id"));
-					reserveBookDto.setReturn_date(resultSet.getDate("return_date").toLocalDate());
-					reserveBookDto.setIssued_date(resultSet.getDate("issued_date").toLocalDate());
-				}
-			}
+			reserveBookDto = ReserveBookHelper.getReservedBookDataByIssuedBookIdDTO(resultSet, reserveBookDto);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {

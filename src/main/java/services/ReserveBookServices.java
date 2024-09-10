@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import dao.ReserveBooksDAO;
 import dto.BookDTO;
 import dto.ReserveBooksDTO;
+import static utills.ServicesHelper.*;
 
 public class ReserveBookServices {
 
@@ -34,7 +35,7 @@ public class ReserveBookServices {
 	}
 
 	public boolean returnReserveBookEntry(int id, BookDTO bookdto) {
-		if(reserveBookDAO.deleteReserveBookEntry(id)>0) {
+		if(reserveBookDAO.deleteReserveBookEntry(id)>=ROWS_AFFECTED) {
 			bookService.editBookQuantity(bookdto.getId(), bookdto.getQuantity()+1);
 			return true;
 		}else {
@@ -53,7 +54,7 @@ public class ReserveBookServices {
 	public boolean renewReserveByBookId(int issuedBookId, LocalDate returnDate, LocalDate issueDate ) {
 		int a = reserveBookDAO.renewReserveByBookId(issuedBookId, returnDate, issueDate);
 		System.out.println(a);
-		if (a>0) {
+		if (a>BOOLEAN_VALIDATION_FALSE) {
 			return true;
 		}else {
 			return false;
