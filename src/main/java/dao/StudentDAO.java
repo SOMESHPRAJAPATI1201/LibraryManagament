@@ -6,7 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import dao.helper.StudentHelper;
-import dto.StudentDTO;
+import entity.StudentDTO;
 import utills.Generics;
 
 public class StudentDAO {

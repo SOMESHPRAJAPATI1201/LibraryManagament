@@ -2,7 +2,7 @@ package services;
 
 import dao.AdminDAO;
 import dao.IssueBooksDAO;
-import dto.AdminDTO;
+import entity.AdminDTO;
 import third.party.services.Gmail;
 import utills.Generics;
 import static utills.ServicesHelper.*;

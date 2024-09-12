@@ -3,7 +3,7 @@ package services;
 import java.util.ArrayList;
 import java.util.List;
 import dao.BookDAO;
-import dto.BookDTO;
+import entity.BookDTO;
 
 import static utills.ServicesHelper.*;
 

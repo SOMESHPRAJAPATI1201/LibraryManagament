@@ -4,7 +4,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import dto.StudentDTO;
+
+import entity.StudentDTO;
 import utills.MembershipNoGenerator;
 import utills.ServicesHelper;
 

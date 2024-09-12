@@ -5,7 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import dao.helper.AdminHelper;
-import dto.AdminDTO;
+import entity.AdminDTO;
 import utills.Generics;
 
 public class AdminDAO {

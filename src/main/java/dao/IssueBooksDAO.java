@@ -9,7 +9,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import dao.helper.IssueBookHelper;
-import dto.IssueBooksDTO;
+import entity.IssueBooksDTO;
 import utills.Generics;
 
 public class IssueBooksDAO {

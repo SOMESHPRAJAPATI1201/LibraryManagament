@@ -7,7 +7,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import dao.AdminDAO;
-import dto.AdminDTO;
+import entity.AdminDTO;
 import services.AdminServices;
 import third.party.services.Validate_Email;
 import utills.Generics;

@@ -5,8 +5,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import dao.IssueBooksDAO;
-import dto.BookDTO;
-import dto.IssueBooksDTO;
+import entity.BookDTO;
+import entity.IssueBooksDTO;
+
 import static utills.ServicesHelper.*;
 
 public class IssueBookServices {

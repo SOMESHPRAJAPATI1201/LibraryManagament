@@ -7,8 +7,8 @@ import java.util.stream.Collectors;
 
 import dao.IssueBooksDAO;
 import dao.StudentDAO;
-import dto.IssueBooksDTO;
-import dto.StudentDTO;
+import entity.IssueBooksDTO;
+import entity.StudentDTO;
 import third.party.services.Gmail;
 import utills.Generics;
 

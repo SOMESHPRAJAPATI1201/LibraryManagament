@@ -7,7 +7,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import dao.BookDAO;
-import dto.BookDTO;
+import entity.BookDTO;
 import services.BookServices;
 import utills.Generics;
 import static utills.SessionHelper.*;

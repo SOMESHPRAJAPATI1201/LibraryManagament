@@ -3,7 +3,8 @@ package dao.helper;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import dto.AdminDTO;
+
+import entity.AdminDTO;
 import utills.MembershipNoGenerator;
 import utills.ServicesHelper;
 

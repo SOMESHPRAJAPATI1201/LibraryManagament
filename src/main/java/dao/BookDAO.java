@@ -7,7 +7,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import dao.helper.BookHelper;
-import dto.BookDTO;
+import entity.BookDTO;
 import utills.Generics;
 
 public class BookDAO {

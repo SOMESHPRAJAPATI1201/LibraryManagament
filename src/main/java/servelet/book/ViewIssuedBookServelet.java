@@ -8,7 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import dao.BookDAO;
 import dao.IssueBooksDAO;
-import dto.IssueBooksDTO;
+import entity.IssueBooksDTO;
 import services.BookServices;
 import services.IssueBookServices;
 import utills.Generics;
