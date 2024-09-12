@@ -51,6 +51,7 @@ public class IssueBookHelper {
 			issueBookDto = new IssueBooksDTO();
 			issueBookDto.setIssued_book_id(resultSet.getInt("issued_books_id"));
 			issueBookDto.setBook_id(resultSet.getInt("book_id"));
+			issueBookDto.setQuantity(resultSet.getInt("quantity"));
 			issueBookDto.setStudentname(resultSet.getString("student_name"));
 			issueBookDto.setBookname(resultSet.getString("book_name"));
 			issueBookDto.setAuthor(resultSet.getString("author"));

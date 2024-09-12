@@ -1,4 +1,4 @@
-package servelet.book;
+package servlet.book;
 
 import java.util.List;
 import javax.servlet.RequestDispatcher;
@@ -17,7 +17,7 @@ import static utills.SessionHelper.*;
 import static utills.WebpageHelper.*;
 
 @WebServlet("/viewAdminIssuedBook")
-public class AdminViewIssuedBookServelet extends HttpServlet {
+public class AdminViewIssuedBookServlet extends HttpServlet {
 
 	private static final long serialVersionUID = 4397829086729463298L;
 	private HttpSession session;

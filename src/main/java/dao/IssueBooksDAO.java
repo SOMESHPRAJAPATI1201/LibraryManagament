@@ -74,7 +74,7 @@ public class IssueBooksDAO {
 		try {
 			connection = utills.getConnection();
 			preparedStatement = connection.prepareStatement(
-					"select books_data.id as issued_books_id, books.id as book_id, users_table.name as student_name, books.name as book_name, books.author, books.edition, books_data.issued_date, books_data.return_date , books_data.issued_id from users_table inner join books_data on books_data.student_id = users_table.id inner join books on books.id = books_data.book_id;");
+					"select books_data.id as issued_books_id, books.id as book_id, books.quantity , users_table.name as student_name, books.name as book_name, books.author, books.edition, books_data.issued_date, books_data.return_date , books_data.issued_id from users_table inner join books_data on books_data.student_id = users_table.id inner join books on books.id = books_data.book_id;");
 			resultSet = preparedStatement.executeQuery();
 			list = IssueBookHelper.getAllEntriesDTO(list, resultSet);
 		} catch (SQLException e) {

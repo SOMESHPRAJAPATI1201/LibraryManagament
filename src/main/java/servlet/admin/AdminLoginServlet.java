@@ -1,4 +1,4 @@
-package servelet.admin;
+package servlet.admin;
 
 import java.io.IOException;
 import javax.servlet.RequestDispatcher;
@@ -17,7 +17,7 @@ import static utills.WebpageHelper.*;
 import static utills.SessionHelper.*;
 
 @WebServlet("/adminLogin")
-public class AdminLoginServelet extends HttpServlet {
+public class AdminLoginServlet extends HttpServlet {
 
 	private static final long serialVersionUID = 4397829086729463298L;
 	private HttpSession session;

@@ -1,4 +1,4 @@
-package servelet.admin;
+package servlet.admin;
 
 import java.io.IOException;
 import javax.servlet.ServletException;
@@ -11,7 +11,7 @@ import static utills.WebpageHelper.*;
 
 
 @WebServlet("/logout")
-public class LogoutServelet extends HttpServlet {
+public class LogoutServlet extends HttpServlet {
 
 	private static final long serialVersionUID = 4397829086729463298L;
 	private HttpSession session = null;

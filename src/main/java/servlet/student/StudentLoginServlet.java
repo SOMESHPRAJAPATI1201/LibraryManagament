@@ -1,4 +1,4 @@
-package servelet.student;
+package servlet.student;
 
 import java.io.IOException;
 import javax.servlet.RequestDispatcher;
@@ -16,7 +16,7 @@ import static utills.SessionHelper.*;
 import static utills.WebpageHelper.*;
 
 @WebServlet("/login")
-public class StudentLoginServelet extends HttpServlet {
+public class StudentLoginServlet extends HttpServlet {
 
 	private static final long serialVersionUID = 4397829086729463298L;
 	private HttpSession session;

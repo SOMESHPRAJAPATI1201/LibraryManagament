@@ -1,21 +1,27 @@
 package services;
 
 import dao.AdminDAO;
+import dao.BookDAO;
 import dao.IssueBooksDAO;
 import entity.AdminDTO;
+import entity.IssueBooksDTO;
 import third.party.services.Gmail;
 import utills.Generics;
 import static utills.ServicesHelper.*;
 import java.time.LocalDate;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class AdminServices {
 
 	private AdminDAO adminDAO;
 	private IssueBooksDAO issueBookDAO;
+	private BookDAO bookDAO;
 
 	public AdminServices(AdminDAO adminDAO) {
 		this.adminDAO = adminDAO;
 		issueBookDAO = new IssueBooksDAO(new Generics());
+		bookDAO = new BookDAO(new Generics());
 	}
 
 	public void registerAdmin(AdminDTO admindto) {
@@ -29,8 +35,13 @@ public class AdminServices {
 	}
 
 	public AdminDTO loginAdmin(String email, String password) {
-		issueBookDAO.getAllEntries().stream().filter(x -> (x.getReturn_date().isBefore(LocalDate.now())) || (x.getReturn_date().isEqual(LocalDate.now())))
-				.map(x -> issueBookDAO.deleteIssuedBookEntry(x.getIssued_book_id()));
+		List<IssueBooksDTO> list = issueBookDAO.getAllEntries().stream().filter(x -> ((x.getReturn_date().isBefore(LocalDate.now())) || (x.getReturn_date().isEqual(LocalDate.now())))).collect(Collectors.toList());
+		for (IssueBooksDTO dto : list) {
+			if (dto.getIssued_id()==0) {
+				issueBookDAO.deleteIssuedBookEntry(dto.getIssued_book_id());
+				bookDAO.editBookQuantity(dto.getBook_id(), dto.getQuantity()-1);
+			}
+		}
 		return adminDAO.getAdminLogin(email, password);
 	}
 

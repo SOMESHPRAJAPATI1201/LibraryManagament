@@ -1,4 +1,4 @@
-package servelet.book;
+package servlet.book;
 
 import java.io.IOException;
 import javax.servlet.ServletException;
@@ -13,7 +13,7 @@ import static utills.SessionHelper.*;
 import static utills.WebpageHelper.*;
 
 @WebServlet("/deleteBook")
-public class DeleteBookServelet extends HttpServlet {
+public class DeleteBookServlet extends HttpServlet {
 
 	private static final long serialVersionUID = 4397829086729463298L;
 	private HttpSession session;

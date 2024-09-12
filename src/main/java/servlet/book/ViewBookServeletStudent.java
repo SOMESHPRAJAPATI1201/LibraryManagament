@@ -1,4 +1,4 @@
-package servelet.book;
+package servlet.book;
 
 import java.util.ArrayList;
 import javax.servlet.ServletException;
@@ -13,8 +13,8 @@ import utills.Generics;
 import static utills.SessionHelper.*;
 import static utills.WebpageHelper.*;
 
-@WebServlet("/viewBooks")
-public class ViewBookServelet extends HttpServlet {
+@WebServlet("/viewBooksStudent")
+public class ViewBookServeletStudent extends HttpServlet {
 
 	private static final long serialVersionUID = 4397829086729463298L;
 	private HttpSession session;
@@ -34,18 +34,18 @@ public class ViewBookServelet extends HttpServlet {
 	protected void service(HttpServletRequest req, javax.servlet.http.HttpServletResponse resp)
 			throws ServletException {
 		System.out.println("Inside View Book Servelet Method");
-		ArrayList<BookDTO> list = null;
+		session = req.getSession();
 		try {
 			if (bookservices.fetchAllBooks().size() > 0) {
-				list = bookservices.fetchAllBooks();
-				session = req.getSession();
+				ArrayList<BookDTO> list = bookservices.fetchAllBooks();
 				resp.setContentType("text/html");
 				session.setAttribute("bookslist", list);
-				SessionHandler(session, req, resp, "Books Fetched Succesfully", ALERT_SUCCESS, VIEWBOOKSPAGE);
+				SessionHandler(session, req, resp, "Books Fetched Succesfully", ALERT_SUCCESS, VIEWBOOKSSTUDENTSPAGE);
 			} else {
-				session = req.getSession();
+				ArrayList<BookDTO> list = bookservices.fetchAllBooks();
 				resp.setContentType("text/html");
-				SessionHandler(session, req, resp, "No Records Found", ALERT_WARNING, USERINDEXPAGE);
+				session.setAttribute("bookslist", list);
+				SessionHandler(session, req, resp, "No Records Found", ALERT_WARNING, USERINDEXSTUDENTPAGE);		
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

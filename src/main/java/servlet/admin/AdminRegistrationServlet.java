@@ -1,4 +1,4 @@
-package servelet.admin;
+package servlet.admin;
 
 import java.io.IOException;
 import javax.servlet.ServletException;
@@ -16,7 +16,7 @@ import utills.Validations;
 import static utills.WebpageHelper.*;
 
 @WebServlet("/adminRegistration")
-public class AdminRegistrationServelet extends HttpServlet {
+public class AdminRegistrationServlet extends HttpServlet {
 
 	private static final long serialVersionUID = 4397829086729463298L;
 	private HttpSession session;

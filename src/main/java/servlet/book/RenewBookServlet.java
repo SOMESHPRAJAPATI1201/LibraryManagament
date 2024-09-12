@@ -1,4 +1,4 @@
-package servelet.book;
+package servlet.book;
 
 import java.time.LocalDate;
 import javax.servlet.ServletException;
@@ -15,7 +15,7 @@ import static utills.SessionHelper.*;
 import static utills.WebpageHelper.*;
 
 @WebServlet("/renewBook")
-public class RenewBookServelet extends HttpServlet {
+public class RenewBookServlet extends HttpServlet {
 
 	private static final long serialVersionUID = 4397829086729463298L;
 	private HttpSession session;

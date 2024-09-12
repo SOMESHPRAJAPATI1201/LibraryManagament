@@ -1,4 +1,4 @@
-package servelet.book;
+package servlet.book;
 
 import java.util.ArrayList;
 import javax.servlet.ServletException;
@@ -16,7 +16,7 @@ import static utills.SessionHelper.*;
 import static utills.WebpageHelper.*;
 
 @WebServlet("/issuedBooks")
-public class ViewIssuedBookServelet extends HttpServlet {
+public class ViewIssuedBookServlet extends HttpServlet {
 
 	private static final long serialVersionUID = 4397829086729463298L;
 	private HttpSession session;
