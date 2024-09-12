@@ -8,11 +8,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import dao.BookDAO;
 import dao.IssueBooksDAO;
-import dao.ReserveBooksDAO;
-import dto.IssueBooksDTO;
 import services.BookServices;
 import services.IssueBookServices;
-import services.ReserveBookServices;
 import utills.Generics;
 import static utills.SessionHelper.*;
 import static utills.WebpageHelper.*;
@@ -24,7 +21,6 @@ public class RenewBookServelet extends HttpServlet {
 	private HttpSession session;
 	private BookServices bookservices;
 	private IssueBookServices issuebookservice;
-	private ReserveBookServices reserveservices;	
 	private BookDAO dao;
 	private Generics utills;
 
@@ -34,7 +30,6 @@ public class RenewBookServelet extends HttpServlet {
 		utills = new Generics();
 		dao = new BookDAO(utills);
 		bookservices = new BookServices(dao);
-		reserveservices = new ReserveBookServices(new ReserveBooksDAO(utills), bookservices);
 		issuebookservice = new IssueBookServices(new IssueBooksDAO(utills), bookservices);
 	}
 
@@ -43,27 +38,24 @@ public class RenewBookServelet extends HttpServlet {
 		try {
 			System.out.println("Inside Renew Book Servelet Method");
 			String renewBookId = req.getParameter("renewBookId");
-			String bookID = req.getParameter("BookId");
 			String uniqueID = req.getParameter("unique_Id");
-			IssueBooksDTO issuedbookdto = issuebookservice.getIssuedBookDataByIssuedBookId(Integer.parseInt(renewBookId));
 			System.out.println("Issued Book Id Is : " + renewBookId);
 			System.out.println("Unique Id Is : " + uniqueID);
-			System.out.println("Book Id Is : " + bookID);
+			LocalDate issuedDate = LocalDate.parse(req.getParameter("issuedDate"));
+			LocalDate returnDate = LocalDate.parse(req.getParameter("returnDate"));
+			System.out.println(issuedDate+"::"+returnDate);
 			session = req.getSession();
-			if (reserveservices.getAdminReserveViewBooksData(Integer.valueOf(bookID)).size()==0) {
-				if (issuedbookdto.getReturn_date().isEqual(LocalDate.now())) {
-					if (issuebookservice.renewIssuedByBookId(Integer.parseInt(renewBookId),	issuedbookdto.getReturn_date().plusDays(15), LocalDate.now())) {
+				if (issuebookservice.getDateValidationByIssuerID(Integer.parseInt(renewBookId), issuedDate, returnDate )>0) {
+					if (issuebookservice.renewIssuedByBookId(Integer.parseInt(renewBookId),	issuedDate, returnDate)) {
 						resp.setContentType("text/html");
-						SessionHandler(session, req, resp, "Your, Book Has Been Renewed Successfully upto " + LocalDate.now().plusDays(15), ALERT_SUCCESS, ISSUEDBOOKSERVLET+"?unique_id="+uniqueID);
-					} else {
+						SessionHandler(session, req, resp, "Your, Book Has Been Renewed Successfully", ALERT_SUCCESS, ISSUEDBOOKSERVLET+"?unique_id="+uniqueID);
+					}else {
 						SessionHandler(session, req, resp, "Unable to renew book.", ALERT_DANGER, ISSUEDBOOKSTUDENTVIEWPAGE);
 					}
-				} else {
-					SessionHandler(session, req, resp, "You can't renew book before " + issuedbookdto.getReturn_date(), ALERT_DANGER, ISSUEDBOOKSTUDENTVIEWPAGE);
-				}
-			}else {
-				SessionHandler(session, req, resp, "You can't renew a reserved book.", ALERT_DANGER, ISSUEDBOOKSTUDENTVIEWPAGE);
-			}	
+				}else {
+					resp.setContentType("text/html");
+					SessionHandler(session, req, resp, "You can't renew a reserved book.", ALERT_DANGER, ISSUEDBOOKSTUDENTVIEWPAGE);
+				}	
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

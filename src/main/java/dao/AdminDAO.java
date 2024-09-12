@@ -36,10 +36,6 @@ public class AdminDAO {
 		}
 		return adminDTO;
 	}
-	
-	public static void main(String[] args) {
-		new AdminDAO(new Generics()).getAdminLogin("VLMS2024ADMIN09100116", "Somesh@1234").getEmail();
-	}
 
 	public AdminDTO getSingleAdminUser(String email) {
 		AdminDTO adminDTO = null;

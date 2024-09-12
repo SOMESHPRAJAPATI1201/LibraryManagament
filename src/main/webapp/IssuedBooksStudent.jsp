@@ -121,10 +121,8 @@ button a:hover {
 					<th scope="col">Book Name</th>
 					<th scope="col">Author</th>
 					<th scope="col">Edition</th>
-					<th scope="col">Issue Date</th>
-					<th scope="col">Return Date</th>
+					<th scope="col">Renew : Date Format (mm/dd/yyyy)</th>
 					<th scope="col">Return</th>
-					<th scope="col">Renew</th>
 				</tr>
 			</thead>
 			<tbody id="myTable">
@@ -135,18 +133,20 @@ button a:hover {
 						<td><c:out value="${row.getBookname()}"></c:out></td>
 						<td><c:out value="${row.getAuthor()}"></c:out></td>
 						<td><c:out value="${row.getEdition()}"></c:out></td>
-						<td><c:out value="${row.getIssued_date()}"></c:out></td>
-						<td><c:out value="${row.getReturn_date()}"></c:out></td>
-						<td><form action="returnBook" method="post">
-								<input type="hidden" name="uniqueId" value="${sessionScope.unique_id}"/> 
-								<input type="hidden" name="BookId" value="${row.getIssued_book_id()}"/> 
-								<input class="btn btn-outline-danger" type="submit" value="Return"/>
-							</form></td>
 						<td><form action="renewBook" method="post">
+								<label for="issueddate">Issued Date :</label>
+								<input type="date" id="issueddate" name="issuedDate" value="${row.getIssued_date()}" style="margin-right: 10px">
+								<label for="returndate">Return Date :</label>
+								<input type="date" id="returndate" name="returnDate" value="${row.getReturn_date()}" style="margin-right: 10px">
 								<input type="hidden" name="unique_Id" value="${sessionScope.unique_id}"/>
 								<input type="hidden" name="BookId" value="${row.getBook_id()}"/>
 								<input type="hidden" name="renewBookId" value="${row.getIssued_book_id()}"/> 
 								<input class="btn btn-outline-success" type="submit" value="Renew"/>
+							</form></td>
+						<td><form action="returnBook" method="post">
+								<input type="hidden" name="uniqueId" value="${sessionScope.unique_id}"/> 
+								<input type="hidden" name="BookId" value="${row.getIssued_book_id()}"/> 
+								<input class="btn btn-outline-danger" type="submit" value="Return"/>
 							</form></td>
 					</tr>
 				</c:forEach>

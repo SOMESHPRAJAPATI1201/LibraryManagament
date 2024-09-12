@@ -15,6 +15,15 @@ public class IssueBooksDTO {
 	private int quantity;
 	private String studentname;
 	private String email;
+	private int issued_id;
+
+	public int getIssued_id() {
+		return issued_id;
+	}
+
+	public void setIssued_id(int issued_id) {
+		this.issued_id = issued_id;
+	}
 
 	public String getEmail() {
 		return email;

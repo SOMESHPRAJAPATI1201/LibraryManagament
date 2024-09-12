@@ -10,7 +10,6 @@ import dto.BookDTO;
 import services.BookServices;
 import utills.Generics;
 import static utills.SessionHelper.*;
-import utills.Validations;
 import static utills.WebpageHelper.*;
 
 @WebServlet("/addBook")
@@ -41,7 +40,6 @@ public class AddBookServelet extends HttpServlet {
 			String quantity = req.getParameter("quantity");
 			System.out.println(quantity);
 			session = req.getSession();
-			if (Validations.checkBooksDetails(name, author)) {
 				BookDTO dto = new BookDTO();
 				dto.setName(name);
 				dto.setAuthor(author);
@@ -57,9 +55,6 @@ public class AddBookServelet extends HttpServlet {
 				} else {
 					SessionHandler(session, req, resp, "Quantity Should Be Greater Than 0.",ALERT_DANGER, USERINDEXPAGE);
 				}
-			} else {
-				SessionHandler(session, req, resp, "Invalid Book Details", ALERT_DANGER, USERINDEXPAGE);
-			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

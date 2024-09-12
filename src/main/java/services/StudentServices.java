@@ -1,15 +1,24 @@
 package services;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+
+import dao.IssueBooksDAO;
 import dao.StudentDAO;
+import dto.IssueBooksDTO;
 import dto.StudentDTO;
 import third.party.services.Gmail;
+import utills.Generics;
 
 public class StudentServices {
 	private StudentDAO studentDAO;
+	private IssueBooksDAO issueBookDAO;
 
 	public StudentServices(StudentDAO studentDAO) {
 		this.studentDAO = studentDAO;
+		issueBookDAO = new IssueBooksDAO(new Generics());
 	}
 
 	public ArrayList<StudentDTO> getUserData() {
@@ -27,6 +36,11 @@ public class StudentServices {
 	}
 
 	public StudentDTO loginUser(String email, String password) {
+		List<IssueBooksDTO> list = issueBookDAO.getAllEntries().stream().filter(x -> (x.getReturn_date().isBefore(LocalDate.now())) || (x.getReturn_date().isEqual(LocalDate.now()))).collect(Collectors.toList());
+		for (IssueBooksDTO dto : list) {
+			issueBookDAO.deleteIssuedBookEntry(dto.getIssued_book_id());
+			System.out.println(dto.getIssued_book_id()+" Deleted");
+		}
 		return studentDAO.getLogin(email, password);
 	}
 

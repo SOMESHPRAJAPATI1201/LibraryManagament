@@ -121,6 +121,7 @@ button a:hover {
 					<th scope="col">Author</th>
 					<th scope="col">Quantity</th>
 					<th scope="col">Issue Book</th>
+					
 				</tr>
 			</thead>
 			<tbody id="myTable">
@@ -133,8 +134,11 @@ button a:hover {
 						<td><c:out value="${row.getAuthor()}"></c:out></td>
 						<td><c:out value="${row.getQuantity()}"></c:out></td>
 						<td><form action="issueBook" method="post">
-								<input type="hidden" name="bookId" value="${row.getId()}" /> <input
-									type="hidden" name="uniqueId" value="${sessionScope.email}" />
+								<input type="date" name="issuedDate" style="margin-right: 10px">
+								<input type="date" name="returnDate" style="margin-right: 10px">
+								<input type="hidden" name="bookId" value="${row.getId()}" />
+								<input type="hidden" name="bookId" value="${row.getId()}" /> 
+								<input type="hidden" name="uniqueId" value="${sessionScope.email}" />
 								<input class="btn btn-outline-warning" type="submit"
 									value="Issue" />
 							</form></td>

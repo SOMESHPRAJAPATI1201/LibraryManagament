@@ -8,15 +8,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import dao.BookDAO;
 import dao.IssueBooksDAO;
-import dao.ReserveBooksDAO;
 import dao.StudentDAO;
 import dto.BookDTO;
 import dto.IssueBooksDTO;
-import dto.ReserveBooksDTO;
 import dto.StudentDTO;
 import services.BookServices;
 import services.IssueBookServices;
-import services.ReserveBookServices;
 import services.StudentServices;
 import utills.Generics;
 import static utills.SessionHelper.*;
@@ -30,7 +27,6 @@ public class IssueBookServelet extends HttpServlet {
 	private BookServices bookservices;
 	private StudentServices studentervices;
 	private IssueBookServices issuebookservice;
-	private ReserveBookServices reservebookservice;
 	private BookDAO dao;
 	private Generics utills;
 
@@ -42,7 +38,6 @@ public class IssueBookServelet extends HttpServlet {
 		bookservices = new BookServices(dao);
 		studentervices = new StudentServices(new StudentDAO(utills));
 		issuebookservice = new IssueBookServices(new IssueBooksDAO(utills), bookservices);
-		reservebookservice = new ReserveBookServices(new ReserveBooksDAO(utills), bookservices);
 	}
 
 	@Override
@@ -51,43 +46,40 @@ public class IssueBookServelet extends HttpServlet {
 			System.out.println("Inside Issue Book Servelet Method");
 			String bookid = (String) req.getParameter("bookId");
 			String emailid = (String) req.getParameter("uniqueId");
-			BookDTO bookdto = bookservices.getBook(Integer.valueOf(bookid.trim()));
+			LocalDate issuedDate = LocalDate.parse(req.getParameter("issuedDate"));
+			LocalDate returnedDate = LocalDate.parse(req.getParameter("returnDate"));
+			System.out.println(issuedDate+"::"+returnedDate);
+			BookDTO bookdto = bookservices.getBook(Integer.valueOf(bookid.trim())); 
 			StudentDTO studentdto = studentervices.getSingleUser(emailid.trim());
 			IssueBooksDTO issuebookdto = new IssueBooksDTO();
 			issuebookdto.setBook_id(bookdto.getId());
 			issuebookdto.setStudent_id(studentdto.getId());
-			issuebookdto.setIssued_date(LocalDate.now());
-			issuebookdto.setReturn_date(LocalDate.now().plusDays(30));
-			ReserveBooksDTO reservedto = null;
+			issuebookdto.setIssued_date(issuedDate);
+			issuebookdto.setReturn_date(returnedDate);
 			session = req.getSession();
 			if (issuebookservice.getIssuedBooksData(studentdto.getId(), bookdto.getId()).size() == 0) {
-				if (bookdto.getQuantity() > 0) {
-					if (issuebookservice.issueBookEntry(issuebookdto, bookdto)) {
+				int issued_book_id = issuebookservice.getDateValidation(issuedDate, returnedDate, bookdto.getId());
+				System.out.println(issued_book_id);
+				if (issued_book_id>0) {
+					issuebookdto.setIssued_id(issued_book_id);
+					if (issuebookservice.issueSameBookEntry(issuebookdto, bookdto)) {
 						resp.setContentType("text/html");
-						SessionHandler(session, req, resp, "Your, Book Has Been Issued Sucesfully",	ALERT_SUCCESS, VIEWBOOKSTUDENTSERVLET);
+						SessionHandler(session, req, resp, "Your, Book Has Been Issued Sucesfully With Re-Issued Book ID : "+issued_book_id,	ALERT_SUCCESS, VIEWBOOKSSTUDENTSPAGE);
 					} else {
 						resp.setContentType("text/html");
 						SessionHandler(session, req, resp, "Failed To Issue Book", ALERT_DANGER, VIEWBOOKSSTUDENTSPAGE);
 					}
 				} else {
-					if (reservebookservice.getReserveBooksData(studentdto.getId(), bookdto.getId()).size() == 0) {
-						if (reservebookservice.getAdminReserveViewBooksData(bookdto.getId()).size() == 0) {
+					if (bookdto.getQuantity() > 0) {
+						if (issuebookservice.issueBookEntry(issuebookdto, bookdto)) {
 							resp.setContentType("text/html");
-							LocalDate date = issuebookservice.getIssuedViewBooksDataByBookID(bookdto.getId()).get(0).getReturn_date();
-							issuebookdto.setIssued_date(date.plusDays(1));
-							issuebookdto.setReturn_date(date.plusDays(15));
-							reservedto = new ReserveBooksDTO();
-							reservedto.setBook_id(issuebookdto.getBook_id());
-							reservedto.setStudent_id(issuebookdto.getStudent_id());
-							reservedto.setReturn_date(date.plusDays(16));
-							reservedto.setIssued_date(date.plusDays(1));
-							reservebookservice.ReserveBookEntry(reservedto, bookdto);
-							SessionHandler(session, req, resp,"Sorry, But Book Is Out Of Stock.But Will Be Assigned To You From "+ date.plusDays(1) + " To " + date.plusDays(15), ALERT_WARNING, VIEWBOOKSSTUDENTSPAGE);
+							SessionHandler(session, req, resp, "Your, Book Has Been Issued Sucesfully",	ALERT_SUCCESS, VIEWBOOKSTUDENTSERVLET);
 						} else {
-							SessionHandler(session, req, resp, "Book Is Already Reserved.",ALERT_DANGER, VIEWBOOKSSTUDENTSPAGE);
+							resp.setContentType("text/html");
+							SessionHandler(session, req, resp, "Failed To Issue Book", ALERT_DANGER, VIEWBOOKSSTUDENTSPAGE);
 						}
 					} else {
-						SessionHandler(session, req, resp, "Book Is Already Reserved For You.", ALERT_DANGER, VIEWBOOKSSTUDENTSPAGE);
+						SessionHandler(session, req, resp, "Book Is Out Of Stock", ALERT_DANGER, VIEWBOOKSSTUDENTSPAGE);
 					}
 				}
 			} else {

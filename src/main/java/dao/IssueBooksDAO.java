@@ -52,7 +52,7 @@ public class IssueBooksDAO {
 		resultSet = null;
 		try {
 			connection = utills.getConnection();
-			preparedStatement = connection.prepareStatement("select users_table.name as student_name, books.name as book_name, books.author, books.edition, books_data.issued_date, books_data.return_date from users_table inner join books_data on books_data.student_id = users_table.id inner join books on books.id = books_data.book_id where books.id = ? && users_table.role = 'student';");
+			preparedStatement = connection.prepareStatement("select users_table.name as student_name, books.name as book_name, books.author, books.edition, books.quantity, books_data.issued_date, books_data.return_date from users_table inner join books_data on books_data.student_id = users_table.id inner join books on books.id = books_data.book_id where books.id = ? && users_table.role = 'student';");
 			preparedStatement.setInt(1, bookId);
 			resultSet = preparedStatement.executeQuery();
 			list = IssueBookHelper.getIssuedViewBooksDataByBookIdDTO(list, resultSet);
@@ -74,7 +74,7 @@ public class IssueBooksDAO {
 		try {
 			connection = utills.getConnection();
 			preparedStatement = connection.prepareStatement(
-					"select books.id as book_id, users_table.name as student_name, books.name as book_name, books.author, books.edition, books_data.issued_date, books_data.return_date from users_table inner join books_data on books_data.student_id = users_table.id inner join books on books.id = books_data.book_id;");
+					"select books_data.id as issued_books_id, books.id as book_id, users_table.name as student_name, books.name as book_name, books.author, books.edition, books_data.issued_date, books_data.return_date , books_data.issued_id from users_table inner join books_data on books_data.student_id = users_table.id inner join books on books.id = books_data.book_id;");
 			resultSet = preparedStatement.executeQuery();
 			list = IssueBookHelper.getAllEntriesDTO(list, resultSet);
 		} catch (SQLException e) {
@@ -127,6 +127,23 @@ public class IssueBooksDAO {
 		return isSuccess;
 	}
 	
+	public boolean issueSameBookEntry(IssueBooksDTO issuebook) {
+		boolean isSuccess = false;
+		connection = null;
+		preparedStatement = null;
+		try {
+			connection = utills.getConnection();
+			String sql = "INSERT INTO BOOKS_DATA (book_id, student_id, issued_date, return_date, issued_id) VALUES (?, ?, ?, ?, ?)";
+			preparedStatement = connection.prepareStatement(sql);
+			isSuccess = IssueBookHelper.issueSameBookEntryDTO(issuebook, preparedStatement, isSuccess);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			utills.closeConnection(connection, preparedStatement);
+		}
+		return isSuccess;
+	}
+	
 	
 
 	public int deleteIssuedBookEntry(int issuedBookId) {
@@ -168,15 +185,15 @@ public class IssueBooksDAO {
 	
 	
 
-	public int renewIssuedByBookId(int issuedBookId, LocalDate returnDate, LocalDate issueDate) {
+	public int renewIssuedByBookId(int issuedBookId, LocalDate issueDate, LocalDate returnDate) {
 		int a = 0;
 		connection = null;
 		preparedStatement = null;
 		try {
 			connection = utills.getConnection();
-			preparedStatement = connection.prepareStatement("UPDATE BOOKS_DATA SET return_date = ?, issued_date = ? WHERE id = ?;");
-			preparedStatement.setDate(1, Date.valueOf(returnDate));
-			preparedStatement.setDate(2, Date.valueOf(issueDate));
+			preparedStatement = connection.prepareStatement("UPDATE BOOKS_DATA SET issued_date = ?, return_date = ? WHERE id = ?;");
+			preparedStatement.setDate(1, Date.valueOf(issueDate));
+			preparedStatement.setDate(2, Date.valueOf(returnDate));
 			preparedStatement.setInt(3, issuedBookId);
 			a = preparedStatement.executeUpdate();
 		} catch (SQLException e) {
