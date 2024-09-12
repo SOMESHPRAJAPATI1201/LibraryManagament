@@ -44,7 +44,7 @@ public class StudentServices {
 		for (IssueBooksDTO dto : list) {
 			if (dto.getIssued_id()==0) {
 				issueBookDAO.deleteIssuedBookEntry(dto.getIssued_book_id());
-				bookDAO.editBookQuantity(dto.getBook_id(), dto.getQuantity()-1);
+				bookDAO.editBookQuantity(dto.getBook_id(), dto.getQuantity()+1);
 			}
 		}
 		return studentDAO.getLogin(email, password);
