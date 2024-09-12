@@ -33,13 +33,24 @@ public class AdminServices {
 			System.err.println("Failed To Create Account");
 		}
 	}
-
+	
+	//Auto Issued Book Deletion, Quantity Updation
 	public AdminDTO loginAdmin(String email, String password) {
-		List<IssueBooksDTO> list = issueBookDAO.getAllEntries().stream().filter(x -> ((x.getReturn_date().isBefore(LocalDate.now())) || (x.getReturn_date().isEqual(LocalDate.now())))).collect(Collectors.toList());
-		for (IssueBooksDTO dto : list) {
-			if (dto.getIssued_id()==0) {
-				issueBookDAO.deleteIssuedBookEntry(dto.getIssued_book_id());
-				bookDAO.editBookQuantity(dto.getBook_id(), dto.getQuantity()+1);
+		List<IssueBooksDTO> deletelist = issueBookDAO.getAllEntries().stream().filter(
+				x -> ((x.getReturn_date().isBefore(LocalDate.now())) || (x.getReturn_date().isEqual(LocalDate.now()))))
+				.collect(Collectors.toList());
+		for (IssueBooksDTO dto : deletelist) {
+			issueBookDAO.deleteIssuedBookEntry(dto.getIssued_book_id());
+			bookDAO.editBookQuantity(dto.getBook_id(), dto.getQuantity() + 1);
+		}
+		List<IssueBooksDTO> addlist = issueBookDAO.getAllEntries().stream()
+				.filter(x -> ((x.getIssued_date().isBefore(LocalDate.now()))
+						|| (x.getIssued_date().isEqual(LocalDate.now()))))
+				.collect(Collectors.toList());
+		for (IssueBooksDTO dto : addlist) {
+			if (dto.getStatus().equalsIgnoreCase("tobeissued")) {
+				issueBookDAO.setIssueBookStatus("issued", dto.getIssued_book_id());
+				bookDAO.editBookQuantity(dto.getBook_id(), dto.getQuantity() - 1);
 			}
 		}
 		return adminDAO.getAdminLogin(email, password);

@@ -15,7 +15,16 @@ public class IssueBooksDTO {
 	private int quantity;
 	private String studentname;
 	private String email;
+	private String status;
 	private int issued_id;
+
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
 
 	public int getIssued_id() {
 		return issued_id;

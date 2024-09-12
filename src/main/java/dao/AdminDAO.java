@@ -26,7 +26,6 @@ public class AdminDAO {
 			preparedStatement = connection.prepareStatement("SELECT * FROM USERS_TABLE WHERE MEMBER_ID = ? && PASSWORD = ? && ROLE = 'ADMIN';");
 			preparedStatement.setString(1, email);
 			preparedStatement.setString(2, password);
-			System.out.println(preparedStatement.toString());
 			resultSet = preparedStatement.executeQuery();
 			adminDTO = AdminHelper.getAdminLoginDTO(adminDTO, resultSet);
 		} catch (SQLException e) {

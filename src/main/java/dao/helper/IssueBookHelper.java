@@ -52,6 +52,7 @@ public class IssueBookHelper {
 			issueBookDto.setIssued_book_id(resultSet.getInt("issued_books_id"));
 			issueBookDto.setBook_id(resultSet.getInt("book_id"));
 			issueBookDto.setQuantity(resultSet.getInt("quantity"));
+			issueBookDto.setStudent_id(resultSet.getInt("student_id"));
 			issueBookDto.setStudentname(resultSet.getString("student_name"));
 			issueBookDto.setBookname(resultSet.getString("book_name"));
 			issueBookDto.setAuthor(resultSet.getString("author"));
@@ -59,6 +60,7 @@ public class IssueBookHelper {
 			issueBookDto.setIssued_date(resultSet.getDate("issued_date").toLocalDate());
 			issueBookDto.setReturn_date(resultSet.getDate("return_date").toLocalDate());
 			issueBookDto.setIssued_id(resultSet.getInt("issued_id"));
+			issueBookDto.setStatus(resultSet.getString("status"));
 			list.add(issueBookDto);
 		}
 		return list;
@@ -79,12 +81,14 @@ public class IssueBookHelper {
 	}
 	
 	public static boolean issueBookEntryDTO(IssueBooksDTO issuebook,PreparedStatement preparedStatement, boolean isSuccess) throws SQLException {
+		issuebook.setStatus("issued");
 		java.sql.Date issuedDate = java.sql.Date.valueOf(issuebook.getIssued_date());
 		java.sql.Date returnDate = java.sql.Date.valueOf(issuebook.getReturn_date());
 		preparedStatement.setInt(1, issuebook.getBook_id());
 		preparedStatement.setInt(2, issuebook.getStudent_id());
 		preparedStatement.setDate(3, issuedDate);
 		preparedStatement.setDate(4, returnDate);
+		preparedStatement.setString(5, issuebook.getStatus());
 		int rowsAffected = preparedStatement.executeUpdate();
 		return isSuccess = rowsAffected > 0;
 	}

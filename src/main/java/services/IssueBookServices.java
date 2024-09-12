@@ -30,7 +30,8 @@ public class IssueBookServices {
 
 	public int getDateValidation(LocalDate issuedDate, LocalDate returnDate, int bookId) {
 		int a = BOOLEAN_VALIDATION_FALSE;
-		List<IssueBooksDTO> list = issuebookDAO.getAllEntries().stream().filter(x -> x.getBook_id() == bookId).collect(Collectors.toList());
+		List<IssueBooksDTO> list = issuebookDAO.getAllEntries().stream().filter(x -> x.getBook_id() == bookId)
+				.collect(Collectors.toList());
 		List<LocalDate> dateList = null;
 		for (IssueBooksDTO issuebook : list) {
 			LocalDate issueStart = issuebook.getIssued_date();
@@ -45,14 +46,27 @@ public class IssueBookServices {
 
 	public int getDateValidationByIssuerID(int issuedId, LocalDate issuedDate, LocalDate returnDate) {
 		int a = BOOLEAN_VALIDATION_FALSE;
-		List<IssueBooksDTO> list = issuebookDAO.getAllEntries().stream().filter(x -> x.getIssued_id() == issuedId).collect(Collectors.toList());
-		List<LocalDate> dateList = null;
-		for (IssueBooksDTO issuebook : list) {
-			LocalDate issueStart = issuebook.getIssued_date();
-			LocalDate issueEnd = issuebook.getReturn_date().plusDays(1);
+		List<IssueBooksDTO> IssuedBookslist = issuebookDAO.getAllEntries().stream()
+				.filter(x -> (x.getIssued_id() == issuedId)).collect(Collectors.toList());
+		if (IssuedBookslist.size() == 0) {
+			IssueBooksDTO issuedBookDTO = issuebookDAO.getAllEntries().stream()
+					.filter(x -> (x.getIssued_book_id() == issuedId)).collect(Collectors.toList()).get(0);
+			List<LocalDate> dateList = null;
+			LocalDate issueStart = issuedBookDTO.getIssued_date();
+			LocalDate issueEnd = issuedBookDTO.getReturn_date().plusDays(1);
 			dateList = issueStart.datesUntil(issueEnd).collect(Collectors.toList());
 			if (!(dateList.contains(issuedDate) || dateList.contains(returnDate))) {
-				a = issuebook.getIssued_book_id();
+				a = issuedBookDTO.getIssued_book_id();
+			}
+		} else {
+			List<LocalDate> dateList = null;
+			for (IssueBooksDTO issuebook : IssuedBookslist) {
+				LocalDate issueStart = issuebook.getIssued_date();
+				LocalDate issueEnd = issuebook.getReturn_date().plusDays(1);
+				dateList = issueStart.datesUntil(issueEnd).collect(Collectors.toList());
+				if (!(dateList.contains(issuedDate) || dateList.contains(returnDate))) {
+					a = issuebook.getIssued_book_id();
+				}
 			}
 		}
 		return a;
@@ -76,14 +90,22 @@ public class IssueBookServices {
 			return false;
 		}
 	}
-
+	
+	//Date Picker Changes
 	public boolean returnIssuedBookEntry(int id, BookDTO bookdto) {
+		List<IssueBooksDTO> issuedBooksDto = issuebookDAO.getAllEntries().stream()
+				.filter(x -> x.getIssued_book_id() == id).filter(x->x.getIssued_id()==0).collect(Collectors.toList());
 		if (issuebookDAO.deleteIssuedBookEntry(id) >= ROWS_AFFECTED) {
-			bookservice.editBookQuantity(bookdto.getId(), bookdto.getQuantity() + 1);
-			return true;
+			if (issuedBooksDto.size() > 0) {
+				bookservice.editBookQuantity(bookdto.getId(), bookdto.getQuantity() + 1);
+				return true;
+			}else {
+				return true;
+			}
 		} else {
 			return false;
 		}
+
 	}
 
 	public IssueBooksDTO getIssuedBookDataByIssuedBookId(int issuedBookId) {

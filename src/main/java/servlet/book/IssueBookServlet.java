@@ -58,6 +58,7 @@ public class IssueBookServlet extends HttpServlet {
 			issuebookdto.setReturn_date(returnedDate);
 			session = req.getSession();
 			if (issuebookservice.getIssuedBooksData(studentdto.getId(), bookdto.getId()).size() == 0) {
+				//Date Picker Changes
 				int issued_book_id = issuebookservice.getDateValidation(issuedDate, returnedDate, bookdto.getId());
 				System.out.println(issued_book_id);
 				if (issued_book_id>0) {
